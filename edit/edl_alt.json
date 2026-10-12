@@ -1,0 +1,413 @@
+{
+  "_comment": "ALT opening: starts on the bright rear wheel (warm warehouse) instead of the chrome front wheel on black; front wheel moves to the rhythm section. Everything else identical to edl_hero.json.",
+  "source": "source/WhatsApp Video 2026-10-12 at 11.56.03.mp4",
+  "bpm": 120,
+  "fps": 25,
+  "size": [
+    1080,
+    1920
+  ],
+  "layout": {
+    "square": {
+      "cx": 540,
+      "cy": 800,
+      "w": 1080,
+      "h": 1080
+    },
+    "wide": {
+      "cx": 540,
+      "cy": 800,
+      "w": 1080,
+      "h": 646
+    }
+  },
+  "shots": [
+    {
+      "name": "rear_wheel_open",
+      "beats": 2.5,
+      "src_in": 12.74,
+      "frame": "square",
+      "crop": {
+        "w": 268,
+        "h": 268,
+        "cx": [
+          134,
+          140
+        ],
+        "cy": [
+          184,
+          184
+        ]
+      },
+      "push": {
+        "from": 1.0,
+        "to": 1.075,
+        "ease": "out_cubic",
+        "anchor": [
+          [
+            92,
+            190
+          ],
+          [
+            118,
+            190
+          ]
+        ]
+      },
+      "grade": {
+        "gamma": 0.97,
+        "gain": 0.96
+      }
+    },
+    {
+      "name": "turismo_lettering",
+      "beats": 2.0,
+      "src_in": 7.62,
+      "frame": "square",
+      "crop": {
+        "w": 268,
+        "h": 268,
+        "cx": [
+          300,
+          300
+        ],
+        "cy": [
+          196,
+          196
+        ]
+      },
+      "grade": {
+        "gamma": 1.28,
+        "gain": 1.12
+      }
+    },
+    {
+      "name": "headlight",
+      "beats": 2.5,
+      "src_in": 10.45,
+      "frame": "square",
+      "crop": {
+        "w": 268,
+        "h": 268,
+        "cx": [
+          222,
+          222
+        ],
+        "cy": [
+          184,
+          184
+        ]
+      },
+      "grade": {
+        "gamma": 1.0,
+        "gain": 1.0
+      }
+    },
+    {
+      "name": "rear_wheel_roll_in",
+      "beats": 3.0,
+      "src_in": 3.45,
+      "frame": "square",
+      "crop": {
+        "w": 268,
+        "h": 268,
+        "cx": [
+          214,
+          214
+        ],
+        "cy": [
+          184,
+          184
+        ]
+      },
+      "grade": {
+        "gamma": 1.0,
+        "gain": 0.98
+      }
+    },
+    {
+      "name": "side_profile_reveal",
+      "beats": 4.0,
+      "src_in": 30.08,
+      "frame": "wide",
+      "crop": {
+        "w": 448,
+        "h": 268,
+        "cx": [
+          224,
+          224
+        ],
+        "cy": [
+          184,
+          184
+        ]
+      },
+      "open_from_square": {
+        "dur": 0.6,
+        "ease": "out_expo",
+        "crop_cx": 226,
+        "crop_cy": 192
+      },
+      "grade": {
+        "gamma": 1.0,
+        "gain": 1.0
+      }
+    },
+    {
+      "name": "front_wheel_wide",
+      "beats": 2.0,
+      "src_in": 21.31,
+      "frame": "wide",
+      "crop": {
+        "w": 448,
+        "h": 268,
+        "cx": [
+          224,
+          224
+        ],
+        "cy": [
+          184,
+          184
+        ]
+      },
+      "grade": {
+        "gamma": 1.0,
+        "gain": 1.04
+      }
+    },
+    {
+      "name": "rear_three_quarter",
+      "beats": 1.5,
+      "src_in": 34.55,
+      "frame": "wide",
+      "crop": {
+        "w": 448,
+        "h": 268,
+        "cx": [
+          224,
+          224
+        ],
+        "cy": [
+          184,
+          184
+        ]
+      },
+      "grade": {
+        "gamma": 1.0,
+        "gain": 1.0
+      }
+    },
+    {
+      "name": "audi_rings",
+      "beats": 1.5,
+      "src_in": 16.85,
+      "frame": "wide",
+      "crop": {
+        "w": 448,
+        "h": 268,
+        "cx": [
+          224,
+          224
+        ],
+        "cy": [
+          184,
+          184
+        ]
+      },
+      "grade": {
+        "gamma": 1.3,
+        "gain": 1.15
+      }
+    },
+    {
+      "name": "taillight_sweep",
+      "beats": 1.5,
+      "src_in": 19.22,
+      "frame": "wide",
+      "crop": {
+        "w": 448,
+        "h": 268,
+        "cx": [
+          224,
+          224
+        ],
+        "cy": [
+          184,
+          184
+        ]
+      },
+      "grade": {
+        "gamma": 1.06,
+        "gain": 1.0
+      }
+    },
+    {
+      "name": "front_three_quarter",
+      "beats": 3.0,
+      "src_in": 27.95,
+      "frame": "wide",
+      "crop": {
+        "w": 448,
+        "h": 268,
+        "cx": [
+          224,
+          224
+        ],
+        "cy": [
+          184,
+          184
+        ]
+      },
+      "grade": {
+        "gamma": 1.04,
+        "gain": 1.0
+      }
+    },
+    {
+      "name": "taillight_rear",
+      "beats": 1.5,
+      "src_in": 25.0,
+      "frame": "wide",
+      "crop": {
+        "w": 448,
+        "h": 268,
+        "cx": [
+          224,
+          224
+        ],
+        "cy": [
+          184,
+          184
+        ]
+      },
+      "grade": {
+        "gamma": 1.04,
+        "gain": 1.0
+      }
+    },
+    {
+      "name": "approach",
+      "beats": 3.0,
+      "src_in": 32.92,
+      "frame": "wide",
+      "crop": {
+        "w": 448,
+        "h": 268,
+        "cx": [
+          224,
+          224
+        ],
+        "cy": [
+          184,
+          184
+        ]
+      },
+      "grade": {
+        "gamma": 1.0,
+        "gain": 1.0
+      }
+    },
+    {
+      "name": "hero_signature",
+      "beats": 8.0,
+      "src_in": 36.6,
+      "frame": "wide",
+      "crop": {
+        "w": 448,
+        "h": 268,
+        "cx": [
+          224,
+          224
+        ],
+        "cy": [
+          184,
+          184
+        ]
+      },
+      "push": {
+        "from": 1.0,
+        "to": 1.07,
+        "ease": "in_out_sine",
+        "anchor": [
+          [
+            206,
+            208
+          ],
+          [
+            206,
+            214
+          ]
+        ]
+      },
+      "close_to_square": {
+        "dur": 0.62,
+        "ease": "in_cubic",
+        "crop_cx": 206,
+        "crop_cy": 200,
+        "zoom_to": 1.22
+      },
+      "grade": {
+        "gamma": 1.0,
+        "gain": 1.0
+      }
+    }
+  ],
+  "texts": [
+    {
+      "text": "One detail.",
+      "font": 500,
+      "size": 54,
+      "track": 0.01,
+      "y": 1420,
+      "in": 0.12,
+      "out": 0.9,
+      "anim": "rise"
+    },
+    {
+      "text": "A whole new character.",
+      "font": 500,
+      "size": 54,
+      "track": 0.01,
+      "y": 1420,
+      "in": 1.3,
+      "out": 2.9,
+      "anim": "rise"
+    },
+    {
+      "text": "AUDI S8 D4",
+      "font": 700,
+      "size": 84,
+      "track": 0.14,
+      "y": 1262,
+      "stroke": 1,
+      "in_beat": 0.6,
+      "out_from_end": 0.78,
+      "anim": "rise",
+      "anchor_shot": "hero_signature"
+    },
+    {
+      "rule": true,
+      "w": 72,
+      "h": 3,
+      "color": "#0AF0F0",
+      "y": 1322,
+      "in_beat": 1.2,
+      "out_from_end": 0.78,
+      "anim": "draw",
+      "anchor_shot": "hero_signature"
+    },
+    {
+      "text": "TURISMO WHEELS  ·  ",
+      "suffix_mask": "INVENTA",
+      "font": 500,
+      "size": 40,
+      "track": 0.26,
+      "y": 1378,
+      "in_beat": 1.6,
+      "mask_delay": 0.32,
+      "out_from_end": 0.78,
+      "anim": "fade_then_mask",
+      "anchor_shot": "hero_signature"
+    }
+  ]
+}
