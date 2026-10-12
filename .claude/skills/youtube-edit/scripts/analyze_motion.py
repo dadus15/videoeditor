@@ -1,5 +1,5 @@
 """Per-frame brightness and global motion (median optical flow) of the source.
-Usage: python3 scripts/analyze_motion.py <video> <out.csv>"""
+Usage: python3 .claude/skills/youtube-edit/scripts/analyze_motion.py <video> <out.csv>"""
 import sys, cv2, numpy as np
 cap = cv2.VideoCapture(sys.argv[1]); prev = None; rows = []
 while True:

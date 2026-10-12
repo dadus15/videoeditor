@@ -6,8 +6,8 @@ each shot is shown inside a window (square or wide) over a dark, blurred
 duplicate of itself. It handles wheel-anchored push-ins, the square->wide
 "aperture" reveal, the closing wide->square loop move and the titles.
 
-Usage:
-  python3 scripts/compose.py edit/edl_hero.json renders/out.mp4 [--bpm 120] [--audio mix.wav]
+Run from the project root (paths in the EDL are relative to it):
+  python3 .claude/skills/youtube-edit/scripts/compose.py edit/edl_hero.json renders/out.mp4 [--bpm 120] [--audio mix.wav]
          [--preview-every N --preview-dir work/preview]
 """
 import argparse, json, math, subprocess, sys
@@ -17,9 +17,9 @@ import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
-ROOT = Path(__file__).resolve().parent.parent
-FONTS = {400: ROOT / "assets/fonts/DMSans-400.ttf", 500: ROOT / "assets/fonts/DMSans-500.ttf",
-         700: ROOT / "assets/fonts/DMSans-700.ttf"}
+SKILL_DIR = Path(__file__).resolve().parent.parent   # fonts ship with the skill
+ROOT = Path.cwd()                                     # project files (source, edit/, renders/) come from the cwd
+FONTS = {w: SKILL_DIR / f"assets/fonts/DMSans-{w}.ttf" for w in (400, 500, 700)}
 SRC_W, SRC_H = 448, 368
 # Rows that contain picture (everything else is player letterbox or player UI).
 LETTERBOX_ROWS = (50, 318)
@@ -361,7 +361,9 @@ def main():
     enc.wait()
     json.dump({"bpm": bpm, "duration": total, "fps": fps,
                "shots": [{k: s[k] for k in ("name", "start", "end", "src_in")} for s in shots],
-               "cue_points": {"open_impact": 0.0, "riser_end_reveal": shots[4]["start"],
+               "cue_points": {"open_impact": 0.0,
+                              "riser_end_reveal": next((s["start"] for s in shots
+                                                        if "open_from_square" in s or s.get("cue") == "reveal"), None),
                               "signature": shots[-1]["start"], "end": total}},
               open(out.with_suffix(".timeline.json"), "w"), indent=2)
     print(f"wrote {out}", file=sys.stderr)

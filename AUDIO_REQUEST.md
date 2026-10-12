@@ -43,8 +43,8 @@ What to listen for: a clear pulse, restrained bass, a short build and a distinct
 ## Finishing (one command)
 
 ```bash
-scripts/finish.sh <seconds_of_the_drop_inside_music.wav> <track_bpm>
-# e.g. scripts/finish.sh 31.6 120
+.claude/skills/youtube-edit/scripts/finish.sh <seconds_of_the_drop_inside_music.wav> <track_bpm>
+# e.g. .claude/skills/youtube-edit/scripts/finish.sh 31.6 120
 ```
 
 The script does four things:

@@ -26,7 +26,7 @@ The film times below are relative to the film; add 1.9 s for the final video.
 |---|---|
 | `Audi_S8_D4_Inventa_Hero_9x16_PICTURE-LOCK.mp4` | Final picture, **no audio** (Epidemic access blocked, see `AUDIO_REQUEST.md`) |
 | `Audi_S8_D4_Inventa_AltOpen_9x16_PICTURE-LOCK.mp4` | Alternative opening, **no audio** |
-| `Audi_S8_D4_Inventa_Hero_9x16.mp4` / `..._AltOpen_9x16.mp4` | Made by `scripts/finish.sh` once the audio files exist |
+| `Audi_S8_D4_Inventa_Hero_9x16.mp4` / `..._AltOpen_9x16.mp4` | Made by `.claude/skills/youtube-edit/scripts/finish.sh` once the audio files exist |
 
 Both versions now share the logo intro. The alternative differs from the film's first shot onward (2 s in).
 | `*.timeline.json` | Cut list and audio cue points for each render |
@@ -87,7 +87,7 @@ Both versions now share the logo intro. The alternative differs from the film's 
 
 ## The three treatments
 
-The skill's scripts, animation library and HyperFrames aren't installed here. The README describes them, but they're absent from this environment. So I built the three treatments as equivalents in `scripts/compose.py` (Python, OpenCV and FFmpeg):
+The skill's scripts, animation library and HyperFrames aren't installed here. The README describes them, but they're absent from this environment. So I built the three treatments as equivalents in `.claude/skills/youtube-edit/scripts/compose.py` (Python, OpenCV and FFmpeg):
 
 1. **Wheel-anchored push.** A sub-pixel push of 100→107.5 % around the moving hub on the opening accent, plus a slow push of 100→107 % on the front wheel in the hero shot. Geometry is untouched (uniform scale only).
 2. **Aperture match reveal.** On the drop, the side profile starts framed as a square on its front wheel, in the same position as the preceding wheel close-up. The window then opens to the full silhouette over 0.6 s (expo ease-out). It always shows the full picture height at one uniform scale, so nothing stretches. The ending runs the move in reverse (wide → square on the wheel) so the loop closes.
@@ -128,16 +128,16 @@ Text is DM Sans 500/700 (converted from the OFL @fontsource package), white, in 
 
 **Still to do once audio exists:**
 - Music sync and loop audio continuity.
-- Headphone and phone-band check; `mix_audio.py` reports these.
+- Headphone and phone-band check; `mix_audio.py` (in the skill) reports these.
 
 ## Rebuild
 
 ```bash
-python3 scripts/compose.py edit/edl_hero.json work/film_hero.mp4 --crf 6         # the 18 s film
-python3 scripts/bookends.py edit/edl_hero.json work/film_hero.mp4 renders/<name>.mp4  # logo intro + end card
-python3 scripts/analyze_motion.py "<source>" work/motion.csv   # per-frame motion/brightness used for the shot map
-python3 scripts/unique_frames.py "<source>"                    # 25 fps film-frame detection report
-scripts/finish.sh <drop_s> <bpm>                               # after AUDIO_REQUEST.md files are in place
+python3 .claude/skills/youtube-edit/scripts/compose.py edit/edl_hero.json work/film_hero.mp4 --crf 6         # the 18 s film
+python3 .claude/skills/youtube-edit/scripts/bookends.py edit/edl_hero.json work/film_hero.mp4 renders/<name>.mp4  # logo intro + end card
+python3 .claude/skills/youtube-edit/scripts/analyze_motion.py "<source>" work/motion.csv   # per-frame motion/brightness used for the shot map
+python3 .claude/skills/youtube-edit/scripts/unique_frames.py "<source>"                    # 25 fps film-frame detection report
+.claude/skills/youtube-edit/scripts/finish.sh <drop_s> <bpm>                               # after AUDIO_REQUEST.md files are in place
 ```
 
 Requires `ffmpeg` and Python with `numpy`, `opencv-python-headless` and `pillow`.

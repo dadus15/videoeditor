@@ -9,14 +9,14 @@ Expects files in assets/audio/ (names are slots, see AUDIO_REQUEST.md):
   sfx_shimmer.wav    quiet metallic/glass texture under the TURISMO lettering (optional)
 
 Usage:
-  python3 scripts/mix_audio.py renders/X.timeline.json out.wav --music-drop 12.34 [--music-start 0]
+  python3 .claude/skills/youtube-edit/scripts/mix_audio.py renders/X.timeline.json out.wav --music-drop 12.34 [--music-start 0]
     --music-drop  time (s) inside music.wav of the drop/bass entrance; it is placed on the reveal cut.
                   For an Epidemic track edit made with requiredRegionsAtOffsets at the reveal, pass the reveal time.
 """
 import argparse, json, os, subprocess, sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path.cwd()
 A = Path(os.environ.get("AUDIO_DIR", ROOT / "assets/audio"))
 
 
@@ -40,6 +40,8 @@ def main():
     sig = tl["cue_points"]["signature"]
     shimmer_at = tl.get("shimmer_at", tl["shots"][1]["start"])
     end_card = tl["cue_points"].get("end_card_iris")
+    if reveal is None:  # no reveal in this edit: put the drop on the first cut after the opener
+        reveal = tl["shots"][1]["start"] if len(tl["shots"]) > 1 else 0.0
     mstart = args.music_drop - reveal
     if mstart < 0:
         sys.exit(f"music drop at {args.music_drop}s is earlier than the reveal ({reveal}s); pick a later drop or an edit")

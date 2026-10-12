@@ -409,5 +409,39 @@
       "anim": "fade_then_mask",
       "anchor_shot": "hero_signature"
     }
-  ]
+  ],
+  "bookends": {
+    "card": "assets/brand/turismo_end_card_gemini.jpg",
+    "logo_box": [
+      190,
+      70,
+      600,
+      312
+    ],
+    "card_wheel": [
+      383.0,
+      633.5,
+      262.0
+    ],
+    "film_hub": [
+      200.0,
+      235.0
+    ],
+    "film_rim": 22.0,
+    "ink": {
+      "primary": "#0A1B2B",
+      "accent": "#C7222A"
+    },
+    "tagline": [
+      [
+        "UNLOCK YOUR ",
+        "primary"
+      ],
+      [
+        "STYLE",
+        "accent"
+      ]
+    ]
+  },
+  "output": "Audi_S8_D4_Inventa_AltOpen_9x16"
 }

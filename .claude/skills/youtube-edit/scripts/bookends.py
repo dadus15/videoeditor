@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Wrap a rendered film (from compose.py) with the Turismo brand bookends.
+"""Wrap a rendered film (from compose.py) with brand bookends, configured by the EDL's "bookends" block.
 
-  intro : white card, Turismo logo eases in, "UNLOCK YOUR STYLE" masked reveal,
+  intro : white card, brand logo eases in, tagline (e.g. "UNLOCK YOUR STYLE") masked reveal,
           then a push-slide to the left into the film (matches the opener's leftward camera move)
   outro : the film's closing push into the front wheel opens through a circular iris centred on that
           wheel into the end card (zooming through the card's hub, 2.2x -> 1x), one light sweep, hold
 
 Usage:
-  python3 scripts/bookends.py edit/edl_hero.json work/film_hero.mp4 renders/out.mp4 [--audio mix.wav]
+  python3 .claude/skills/youtube-edit/scripts/bookends.py edit/edl_hero.json work/film_hero.mp4 renders/out.mp4 [--audio mix.wav]
 """
 import argparse, json, math, subprocess, sys
 from pathlib import Path
@@ -20,8 +20,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import compose as C  # noqa: E402
 
 ROOT = C.ROOT
-NAVY = np.array([10, 27, 43], np.float32) / 255
-RED = np.array([199, 34, 42], np.float32) / 255
 W, H, FPS = 1080, 1920, 25
 
 INTRO_HOLD = 1.90      # logo card before the slide starts
@@ -30,11 +28,29 @@ IRIS_LEAD = 0.45       # iris starts this long before the film's last frame
 IRIS = 0.80
 CARD_HOLD = 2.70       # end card after the iris completes
 
-CARD = ROOT / "assets/brand/turismo_end_card_gemini.jpg"
-CARD_WHEEL = (383.0, 633.5, 262.0)   # wheel centre x, y and rim radius in the 768x1376 card
-LOGO_BOX = (190, 70, 600, 312)       # logo + wordmark region inside the card (sharper than the 280px logo file)
-FILM_HUB = (200.0, 235.0)            # hero front-wheel hub (source px) at the film's last frame
-FILM_RIM = 22.0                      # its rim radius in source px
+# Brand + geometry come from the EDL ("bookends" block, see templates/edl_automotive_example.json):
+#   card        end-card image (also the logo source when it carries a sharper copy than the logo file)
+#   logo_box    [x0, y0, x1, y1] of the logo + wordmark inside the card
+#   card_wheel  [cx, cy, r] of the product wheel in the card (card pixels)
+#   film_hub    [x, y] of the wheel hub in SOURCE pixels at the film's last frame (measure it on a render)
+#   film_rim    rim radius in source pixels
+#   ink         {"primary": "#0A1B2B", "accent": "#C7222A"}   sampled from the logo
+#   tagline     [["UNLOCK YOUR ", "primary"], ["STYLE", "accent"]]
+CFG = {}
+NAVY = RED = None
+
+
+def hex_rgb(h):
+    return np.array([int(h[i:i + 2], 16) for i in (1, 3, 5)], np.float32) / 255
+
+
+def load_cfg(edl):
+    global NAVY, RED
+    b = edl["bookends"]
+    CFG.update(card=ROOT / b["card"], logo_box=tuple(b["logo_box"]), card_wheel=tuple(b["card_wheel"]),
+               film_hub=tuple(b["film_hub"]), film_rim=float(b["film_rim"]),
+               tagline=b.get("tagline", []))
+    NAVY, RED = hex_rgb(b["ink"]["primary"]), hex_rgb(b["ink"]["accent"])
 
 
 def ease(name, t):
@@ -45,7 +61,7 @@ def ease(name, t):
 
 def clean_logo(scale=2.6):
     """Logo from the card, upscaled and re-inked in the two brand colours on a transparent matte."""
-    img = Image.open(CARD).convert("RGB").crop(LOGO_BOX)
+    img = Image.open(CFG["card"]).convert("RGB").crop(CFG["logo_box"])
     img = img.resize((int(img.width * scale), int(img.height * scale)), Image.LANCZOS)
     a = np.asarray(img).astype(np.float32) / 255
     is_red = (a[..., 0] - a[..., 2]) > 0.25
@@ -64,11 +80,11 @@ def text_rgba(text, weight, size, track, color):
 
 
 def card_canvas():
-    card = np.asarray(Image.open(CARD).convert("RGB")).astype(np.float32) / 255
+    card = np.asarray(Image.open(CFG["card"]).convert("RGB")).astype(np.float32) / 255
     s = max(W / card.shape[1], H / card.shape[0])
     big = cv2.resize(card, (round(card.shape[1] * s), round(card.shape[0] * s)), interpolation=cv2.INTER_LANCZOS4)
     oy, ox = (big.shape[0] - H) // 2, (big.shape[1] - W) // 2
-    cx, cy, r = CARD_WHEEL
+    cx, cy, r = CFG["card_wheel"]
     return np.clip(big[oy:oy + H, ox:ox + W], 0, 1), (cx * s - ox, cy * s - oy, r * s)
 
 
@@ -87,7 +103,8 @@ def film_hub_on_screen(edl):
     T = (round(total * edl["fps"]) - 1) / edl["fps"]
     Wr, (x0, y0, cw, ch) = C.frame_geometry(last, T, edl["layout"], last["src_in"] + last["dur"])
     k = Wr[2] / cw
-    return (Wr[0] + (FILM_HUB[0] - x0) * k, Wr[1] + (FILM_HUB[1] - y0) * k, FILM_RIM * k), total
+    hub, rim = CFG["film_hub"], CFG["film_rim"]
+    return (Wr[0] + (hub[0] - x0) * k, Wr[1] + (hub[1] - y0) * k, rim * k), total
 
 
 def read_frames(path):
@@ -119,6 +136,7 @@ def main():
     edl = json.loads(Path(args.edl).read_text())
     if args.bpm:
         edl["bpm"] = args.bpm
+    load_cfg(edl)
     (hx, hy, hr), film_len = film_hub_on_screen(edl)
     film_n = round(film_len * FPS)
     film_start = INTRO_HOLD                                  # film frame 0 enters with the slide
@@ -131,8 +149,8 @@ def main():
     logo = clean_logo()
     lw = 640
     logo = cv2.resize(logo, (lw, round(logo.shape[0] * lw / logo.shape[1])), interpolation=cv2.INTER_AREA)
-    t_unlock = text_rgba("UNLOCK YOUR ", 700, 66, 0.16, NAVY)
-    t_style = text_rgba("STYLE", 700, 66, 0.16, RED)
+    ink = {"primary": NAVY, "accent": RED}
+    tag_parts = [text_rgba(txt, 700, 66, 0.16, ink[col]) for txt, col in CFG["tagline"]]
     card, (ccx, ccy, cr) = card_canvas()
     white = np.ones((H, W, 3), np.float32)
 
@@ -143,17 +161,18 @@ def main():
         s = 0.94 + 0.06 * k
         lg = cv2.resize(logo, (round(logo.shape[1] * s), round(logo.shape[0] * s)), interpolation=cv2.INTER_AREA)
         C.blit(img, lg, W / 2 - lg.shape[1] / 2, 700 - lg.shape[0] / 2, k)
-        # UNLOCK YOUR STYLE: one line rising out of a mask, STYLE lands a beat later
+        # tagline: one line rising out of a mask, each part lands ~0.27 s after the previous one
         y = 1080
-        total_w = t_unlock.shape[1] + t_style.shape[1] - 8
-        x = W / 2 - total_w / 2
-        hh = t_unlock.shape[0]
-        clip = (0, int(y - hh / 2 + 2), W, int(y + hh / 2 - 2))
-        m1 = ease("out_cubic", (t - 0.45) / 0.6)
-        m2 = ease("out_cubic", (t - 0.72) / 0.6)
-        C.blit(img, t_unlock, x, y - hh / 2 + (1 - m1) * hh, m1, clip=clip)
-        C.blit(img, t_style, x + t_unlock.shape[1] - 8, y - hh / 2 + (1 - m2) * hh, m2, clip=clip)
-        # thin red rule draws in under the line
+        if tag_parts:
+            total_w = sum(p.shape[1] for p in tag_parts) - 8 * (len(tag_parts) - 1)
+            x = W / 2 - total_w / 2
+            hh = tag_parts[0].shape[0]
+            clip = (0, int(y - hh / 2 + 2), W, int(y + hh / 2 - 2))
+            for j, part in enumerate(tag_parts):
+                m = ease("out_cubic", (t - 0.45 - 0.27 * j) / 0.6)
+                C.blit(img, part, x, y - hh / 2 + (1 - m) * hh, m, clip=clip)
+                x += part.shape[1] - 8
+        # thin accent rule draws in under the line
         rw = int(round(96 * ease("out_cubic", (t - 0.95) / 0.5)))
         if rw > 0:
             img[y + 62:y + 65, W // 2 - rw // 2:W // 2 - rw // 2 + rw] = RED
@@ -236,13 +255,14 @@ def main():
     for s in tl["shots"]:
         s["start"] += off
         s["end"] += off
-    tl["shots"].insert(0, {"name": "turismo_logo_unlock_your_style", "start": 0.0, "end": film_start + SLIDE, "src_in": None})
+    tl["shots"].insert(0, {"name": "brand_logo_tagline", "start": 0.0, "end": film_start + SLIDE, "src_in": None})
     tl["duration"] = total
-    tl["cue_points"] = {"open_impact": 0.0, "style_word": 0.72, "slide_into_film": film_start,
-                        "riser_end_reveal": off + tl["cue_points"]["riser_end_reveal"],
+    tl["cue_points"] = {"open_impact": 0.0, "tagline_accent": 0.72, "slide_into_film": film_start,
+                        "riser_end_reveal": (None if tl["cue_points"]["riser_end_reveal"] is None
+                                             else off + tl["cue_points"]["riser_end_reveal"]),
                         "signature": off + tl["cue_points"]["signature"],
                         "end_card_iris": iris_start, "end": total}
-    tl["shimmer_at"] = tl["shots"][2]["start"]  # TURISMO lettering shot
+    tl["shimmer_at"] = tl["shots"][min(2, len(tl["shots"]) - 1)]["start"]  # second film shot (detail texture)
     json.dump(tl, open(out.with_suffix(".timeline.json"), "w"), indent=2)
     print(f"wrote {out}", file=sys.stderr)
 
