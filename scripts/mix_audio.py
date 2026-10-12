@@ -38,7 +38,8 @@ def main():
     T = tl["duration"]
     reveal = tl["cue_points"]["riser_end_reveal"]
     sig = tl["cue_points"]["signature"]
-    shimmer_at = tl["shots"][1]["start"]
+    shimmer_at = tl.get("shimmer_at", tl["shots"][1]["start"])
+    end_card = tl["cue_points"].get("end_card_iris")
     mstart = args.music_drop - reveal
     if mstart < 0:
         sys.exit(f"music drop at {args.music_drop}s is earlier than the reveal ({reveal}s); pick a later drop or an edit")
@@ -72,10 +73,14 @@ def main():
                                    f"afade=t=in:d=0.25,afade=t=out:st=1.4:d=0.8,"
                                    f"adelay={int(shimmer_at * 1000)}|{int(shimmer_at * 1000)}", "shm")
 
+    if end_card is not None and (A / "sfx_shimmer.wav").exists():  # soft glint as the end card opens
+        add(A / "sfx_shimmer.wav", f"aformat=sample_rates=48000:channel_layouts=stereo,atrim=duration=2.5,volume=-24dB,"
+                                   f"afade=t=in:d=0.3,afade=t=out:st=1.5:d=1.0,"
+                                   f"adelay={int(end_card * 1000)}|{int(end_card * 1000)}", "shm2")
     fc = ";".join(chains) + ";" + "".join(labels) + \
         f"amix=inputs={len(labels)}:normalize=0:duration=first,highpass=f=24," \
         f"acompressor=threshold=-14dB:ratio=2:attack=15:release=180:makeup=1," \
-        f"loudnorm=I={args.target_lufs}:TP=-1.5:LRA=9,aresample=48000,alimiter=limit=0.80:attack=3:release=60:level=false,atrim=duration={T:.4f}[out]"
+        f"loudnorm=I={args.target_lufs}:TP=-1.5:LRA=9,aresample=48000,alimiter=limit=0.80:attack=3:release=60:level=false,apad,atrim=duration={T + 0.12:.4f}[out]"
     cmd = ["ffmpeg", "-v", "error", "-y", *inputs, "-filter_complex", fc, "-map", "[out]", "-ar", "48000", "-c:a", "pcm_s24le", args.out]
     subprocess.run(cmd, check=True)
     report(args.out)

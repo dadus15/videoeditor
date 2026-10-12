@@ -292,6 +292,7 @@ def main():
     ap.add_argument("--preview-every", type=int, default=0)
     ap.add_argument("--preview-dir", default="work/preview")
     ap.add_argument("--grain", type=float, default=0.010)
+    ap.add_argument("--crf", type=int, default=18, help="use ~6 for an intermediate that gets re-encoded")
     args = ap.parse_args()
 
     edl = json.loads(Path(args.edl).read_text())
@@ -314,7 +315,7 @@ def main():
     if args.audio:
         cmd += ["-i", args.audio]
     cmd += ["-vf", "scale=out_color_matrix=bt709:out_range=tv,format=yuv420p",
-            "-c:v", "libx264", "-preset", "slow", "-crf", "18", "-profile:v", "high",
+            "-c:v", "libx264", "-preset", "slow", "-crf", str(args.crf), "-profile:v", "high",
             "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", "-color_range", "tv",
             "-movflags", "+faststart"]
     if args.audio:

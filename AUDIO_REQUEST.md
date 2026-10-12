@@ -20,11 +20,11 @@ The track-edit route did work server-side: an 18 s edit of *Invictus* was genera
 
 | Slot | Purpose in the edit | Epidemic Sound item (ID) |
 |---|---|---|
-| `music.wav` | Main bed: pulse in the build, bass entrance on the reveal cut (5.0 s) | Pick **one** after auditioning (shortlist below) |
-| `sfx_impact.wav` | Short low impact on frame 1; reused at −15 dB under the signature shot | "Designed, Boom, Impact, Dark, Cinematic, Low HIt" `d106e784-e06e-4673-ae48-a36e145a715d` (4.3 s) |
+| `music.wav` | Main bed (≥ 23 s usable): pulse in the build, bass entrance on the reveal cut (6.9 s in the final video) | Pick **one** after auditioning (shortlist below) |
+| `sfx_impact.wav` | Short low impact on frame 1 (the logo card); reused at −15 dB under the signature shot | "Designed, Boom, Impact, Dark, Cinematic, Low HIt" `d106e784-e06e-4673-ae48-a36e145a715d` (4.3 s) |
 | `sfx_riser.wav` | Subtle build that **ends** on the reveal cut | "Designed, Riser, Metal Hit, Reverse, Build, Crescendo" `0e565244-d80e-4d88-801e-5183a6335937` (1.6 s, fits the 1.5 s build) |
 | `sfx_subdrop.wav` | Deeper accent on the main reveal | "Designed, Bass Dive, Bass Drop, Deep Sub, 50Hz" `91b28e95-2a6b-4233-86fa-f1715f23ab75` |
-| `sfx_shimmer.wav` | Very quiet metallic/glass texture under the TURISMO lettering (optional) | "Glass, Tonal, Glass Shimmering Texture" `0e854415-f21b-46c9-b22e-2d633967f666` |
+| `sfx_shimmer.wav` | Very quiet metallic/glass texture under the TURISMO lettering, and again softly as the end card opens (optional) | "Glass, Tonal, Glass Shimmering Texture" `0e854415-f21b-46c9-b22e-2d633967f666` |
 
 No tyre or engine sounds: the car is stationary in nearly every shot, and none of the catalogue hits matched a real car rolling.
 

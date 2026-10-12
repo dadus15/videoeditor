@@ -1,6 +1,24 @@
 # Audi S8 D4 × Turismo Wheels Inventa: edit notes
 
-Concept: *the detail that transforms the entire silhouette.* 18.0 s, 9:16, 1080×1920, 25 fps.
+Concept: *the detail that transforms the entire silhouette.* 22.96 s, 9:16, 1080×1920, 25 fps.
+
+**Structure (revision 2, from client notes):**
+
+| Time | Section |
+|---|---|
+| 0–1.9 s | Turismo brand card on white: logo eases in, then **UNLOCK YOUR STYLE** (navy `#0A1B2B`, STYLE in red `#C7222A`) rises out of a mask, and a red rule draws in |
+| 1.9–2.46 s | Push-slide left into the film, matching the opener's leftward camera move |
+| 1.9–19.9 s | The 18 s film below, unchanged |
+| 19.45–20.25 s | Ending: an iris centred on the Audi's front wheel reveals the Turismo centre cap first, then zooms through the hub into the end card (2.2× → 1×) |
+| 20.25–22.96 s | End card hold with a slow 2.5 % push and one light sweep across the wheel |
+
+The loop runs from the white end card back to the white logo card.
+
+- **Logo:** taken from the end card's own logo, the same artwork at about 2× the pixels of the 280 px logo file. It's cleaned onto white and re-inked in the two sampled brand colours.
+- **Assets:** `assets/brand/`.
+- **End card (`turismo_end_card_gemini.jpg`, 768×1376):** scaled 1.41× to fill the frame. It shows a different, multi-spoke wheel design, not the Inventa.
+
+The film times below are relative to the film; add 1.9 s for the final video.
 
 ## Deliverables (`renders/`)
 
@@ -9,6 +27,8 @@ Concept: *the detail that transforms the entire silhouette.* 18.0 s, 9:16, 1080�
 | `Audi_S8_D4_Inventa_Hero_9x16_PICTURE-LOCK.mp4` | Final picture, **no audio** (Epidemic access blocked, see `AUDIO_REQUEST.md`) |
 | `Audi_S8_D4_Inventa_AltOpen_9x16_PICTURE-LOCK.mp4` | Alternative opening, **no audio** |
 | `Audi_S8_D4_Inventa_Hero_9x16.mp4` / `..._AltOpen_9x16.mp4` | Made by `scripts/finish.sh` once the audio files exist |
+
+Both versions now share the logo intro. The alternative differs from the film's first shot onward (2 s in).
 | `*.timeline.json` | Cut list and audio cue points for each render |
 
 ## Source analysis
@@ -113,7 +133,8 @@ Text is DM Sans 500/700 (converted from the OFL @fontsource package), white, in 
 ## Rebuild
 
 ```bash
-python3 scripts/compose.py edit/edl_hero.json renders/<name>.mp4 [--bpm N] [--audio mix.wav]
+python3 scripts/compose.py edit/edl_hero.json work/film_hero.mp4 --crf 6         # the 18 s film
+python3 scripts/bookends.py edit/edl_hero.json work/film_hero.mp4 renders/<name>.mp4  # logo intro + end card
 python3 scripts/analyze_motion.py "<source>" work/motion.csv   # per-frame motion/brightness used for the shot map
 python3 scripts/unique_frames.py "<source>"                    # 25 fps film-frame detection report
 scripts/finish.sh <drop_s> <bpm>                               # after AUDIO_REQUEST.md files are in place
