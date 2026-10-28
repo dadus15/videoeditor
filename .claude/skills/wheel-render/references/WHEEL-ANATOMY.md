@@ -7,7 +7,7 @@
 | **Lip** | The outer flange, seen from the front. | "deep stepped, fully mirror-polished chrome-like lip, seamless, no visible bolts" |
 | **Barrel** | The cylindrical body behind the face, visible between the spokes and from the side. | "barrel and the whole inner area behind the spokes in solid uniform deep GLOSS BLACK, no carbon texture, no grey" |
 | **Aero ring** | A ring at the outer perimeter behind or inside the spokes, with turbine-like fins. | "thin turbine-style aero ring with fine angled fins, gloss black, thin purple pinstripe". Don't use carbon unless asked. |
-| **Center cap** | A small cap in the centre bore. The lug nuts stay visible. | "small gloss black center cap with the TURISMO logo" |
+| **Center cap** | A small cap in the centre bore. The lug nuts stay visible. This is the **default hub**. | "small gloss black center cap with the TURISMO logo, raised chrome, red square red; 5 visible lug nuts in glossy candy-violet purple" |
 | **Center cover cap** | A large cover hiding the whole hub and all lug bolts. It is wider than the bolt circle, about ¼ of the face diameter, and gives a motorsport faux center-lock look. | The three levels described below. |
 | **2PC hidden hardware** | A two-piece wheel whose assembly bolts are fitted from the inner (caliper) side, so the face is clean. | "2-piece wheel with hidden hardware (bolts mounted from the inner side of the barrel); remove all visible bolts, rivets and screw heads from the face and lip" |
 
@@ -20,7 +20,7 @@ This is taken from the client's VIOLET/001 reference and the approved Titanium v
 3. **Middle "lock ring".** A castellated, gear-toothed ring that imitates a racing center-lock nut, in satin dark titanium with diamond-cut tooth faces.
 4. **Inner logo dome.** Raised brushed titanium, with the logo engraved and filled in gloss black, the red square in red enamel, and a thin purple anodized ring around it.
 
-The approved style is **TITANIUM**. Other styles shown to the client: CLASSIC (gloss black enamel with a chrome logo) and CARBON GLOW (carbon face with a purple halo).
+Use a cover cap only when the brief asks for one: the client dropped it on KONCEPT1, and the default hub is the sketch's own (small center cap and visible lug nuts). When a cover cap is used, the approved style is **TITANIUM**. Other styles shown to the client: CLASSIC (gloss black enamel with a chrome logo) and CARBON GLOW (carbon face with a purple halo).
 
 ## Fitment notes
 

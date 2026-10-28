@@ -13,6 +13,7 @@ Act as a custom forged-wheel designer and CGI artist. Turn the artist's sketch i
 - `references/WHEEL-ANATOMY.md`: technical terms and how to describe each part in a prompt (center cap vs center cover cap, aero ring, lip, barrel, 2PC hidden hardware, fitment).
 - `references/PROMPTS.md`: prompt templates that worked, for new renders and for edits.
 - `references/KONCEPT2.md`: the approved KONCEPT2 project for the Audi RS6 C7, with its final spec, media and job IDs. Use it as the house reference for later projects.
+- `references/KONCEPT1.md`: the KONCEPT1 project (deep-dish split-spoke, no center cover cap), with its spec and job IDs.
 - `assets/koncept2_sketch.jpg`: the artist's original KONCEPT2 sketch sheet.
 - `../youtube-edit/references/BRAND-TURISMO.md`: brand colours and logo rules. The logo source file is `assets/brand/turismo_logo_source.jpg`.
 
@@ -25,7 +26,7 @@ These come from the client's own notes on KONCEPT2. Apply them by default unless
 - **Barrel and everything visible behind the spokes is solid black,** gloss by default. **No carbon texture** behind the spokes: the client rejected it.
 - **Mirror-polished lip,** clean and seamless.
 - **2PC with hidden hardware.** The assembly bolts go in from the inner (caliper) side, so the face shows no rivets or bolt heads. The client knows it is 2-piece but wants the construction hidden.
-- **Center cover cap, Titanium style,** is the chosen hub solution. See `WHEEL-ANATOMY.md`. A plain small center cap is *not* what the client means by "center cover cap".
+- **The hub follows the sketch. A center cover cap is NOT the default.** On KONCEPT1 the client dropped it ("rezygnujemy z center cover"). Default to the sketch's hub: a small gloss black center cap with the chrome logo and visible lug nuts, purple if the sketch shows them so. Use a center cover cap only when the brief asks for one, and then in the Titanium style used on KONCEPT2 (see `WHEEL-ANATOMY.md`). If unsure, ask before generating. A plain small center cap is *not* what the client means by "center cover cap".
 - **An aero ring** is part of the brief. Render it in black or with a purple pinstripe, never in carbon.
 - **The client writes in Polish.** Reply in Polish and keep prompts in English.
 
@@ -43,7 +44,7 @@ These come from the client's own notes on KONCEPT2. Apply them by default unless
    - a studio 3/4 hero;
    - a frontal wheel face (4:5);
    - the car scene (16:9);
-   - a center cap macro or design card.
+   - a 3/4 design card ("KONCEPT# / 001").
 4. **Lock the logo.** Once the client approves a render with a perfect logo, attach two references to **every** later generation, edits included:
    - that approved render;
    - the logo file.

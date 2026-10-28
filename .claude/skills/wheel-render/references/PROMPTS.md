@@ -24,6 +24,8 @@ This is styled after the client's VIOLET/001 card.
 
 ## Exploded view of the center cover cap (16:9)
 
+Use this only when the project has a cover cap. KONCEPT1 dropped it.
+
 > Technical EXPLODED VIEW product render … components floating apart along one axis in front of the hub … From back to front: hub with 5 lug bolts on a 5x112 bolt circle and a black anodized base retaining ring with hex screws; OUTER BEZEL …; castellated MIDDLE LOCK RING …; INNER LOGO DOME … Thin white leader lines with small labels: 'BASE RING', 'BEZEL', 'LOCK RING', 'LOGO CAP'.
 
 ## Car scene (16:9)
@@ -39,3 +41,4 @@ References: the image being edited, then the logo file, then an approved render 
 Examples the client approved:
 - **Black barrel:** "the barrel and the whole inner area visible behind and between the spokes … solid, uniform deep GLOSS BLACK finish, no silver, no grey, no carbon texture, so the purple accents pop".
 - **Hidden hardware:** "remove ALL visible assembly bolts, rivets and screw heads from the wheel face and from around the polished lip. This is a 2-piece wheel with hidden hardware (assembly bolts mounted from the inner/back side of the barrel), so the front shows a perfectly clean, seamless mirror-polished lip".
+- **Removing the cover cap (KONCEPT1):** "remove the large titanium center cover cap completely (no TURISMO/WHEELS bezel, no gear-toothed ring). Show an open hub with 5 visible lug nuts in glossy candy-violet purple and a small gloss black center cap like the one in the THIRD reference image". The third reference is the logo master `1ec659bd…`, which has a small cap.
