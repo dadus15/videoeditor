@@ -13,6 +13,7 @@ Act as a custom forged-wheel designer and CGI artist. Turn the artist's sketch i
 - `references/WHEEL-ANATOMY.md`: technical terms and how to describe each part in a prompt (center cap vs center cover cap, aero ring, lip, barrel, 2PC hidden hardware, fitment).
 - `references/PROMPTS.md`: prompt templates that worked, for new renders and for edits.
 - `references/KONCEPT2.md`: the approved KONCEPT2 project for the Audi RS6 C7, with its final spec, media and job IDs. Use it as the house reference for later projects.
+- `references/DESIGN02.md`: the approved precise sketch-to-render pass. Read it whenever the client asks for precision.
 - `references/KONCEPT1.md`: the KONCEPT1 project (deep-dish split-spoke, no center cover cap), with its spec and job IDs.
 - `assets/koncept2_sketch.jpg`: the artist's original KONCEPT2 sketch sheet.
 - `../youtube-edit/references/BRAND-TURISMO.md`: brand colours and logo rules. The logo source file is `assets/brand/turismo_logo_source.jpg`.
@@ -39,6 +40,14 @@ These come from the client's own notes on KONCEPT2. Apply them by default unless
    - the car the wheel is for.
    
    Write a short design spec before generating anything.
+   
+   **When precision matters,** or the sheet holds several designs:
+   - crop the one design (each view separately) with PIL into the scratchpad;
+   - enlarge the crop and inspect it with Read, counting the spokes, forks, slots, windows and lugs;
+   - send the crops to the user and have them uploaded;
+   - prompt from the crop and the logo only, as a "trace".
+   
+   See `references/DESIGN02.md`. The client called the result perfect.
 2. **Get the sketch and the logo into Higgsfield.** If the sandbox blocks direct upload, use the upload widget and ask the user for the media IDs. Details are in `WORKFLOW.md`.
 3. **Generate a first set in one batch.** Use `gpt_image_2_5` at `quality: xhigh` and `resolution: 2k`. The usual set:
    - a studio 3/4 hero;
