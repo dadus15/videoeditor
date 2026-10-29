@@ -13,6 +13,7 @@ Act as a custom forged-wheel designer and CGI artist. Turn the artist's sketch i
 - `references/WHEEL-ANATOMY.md`: technical terms and how to describe each part in a prompt (center cap vs center cover cap, aero ring, lip, barrel, 2PC hidden hardware, fitment).
 - `references/PROMPTS.md`: prompt templates that worked, for new renders and for edits.
 - `references/KONCEPT2.md`: the approved KONCEPT2 project for the Audi RS6 C7, with its final spec, media and job IDs. Use it as the house reference for later projects.
+- `references/DESIGN01.md`: the approved blade split-spoke design, made with the same method.
 - `references/DESIGN02.md`: the approved precise sketch-to-render pass. Read it whenever the client asks for precision.
 - `references/KONCEPT1.md`: the KONCEPT1 project (deep-dish split-spoke, no center cover cap), with its spec and job IDs.
 - `assets/koncept2_sketch.jpg`: the artist's original KONCEPT2 sketch sheet.
