@@ -32,7 +32,7 @@ RED = (199, 34, 42)                # Turismo accent, used for the labels
 INK = (40, 42, 46)                 # brackets and the small mark
 
 COPY = {
-    "title_label": "TURISMO WHEELS · INVENTA",
+    "title_label": "TURISMO FORGED · C19R",
     "title_words": [("UNLOCK", "solid"), ("YOUR", "outline"), ("STYLE", "solid")],
     "end_label": "AVAILABLE IN",
     "end_words": [("6 EXCLUSIVE ", "solid"), ("FINISHES", "outline")],
@@ -139,8 +139,12 @@ def studio_bg(w, h):
 
 # ------------------------------------------------------------------------------------------ titles
 
+# Orbitron (OFL): the closest open match to the wide, rounded-rectangle TURISMO wordmark
+FONT_MAP = {900: "Orbitron-900.ttf", 800: "Orbitron-700.ttf", 600: "Orbitron-500.ttf"}
+
+
 def font(weight, size):
-    return ImageFont.truetype(str(FONTS / f"Archivo-Exp-{weight}.ttf"), size)
+    return ImageFont.truetype(str(FONTS / FONT_MAP[weight]), size)
 
 
 class TitleCard:
@@ -158,6 +162,7 @@ class TitleCard:
         self.track_big = int(1 * s)
         self.track_lab = int(9 * s)
         self.label, self.words = label, words
+        self.mark = Image.open(TEX / "logo_clean.png").convert("RGBA")
         self.rng = random.Random(seed)
         # measure the bar
         pad = int(16 * s)
@@ -174,7 +179,8 @@ class TitleCard:
         self.bx0 = (w - self.bar_w) // 2
         self.by0 = int(cy - self.bar_h / 2)
         self.pad = pad
-        lab_w = sum(d.textlength(c, font=self.f_lab) + self.track_lab for c in label) - self.track_lab
+        lab_w = sum((13 * s if c == "\u00b7" else d.textlength(c, font=self.f_lab)) + self.track_lab
+                    for c in label) - self.track_lab
         self.lab_w = int(lab_w + 2 * 14 * s)
         self.lab_h = int(36 * s)
         self.lx0 = (w - self.lab_w) // 2
@@ -227,6 +233,13 @@ class TitleCard:
             nl = int(np.clip((t - 0.30) / 0.55, 0, 1) * len(self.label))
             x = self.lx0 + 14 * s
             for i, c in enumerate(self.label):
+                if c == "\u00b7":                     # Orbitron has no middle dot: draw a small square
+                    sq = 5 * s
+                    cy = self.ly0 + self.lab_h / 2
+                    if i < nl:
+                        d.rectangle([x + 4 * s, cy - sq / 2, x + 4 * s + sq, cy + sq / 2], fill=(255, 255, 255, 255))
+                    x += 13 * s + self.track_lab
+                    continue
                 if i < nl:
                     d.text((x, self.lty), c, font=self.f_lab, fill=(255, 255, 255, 255))
                 x += d.textlength(c, font=self.f_lab) + self.track_lab
@@ -240,11 +253,12 @@ class TitleCard:
             xl, yb = self.bx0 - g, self.by0 + self.bar_h + g
             d.line([xl, yb, xl + L, yb], fill=INK + (255,), width=lw)
             d.line([xl, yb, xl, yb - L], fill=INK + (255,), width=lw)
-            # small mark under the bar's right end
-            txt = "TURISMO®"
-            tw = d.textlength(txt, font=self.f_small)
-            d.text((self.bx0 + self.bar_w - tw - 2 * s, self.by0 + self.bar_h + 5 * s), txt,
-                   font=self.f_small, fill=INK + (int(255 * kb),))
+            # small Turismo mark + wordmark under the bar's right end (from the logo artwork)
+            mw = int(84 * s)
+            mk = self.mark.resize((mw, int(mw * self.mark.height / self.mark.width)), Image.LANCZOS)
+            if kb < 1:
+                mk.putalpha(mk.getchannel("A").point(lambda v: int(v * kb)))
+            im.alpha_composite(mk, (int(self.bx0 + self.bar_w - mw), int(self.by0 + self.bar_h + 5 * s)))
         # glitch blocks
         for t0, t1, gx, gy, gw, gh in self.glitch:
             if t0 <= t < t1 and t < settle:
