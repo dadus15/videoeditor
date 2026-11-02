@@ -1,0 +1,14 @@
+{
+  "note": "Higgsfield media ids for the C19R AI pass (seedance_2_5, mode video_edit). Segments are cut from work/film_720.mp4.",
+  "images": {
+    "c19r_neodyme_bronze": "cedb6995-1133-4517-a508-cc592a48e790",
+    "c19r_gsr_silver": "05511653-6f4d-4c17-93b8-59084c211512"
+  },
+  "segments": {
+    "seg1": {"media_id": "c81b6a27-b4a3-4867-8339-e076cb2e08b6", "film_in": 2.56, "film_out": 10.40},
+    "seg2": {"media_id": "3e5bd6f5-b87c-4896-b764-b31c22898793", "film_in": 10.56, "film_out": 16.64},
+    "seg3": {"media_id": "2d06ad75-25c4-4e2b-96dc-e95f2dd8cdef", "film_in": 16.64, "film_out": 24.40},
+    "seg4": {"media_id": "b64ab80e-7f53-41f8-8b33-a1bf9184a597", "film_in": 24.60, "film_out": 33.04}
+  },
+  "jobs": {"seg4_test_720p": "0edb9913-d943-48a8-8486-37142a273eff"}
+}
