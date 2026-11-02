@@ -31,6 +31,14 @@
     "seg1_720p": "a4b9c389-61f4-4eeb-b0fc-dd118aefb1c2",
     "seg2_720p": "6214a263-d51d-42d7-93fc-3a08bb2a3839",
     "seg3_720p": "c6cbd76a-69f1-48c8-9536-96da02240064",
-    "seg4_720p_v2": "4492d049-0116-46c8-a397-96bb7e6b1509"
+    "seg4_720p_v2": "4492d049-0116-46c8-a397-96bb7e6b1509",
+    "p1_lineup": "0615f6a8-0a2c-4370-b0b6-cb84dab0b9af",
+    "p2_hub": "d15dbde0-3320-467b-aa15-c88373a60409",
+    "p3_flat": "0d8ab528-ac42-4be5-8654-4ccc5737b0aa",
+    "p4_cap_whip": "dd982595-59dc-4d7d-8e6f-3a64f8e0cd1c"
+  },
+  "media": {
+    "bookends_c19r": "4dcd9240-fd1d-4e7d-aa04-7325017fe58b",
+    "score_c19r": "4b28bb09-b3ec-4ecf-b2d4-d71708378ecb"
   }
 }
