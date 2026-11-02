@@ -5,10 +5,32 @@
     "c19r_gsr_silver": "05511653-6f4d-4c17-93b8-59084c211512"
   },
   "segments": {
-    "seg1": {"media_id": "c81b6a27-b4a3-4867-8339-e076cb2e08b6", "film_in": 2.56, "film_out": 10.40},
-    "seg2": {"media_id": "3e5bd6f5-b87c-4896-b764-b31c22898793", "film_in": 10.56, "film_out": 16.64},
-    "seg3": {"media_id": "2d06ad75-25c4-4e2b-96dc-e95f2dd8cdef", "film_in": 16.64, "film_out": 24.40},
-    "seg4": {"media_id": "b64ab80e-7f53-41f8-8b33-a1bf9184a597", "film_in": 24.60, "film_out": 33.04}
+    "seg1": {
+      "media_id": "c81b6a27-b4a3-4867-8339-e076cb2e08b6",
+      "film_in": 2.56,
+      "film_out": 10.4
+    },
+    "seg2": {
+      "media_id": "3e5bd6f5-b87c-4896-b764-b31c22898793",
+      "film_in": 10.56,
+      "film_out": 16.64
+    },
+    "seg3": {
+      "media_id": "2d06ad75-25c4-4e2b-96dc-e95f2dd8cdef",
+      "film_in": 16.64,
+      "film_out": 24.4
+    },
+    "seg4": {
+      "media_id": "b64ab80e-7f53-41f8-8b33-a1bf9184a597",
+      "film_in": 24.6,
+      "film_out": 33.04
+    }
   },
-  "jobs": {"seg4_test_720p": "0edb9913-d943-48a8-8486-37142a273eff"}
+  "jobs": {
+    "seg4_test_720p": "0edb9913-d943-48a8-8486-37142a273eff",
+    "seg1_720p": "a4b9c389-61f4-4eeb-b0fc-dd118aefb1c2",
+    "seg2_720p": "6214a263-d51d-42d7-93fc-3a08bb2a3839",
+    "seg3_720p": "c6cbd76a-69f1-48c8-9536-96da02240064",
+    "seg4_720p_v2": "4492d049-0116-46c8-a397-96bb7e6b1509"
+  }
 }
