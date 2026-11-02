@@ -77,8 +77,8 @@ def pick(f):
     if 515 <= f < 610:                                  # dark hero: start where the AI clip is clean
         k = (f - 515) / 95
         return frame("seg3", 115 + k * 79)
-    if 818 <= f < 826:                                  # whip into the cap
-        return frame("p4", 92 + (f - 818))
+    if 810 <= f < 826 and (D / "fr" / "p4").exists():   # whip into the cap
+        return frame("p4", 84 + (f - 810))
     # the video-edit segments
     if 64 <= f < 260:
         return frame("seg1", f - 64)
