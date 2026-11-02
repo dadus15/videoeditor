@@ -60,11 +60,11 @@ def pick(f):
         return frame("book", 73 + (f - 826))
     # patches (film frame ranges -> patch frame indices)
     if 64 <= f < 120:                                   # line-up, whips in, fades to white 4.0-4.6 s
-        img = frame("p1", f - 64)
+        img = frame("p1", f - 64 + 6)
         a = 1 - ramp(t, 4.00, 4.60)
         return img * a + white() * (1 - a)
     if 189 <= f < 213:                                  # gloss flash + flat wheel with whip
-        return frame("p3", 56 + (f - 189))
+        return frame("p3", 60 + (f - 189))
     if 370 <= f < 416:                                  # ghost hub fades in from white
         img = frame("p2", f - 370)
         a = 0.55 * ramp(t, 14.80, 16.64) ** 0.8
