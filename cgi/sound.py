@@ -306,7 +306,7 @@ def main():
     # loudness: -14 LUFS, true peak ceiling; limiter without auto-levelling
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(raw), "-af",
                     "acompressor=threshold=-18dB:ratio=2:attack=10:release=180,"
-                    "loudnorm=I=-14:TP=-1.5:LRA=9,alimiter=limit=0.84:level=false,"
+                    "loudnorm=I=-14:TP=-1.5:LRA=9,alimiter=limit=0.78:level=false,"
                     f"apad,atrim=0:{length + 0.12:.3f}",
                     "-ar", str(SR), "-c:a", "pcm_s24le", str(out)], check=True)
     r = subprocess.run(["ffmpeg", "-hide_banner", "-i", str(out), "-af", "ebur128=peak=true", "-f", "null", "-"],
