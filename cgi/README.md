@@ -96,3 +96,27 @@ frames, about 3 hours in all. The title and end cards are 2D and render instantl
   `post.py` (one line).
 - **Finishes shown:** gloss black, satin black, hyper silver, brushed, gunmetal and bronze are illustrative. Swap
   their values in `scene.py` → `FINISHES` for the real catalogue finishes.
+
+## Version 2: AI video of the Turismo Forged C19R (Higgsfield)
+
+At the client's request the wheel became the **Turismo Forged C19R** and the footage became AI-generated video.
+The CGI film above is now only the motion guide.
+
+1. **Motion guide:** `work/film_720.mp4` cut into four segments: 2.56–10.40, 10.56–16.64, 16.64–24.40 and
+   24.60–33.04 s. They were uploaded to Higgsfield through the upload widget, because this cloud session's
+   network policy blocks the Higgsfield hosts.
+2. **Video edit:** Seedance 2.5 in `video_edit` mode, 720p. Each segment was edited with the two client renders
+   of the C19R (`assets/product/`) as image references and a per-segment prompt naming the shots and finishes.
+   This keeps the reference cut, camera moves and timing.
+3. **Patches:** a few shots kept the old CGI design (the line-up, the flat wheel, the ghost hub, cap close-ups and
+   the cap whip). Those frames were replaced by four short Seedance `omni_reference` clips generated from the C19R
+   photos only, with no CGI guide.
+4. **2D pieces:** `cgi/bookends_c19r.py` renders the title ("TURISMO WHEELS · C19R" / UNLOCK YOUR STYLE), the
+   white bridges, and the end card with a line drawing of the C19R, all in Orbitron.
+5. **Assembly:** `cgi/hf_assemble.py` runs in the Higgsfield sandbox. It takes frames at 25 fps and 1920×1080
+   (each AI clip re-timed to its source length), adds the patches, the ghost and fade treatments, and the bookends,
+   and muxes the score from `cgi/sound.py`. The run takes about 75 s.
+
+Media and job ids are in `cgi/higgsfield_media.json`. The deliverable is in the client's Higgsfield library as
+`Turismo_C19R_Promo_16x9.mp4` (media `f226a2a0-4b97-4123-8728-c01e53802d48`): 868 frames, 34.72 s, −14.3 LUFS,
+true peak −1.7 dBTP, no black frames.
