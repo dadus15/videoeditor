@@ -144,9 +144,10 @@ class Film:
         ff.wait()
         print("wrote", out)
 
-    def stills(self, frames, sheet, tile=(384, 216)):
+    def stills(self, frames, sheet, tile=None):
+        tile = tile or ((384, 216) if self.w >= self.h else (216, 384))
         ims = [Image.fromarray((self.pick(f) * 255).astype(np.uint8)).resize(tile) for f in frames]
-        cols = min(4, len(ims))
+        cols = min(4 if self.w >= self.h else 6, len(ims))
         rows = (len(ims) + cols - 1) // cols
         g = Image.new("RGB", (tile[0] * cols, tile[1] * rows))
         for i, im in enumerate(ims):

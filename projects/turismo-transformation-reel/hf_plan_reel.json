@@ -1,0 +1,30 @@
+{
+  "_note": "Turismo MSP02 transformation reel, 18.0 s at 25 fps, 1080x1920. Cuts on the VANTA reference's beats (1.0, 3.0, 7.7, 8.9, 10.3, 13.2, 15.2, 16.2, 17.0 s). Later entries override earlier ones.",
+  "fps": 25,
+  "frames": 450,
+  "size": [1080, 1920],
+  "workdir": "/home/user/reel2/asm",
+  "audio": "score.mp3",
+  "sources": {
+    "v1": {"file": "v1.mp4"}, "v2": {"file": "v2.mp4"}, "v3": {"file": "v3.mp4"},
+    "v4": {"file": "v4.mp4"}, "v5": {"file": "v5.mp4"}, "v6": {"file": "v6.mp4"},
+    "v7": {"file": "v7.mp4"}, "v8": {"file": "v8.mp4"}, "v9": {"file": "v9.mp4"},
+    "white": {"file": "white.mp4"}
+  },
+  "white": ["white", 0],
+  "timeline": [
+    {"_": "1  wheel on black", "from": 0, "to": 25, "src": "v1", "in": 0},
+    {"_": "2-3 FPV past the stock wheel to the front (2x)", "from": 25, "to": 75, "src": "v2", "in": 0, "speed": 2},
+    {"_": "4  transformation: MSP02 fly in and lock on", "from": 75, "to": 193, "src": "v3", "in": 0, "span": 125},
+    {"_": "5  dive into the spokes to the cap, flash to white", "from": 193, "to": 223, "src": "v4", "in": 50, "span": 50, "fade_out": [8.66, 8.9]},
+    {"_": "6  out of the flash: mirror to side view (1.5x)", "from": 223, "to": 258, "src": "v5", "in": 0, "speed": 1.5, "fade_in": [8.9, 9.06]},
+    {"_": "7  chase, car pulls away", "from": 258, "to": 330, "src": "v6", "in": 0, "span": 100},
+    {"_": "8  parked wide, slow push", "from": 330, "to": 380, "src": "v7", "in": 25},
+    {"_": "9  front wheel close-up", "from": 380, "to": 405, "src": "v8", "in": 30, "span": 50},
+    {"_": "10 rear wheel close-up with wing", "from": 405, "to": 425, "src": "v9", "in": 40, "span": 40},
+    {"_": "11 wheel on black + logo (loops to 1)", "from": 425, "to": 450, "src": "v1", "in": 30}
+  ],
+  "overlays": [
+    {"file": "logo_white.png", "from": 425, "to": 450, "cx": 0.5, "cy": 0.2, "width": 0.46, "fade_in": [17.2, 17.55]}
+  ]
+}
