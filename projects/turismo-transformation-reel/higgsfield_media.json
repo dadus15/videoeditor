@@ -21,7 +21,17 @@
     "K8_front_wheel_close_snow": "68329f2f-8142-4681-9d9f-4d109a0cd20c",
     "K9_rear_wheel_wing_snow": "8f8ebc9c-230b-4c96-b8f9-62de5ba24ef6"
   },
-  "clips": {},
+  "clips": {
+    "V1_wheel_black": "77f76ab7-022d-4088-ae05-71a5b5c91b08",
+    "V2_fpv_stock": "5b99c09b-6cc8-4b60-9856-73ccf38e0129",
+    "V3_transformation": "66681434-0800-49ea-bb61-227e479b8bb7",
+    "V4_dive": "eadd9577-feb7-493c-bfec-4b96d2cd97e0",
+    "V5_snow_whip": "665c7902-e852-4740-82a6-ae96bbf0a8ad",
+    "V6_chase": "4d916a3f-f312-4071-8b82-f70b48adca13",
+    "V7_parked": "14627bf9-01ba-40b0-b133-d6fd5a975b21",
+    "V8_front_wheel": "b6850c35-7a6c-485b-97ad-93fb18fa52ef",
+    "V9_rear_wheel": "cc01fad0-5fff-44db-8afd-cae2b8ce6e24"
+  },
   "keyframes_v2_high": {
     "K1_wheel_black": "35c608ca-a28f-4c4c-8f80-d4b9afd4d0ad",
     "K3a_front34_stock_palms (edit of K3b)": "1544ce1b-290e-48fa-936f-5c3fcc830eb2",

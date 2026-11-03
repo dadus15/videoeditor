@@ -21,6 +21,8 @@ Plan (see templates/hf_plan_turismo_c19r.json):
      fade_out: [t0, t1]                 dissolve to white between t0 and t1 seconds (film time)
      fade_in: [t0, t1]                  rise from white
      ghost: [t0, t1, peak]              high-key ghost: opacity rises to peak over t0..t1, then cool lift
+  overlays (optional): [{file, from, to, cx, cy, width, fade_in: [t0, t1]}]   RGBA image (e.g. the logo)
+            composited on output frames [from, to); cx/cy/width as fractions of the frame; fade in film seconds
 """
 import argparse
 import json
@@ -49,6 +51,15 @@ class Film:
         self.dir = Path(plan.get("workdir", "."))
         self.cache = {}
         self._white = None
+        self.overlays = []
+        for o in plan.get("overlays", []):
+            im = Image.open(self.dir / o["file"]).convert("RGBA")
+            w = int(o["width"] * self.w)
+            im = im.resize((w, int(w * im.height / im.width)), Image.LANCZOS)
+            arr = np.asarray(im).astype(np.float32) / 255
+            x0 = int(o["cx"] * self.w - arr.shape[1] / 2)
+            y0 = int(o["cy"] * self.h - arr.shape[0] / 2)
+            self.overlays.append((o, arr, x0, y0))
         # resolve the entry that owns each frame (later entries win)
         self.owner = [None] * plan["frames"]
         for e in plan["timeline"]:
@@ -107,6 +118,13 @@ class Film:
             a = peak * ramp(t, t0, t1) ** 0.8
             img = img * a + self.white() * (1 - a)
             img = img * 0.82 + np.array([0.165, 0.172, 0.19], np.float32)
+        for o, arr, x0, y0 in self.overlays:
+            if o["from"] <= f < o["to"]:
+                k = ramp(t, *o["fade_in"]) if "fade_in" in o else 1.0
+                h, w = arr.shape[:2]
+                a = arr[..., 3:4] * k
+                img = img.copy()
+                img[y0:y0 + h, x0:x0 + w] = img[y0:y0 + h, x0:x0 + w] * (1 - a) + arr[..., :3] * a
         return np.clip(img, 0, 1)
 
     def encode(self, out, crf=17):
