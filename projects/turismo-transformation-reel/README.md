@@ -84,3 +84,26 @@ The reference is someone else's CGI, so the rebuild generates new footage: no VA
 references, at 0.25 credits each. They are the start frames, and keep the car and wheels consistent.
 
 **Estimate:** about 260–290 credits, plus retries for leaks. Balance before: 431.5.
+
+## Delivered (3 Nov 2026)
+
+`Turismo_MSP02_GT3RS_Reel_9x16.mp4` is in the client's Higgsfield library, media
+`089a5226-f18d-4cd5-8d52-f675cf87dcd1`:
+https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/089a5226-f18d-4cd5-8d52-f675cf87dcd1.mp4
+
+**QC:**
+- 1080×1920, 25 fps, 450 frames, 18.0 s;
+- no black frames;
+- −14.1 LUFS, true peak −1.7 dBTP;
+- every shot checked against `MSP02_SPEC.md`.
+
+**How it was built:**
+- **Keyframes:** GPT Image 2.5, quality high, 2k, with the MSP02 prompt DNA. The pre-transformation frame is an
+  edit of the post one, so the framing is identical.
+- **Shots:** nine Seedance 2.5 `omni_reference` clips at 720p, from start and end frames.
+- **Assembly:** `hf_plan_reel.json` with `hf_assemble.py` in the Higgsfield sandbox, about 43 s.
+- **Score:** `reel_sound.py`, licence-free.
+- **Logo:** `out/logo_white.png`, which fades in at 17.2–17.55 s.
+
+**Credits:** 431.5 → 151 (280.5 spent: about 22 on keyframes, 259 on clips). Clip ids are in
+`higgsfield_media.json`.
