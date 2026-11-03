@@ -1,0 +1,37 @@
+{
+  "_note": "Turismo MSP02 transformation reel v2 finishing: 30 fps, speed ramps on 96 fps optical-flow frames, whips on the reference's beats.",
+  "fps": 30,
+  "duration": 18.0,
+  "size": [1080, 1920],
+  "src_fps": 96,
+  "frames_dir": "hf",
+  "workdir": "/home/user/reel2/asm",
+  "audio": "score.mp3",
+  "shots": [
+    {"src": "v1", "t": 0.0,  "dur": 1.0, "src_in": 0.0, "src_out": 1.0, "ease": "linear", "blur": 0.5},
+    {"src": "v2", "t": 1.0,  "dur": 2.0, "src_in": 0.0, "src_out": 4.0, "ease": "out", "blur": 0.5, "shake": 3},
+    {"src": "v3", "t": 3.0,  "dur": 4.7, "src_in": 0.05, "src_out": 4.95, "ease": "linear", "blur": 0.5, "shake": 2},
+    {"src": "v4", "t": 7.7,  "dur": 1.2, "src_in": 1.5, "src_out": 4.0, "ease": "in", "blur": 0.6, "shake": 2},
+    {"src": "v5", "t": 8.9,  "dur": 1.4, "src_in": 0.0, "src_out": 2.6, "ease": "out", "blur": 0.6, "shake": 3},
+    {"src": "v6", "t": 10.3, "dur": 2.9, "src_in": 0.0, "src_out": 4.0, "ease": "inout", "blur": 0.5, "shake": 2.5},
+    {"src": "v7", "t": 13.2, "dur": 2.0, "src_in": 1.0, "src_out": 3.0, "ease": "linear", "blur": 0.5},
+    {"src": "v8", "t": 15.2, "dur": 1.0, "src_in": 1.2, "src_out": 2.6, "ease": "linear", "blur": 0.5},
+    {"src": "v9", "t": 16.2, "dur": 0.8, "src_in": 1.4, "src_out": 2.5, "ease": "linear", "blur": 0.5},
+    {"src": "v1", "t": 17.0, "dur": 1.0, "src_in": 1.2, "src_out": 2.2, "ease": "linear", "blur": 0.5}
+  ],
+  "transitions": [
+    {"t": 1.0,  "type": "impact", "frames": 8, "strength": 1.0},
+    {"t": 3.0,  "type": "whip_h", "frames": 6, "strength": 0.6},
+    {"t": 7.7,  "type": "zoom",   "frames": 6, "strength": 0.7},
+    {"t": 8.9,  "type": "spin",   "frames": 10, "strength": 1.0},
+    {"t": 10.3, "type": "whip_h", "frames": 8, "strength": 1.0},
+    {"t": 13.2, "type": "impact", "frames": 6, "strength": 0.6},
+    {"t": 15.2, "type": "impact", "frames": 6, "strength": 0.6},
+    {"t": 16.2, "type": "impact", "frames": 6, "strength": 0.6},
+    {"t": 17.0, "type": "zoom",   "frames": 6, "strength": 0.6}
+  ],
+  "grade": {"sat": 0.9, "hot_sat": 0.72, "contrast": 0.14, "lift": 0.025, "warmth": 0.0, "halation": 0.10, "grain": 0.02, "vignette": 0.24, "ca": 1},
+  "overlays": [
+    {"file": "logo_white.png", "t0": 17.0, "t1": 18.0, "fade": [17.2, 17.55], "cx": 0.5, "cy": 0.2, "width": 0.46}
+  ]
+}
