@@ -234,3 +234,18 @@ chrome barrel.
   - VF (start KF rotated, end 1544ce1b): the barrel roll back to level, ending on the transformation's first
     frame.
 - **Spend:** 3 keyframes at 2.75 credits each, plus 2 clips at 28 credits each.
+
+**Result v4:**
+- Plan `finish_plan_v4.json`:
+  - shot 1 is VA source 1.6→3.1 s, moved down by 0.12 H for the match cut;
+  - shot 2 is VF with keys [[1.0, 0], [1.75, 2.0], [2.25, 3.0], [2.6, 3.5], [3.0, 4.0]], putting the 90° roll,
+    the 45° roll and level on the reference beats;
+  - shot 11 is VA source 0.3→1.6 s with the logo.
+- QC: 540 frames, 18.0 s, 0 black frames, −14.1 LUFS, −1.7 dBTP.
+- Motion: 0–1 s is locked as in the reference, and 2.0–3.0 s matches (zoom −2.43 / −1.27 against −2.16 /
+  −1.18).
+- **Known deviation:** at 1.0–1.5 s our drone first dips toward the wheel (zoom +3) before moving along the
+  fender, while the reference already pulls away (−1.3). Fixing it needs a new VF take (28 credits).
+- **Credits:** 78.25 → 14.
+- **Delivered:** media `b5809fb7-c1a4-438d-a071-70ada736e798`
+  https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/b5809fb7-c1a4-438d-a071-70ada736e798.mp4
