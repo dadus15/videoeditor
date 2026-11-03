@@ -249,3 +249,42 @@ chrome barrel.
 - **Credits:** 78.25 → 14.
 - **Delivered:** media `b5809fb7-c1a4-438d-a071-70ada736e798`
   https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/b5809fb7-c1a4-438d-a071-70ada736e798.mp4
+
+## v5: honest reference vs v4 comparison, and the free fixes (3 Nov 2026)
+
+The client's verdict on v4 was that it still lacks the reference's "WOW"; the animation, motion and overall feel
+differ a lot. A 4 fps side-by-side of the full 18 s (`analysis/`, same layout for both) confirms it.
+
+**Gaps, most important first:**
+1. **Look.** The reference's first world is a bright overcast seaside: white sky, neutral to cool, low
+   contrast, a clean render. Ours is an orange golden-hour sunset with HDR drama, so the mood of the first half
+   differs. A grade cannot fix it; it needs regeneration.
+2. **Removal beat (2.25–2.5 s).** The old hood violently pops off and flies away. We have no equivalent: the
+   stock wheels just stay on.
+3. **Hero presentation.** One new part floats large and centred for 4 s, turning slowly, and lands while the
+   camera travels with the car. Ours drops two wheels diagonally from the side, in a busy frame.
+4. **Dive through the paint.** The camera dives into the hood vent, the frame becomes flat paint, and it exits
+   through the side window into the snow world with the car in a new colour (yellow → light blue). This is the
+   main WOW. Ours dives into the cap, but the car is white before and after.
+5. **Rear wing (10.5–11 s).** The active wing rises as the car pulls away. We have no equivalent.
+6. **Motion.** The reference has choreographed CGI camera paths. Ours comes from start/end keyframe clips, so
+   the AI invents the in-between motion and it floats.
+
+**Root cause:** this reel skipped the skill's core method, a Blender motion guide repainted with Seedance
+`video_edit`, which made the C19R film work. A full v5 on that method would cost about 200 credits; 14 are left.
+The client chose free fixes only, and a colour change: another colour before, white after.
+
+**Free fixes done:**
+- **Colour change, as in the reference.** `recolor_car.py` repaints the car yellow in every shot before the dive:
+  - FPV `vFy` (`--guard 0 --sat-max 0.6`),
+  - transformation `vTy` (`--sat-max 0.45`),
+  - dive `v4y` (`--to 84`, then fading back before the cap).
+
+  The car comes out of the cap macro white on gold MSP02 in the snow, so it reads yellow → white with new wheels.
+
+  Method: CLIPSeg "a car" ∪ u2net as the car mask, CLIPSeg "a wheel rim" dilated as the guard for chrome and gold,
+  then paint (bright, low saturation) retinted with its shading kept.
+- **A cleaner, render-like grade:** grain 0.005, halation 0.03, vignette 0.12, hot_sat 0.86 so the yellow stays
+  rich. Plan `finish_plan_v5.json`.
+
+**Still open (needs credits):** gaps 1, 2, 3, 5 and 6 above.

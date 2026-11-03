@@ -138,6 +138,13 @@ Read `references/higgsfield-pipeline.md` before the first call. Key facts:
   a seamless loop.
 - **Retime to beats:** with `keys: [[film_t, src_t], ...]` in a `reel_finish.py` shot, a monotone cubic carries
   each measured beat (roll 90°, 45°, level) to the reference time.
+- **Before/after colour change for free:** `scripts/recolor_car.py` repaints the car body in existing clips.
+  It uses a CLIPSeg car mask, a wheel-rim guard and a shading-preserving tint. The VANTA reference's WOW is the
+  car changing colour through the "dive into the paint"; we reproduced it as yellow → white without new
+  generations. Check `--stills` first, because each shot needs its own settings.
+- **Compare the whole film side by side before reporting:** 4 fps sheets of the reference and ours in the
+  same layout. Name the gaps honestly (light, removal beat, hero presentation, colour change, mechanical beats
+  such as a rising wing) and price the ones that need regeneration.
 - **Finishing** uses `scripts/reel_finish.py plan.json` (template `templates/reel_finish_turismo_msp02.json`).
   1. Interpolate every clip to 96 fps with minterpolate (one job per clip, in parallel on an XL sandbox,
      about 4 min).
@@ -183,6 +190,7 @@ Keep jargon out. The client cares about the product looking right and the cut ma
 | `scripts/new_project.sh` | Copy the CGI and 2D toolkit and fonts into a new project |
 | `scripts/cgi/` | scene, shots, post, sound, bookends, qc, compare, progress, render_sheet, build |
 | `scripts/hf_assemble.py` + `templates/hf_plan_turismo_c19r.json` | Plan-driven assembly |
+| `scripts/recolor_car.py` | Repaint the car body (before/after colour change) without new generations |
 | `scripts/camera_motion.py`, `scripts/reel_finish.py` | Reference camera fingerprint; 96 fps ramps, camera moves, grade |
 | `assets/fonts/` | Orbitron (Turismo) and Archivo Expanded (wide grotesk), both OFL |
 
