@@ -141,3 +141,40 @@ https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/089a5226-
 **Delivered:** media `5fb482a0-414a-4e13-a1dd-2b7295e0bd1f`
 https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/5fb482a0-414a-4e13-a1dd-2b7295e0bd1f.mp4
 (97 MB master, CRF 16 with grain).
+
+## v3: motion matched to the reference (3 Nov 2026)
+
+The brief was "everything must move exactly like the reference."
+
+**Measurement:** `camera_motion.py` (Farneback flow fitted to pan, zoom, roll and energy per frame) on the
+reference gives the camera fingerprint in `analysis/ref_motion.csv`:
+- 0–1 s: static;
+- 1–3 s: FPV pull-back with roll;
+- 3–7.2 s: locked camera during the transformation, slow push from 5.5 s;
+- 7.2–8.3 s: accelerating dive into the wheel;
+- 8.5–8.9 s: static hold on the cap;
+- 9.0–10.3 s: fast pull-back;
+- 10.5–13.2 s: locked camera while the car drives away;
+- 13.2–15.2 s: slow pull-back;
+- 15.2–16.2 s: slow pan;
+- 16.2–17 s: slight roll;
+- 17–18 s: static.
+
+The reference cuts are clean, with no transition effects and no shake.
+
+**Changes against v2:**
+- Removed every added effect: whips, zooms, impacts, spin and drone shake. The cuts are clean, as in the
+  reference.
+- New transformation clip `7a3b30f5`, Seedance omni_reference (start 1544ce1b, end 83f7da03, ref 88c9ceef):
+  locked camera, the MSP02s float down from above, slow push at the end (35 credits).
+- New emerge and drive-away clip `054620a6`: start on the snow-lit macro keyframe 276da64e, end on the chase
+  keyframe f9b79f89. It is one continuous shot: a fast pull-back from the cap, then a locked camera while the
+  car drives away, replacing v2's spin and whip and the two separate shots (35 credits).
+- The dive is played at the source's own acceleration (1.2→3.35 s, linear), then cuts to a static freeze on
+  the flat cap macro.
+- The parked pull-back is slowed to the reference tempo. Digital moves (`cam` in `reel_finish.py`) add the
+  slow pan on the front wheel and the slight roll on the rear wheel.
+- The grade is calmer: no CA, less halation and grain.
+
+**Plan:** `finish_plan_v3.json`. **Comparison:** `/home/user/reel2/cm/cm.py` in the sandbox prints the
+reference against ours per 0.5 s window.

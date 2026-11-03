@@ -1,44 +1,51 @@
 {
-  "note": "Turismo transformation reel (MSP02 2PC on Porsche 911 GT3 RS). Uploaded via widget 3 Nov 2026.",
-  "images": {
-    "msp02_front": "8476b598-3a01-4745-ad03-5e95346bc9a3",
-    "msp02_34": "88c9ceef-517a-497a-8a03-cdc33f8dcbec",
-    "car_side_studio": "71613174-9b08-421b-8d99-5886f35ed9df",
-    "car_rear34_studio": "90bc2d6b-5208-4623-be3e-49b9e17b5b46",
-    "car_front34_studio": "805977f1-625e-418a-995c-9aee602453b8",
-    "car_snow_parked_a": "1d27274d-44b7-4621-9c59-d930c5218e8f",
-    "car_snow_parked_b": "a1c4d17c-25e3-4245-b49e-a08ec954d638"
-  },
-  "keyframes": {
-    "K1_wheel_black": "5ea6e60e-11ff-4ce7-b6ce-9e9cf5085145",
-    "K2_fpv_front_wheel_stock_palms": "0dd81ab1-aef1-4f5a-bfe6-508c0a56274d",
-    "K3a_front34_stock_palms": "55ef59b2-dcbf-497c-8d39-a9340dd5a978",
-    "K3b_front34_msp02_palms": "2a977f03-de30-4435-9167-341fece193b2",
-    "K4_dive_into_msp02_spokes": "abc5a548-f330-4c3f-8302-94843fa2d8da",
-    "K5_side_window_snow": "50094dc8-4f3d-4a4d-a769-4273dad879f9",
-    "K6_rear34_chase_snow": "f9b79f89-ca2a-4a5c-95bd-f10fa3d0dae6",
-    "K7_parked_wide_snow": "image 1d27274d-44b7-4621-9c59-d930c5218e8f (client upload)",
-    "K8_front_wheel_close_snow": "68329f2f-8142-4681-9d9f-4d109a0cd20c",
-    "K9_rear_wheel_wing_snow": "8f8ebc9c-230b-4c96-b8f9-62de5ba24ef6"
-  },
-  "clips": {
-    "V1_wheel_black": "77f76ab7-022d-4088-ae05-71a5b5c91b08",
-    "V2_fpv_stock": "5b99c09b-6cc8-4b60-9856-73ccf38e0129",
-    "V3_transformation": "66681434-0800-49ea-bb61-227e479b8bb7",
-    "V4_dive": "eadd9577-feb7-493c-bfec-4b96d2cd97e0",
-    "V5_snow_whip": "665c7902-e852-4740-82a6-ae96bbf0a8ad",
-    "V6_chase": "4d916a3f-f312-4071-8b82-f70b48adca13",
-    "V7_parked": "14627bf9-01ba-40b0-b133-d6fd5a975b21",
-    "V8_front_wheel": "b6850c35-7a6c-485b-97ad-93fb18fa52ef",
-    "V9_rear_wheel": "cc01fad0-5fff-44db-8afd-cae2b8ce6e24"
-  },
-  "keyframes_v2_high": {
-    "K1_wheel_black": "35c608ca-a28f-4c4c-8f80-d4b9afd4d0ad",
-    "K3a_front34_stock_palms (edit of K3b)": "1544ce1b-290e-48fa-936f-5c3fcc830eb2",
-    "K3b_front34_msp02_palms": "83f7da03-ee89-4981-8ef3-0d14788f88ff",
-    "K4_dive_macro_msp02": "33003b58-6726-47b2-b51b-104825ff53fb",
-    "K5_side_window_snow": "69684bb4-bd05-4e56-8de2-32a36cb43cc7",
-    "K8_front_wheel_close_snow": "8125310d-a748-4f0b-9a14-9fc840759f99",
-    "K9_rear_wheel_wing_snow": "1d7bffff-3c0b-4f84-94fc-0bc4715dbf65"
-  }
+ "note": "Turismo transformation reel (MSP02 2PC on Porsche 911 GT3 RS). Uploaded via widget 3 Nov 2026.",
+ "images": {
+  "msp02_front": "8476b598-3a01-4745-ad03-5e95346bc9a3",
+  "msp02_34": "88c9ceef-517a-497a-8a03-cdc33f8dcbec",
+  "car_side_studio": "71613174-9b08-421b-8d99-5886f35ed9df",
+  "car_rear34_studio": "90bc2d6b-5208-4623-be3e-49b9e17b5b46",
+  "car_front34_studio": "805977f1-625e-418a-995c-9aee602453b8",
+  "car_snow_parked_a": "1d27274d-44b7-4621-9c59-d930c5218e8f",
+  "car_snow_parked_b": "a1c4d17c-25e3-4245-b49e-a08ec954d638"
+ },
+ "keyframes": {
+  "K1_wheel_black": "5ea6e60e-11ff-4ce7-b6ce-9e9cf5085145",
+  "K2_fpv_front_wheel_stock_palms": "0dd81ab1-aef1-4f5a-bfe6-508c0a56274d",
+  "K3a_front34_stock_palms": "55ef59b2-dcbf-497c-8d39-a9340dd5a978",
+  "K3b_front34_msp02_palms": "2a977f03-de30-4435-9167-341fece193b2",
+  "K4_dive_into_msp02_spokes": "abc5a548-f330-4c3f-8302-94843fa2d8da",
+  "K5_side_window_snow": "50094dc8-4f3d-4a4d-a769-4273dad879f9",
+  "K6_rear34_chase_snow": "f9b79f89-ca2a-4a5c-95bd-f10fa3d0dae6",
+  "K7_parked_wide_snow": "image 1d27274d-44b7-4621-9c59-d930c5218e8f (client upload)",
+  "K8_front_wheel_close_snow": "68329f2f-8142-4681-9d9f-4d109a0cd20c",
+  "K9_rear_wheel_wing_snow": "8f8ebc9c-230b-4c96-b8f9-62de5ba24ef6"
+ },
+ "clips": {
+  "V1_wheel_black": "77f76ab7-022d-4088-ae05-71a5b5c91b08",
+  "V2_fpv_stock": "5b99c09b-6cc8-4b60-9856-73ccf38e0129",
+  "V3_transformation": "66681434-0800-49ea-bb61-227e479b8bb7",
+  "V4_dive": "eadd9577-feb7-493c-bfec-4b96d2cd97e0",
+  "V5_snow_whip": "665c7902-e852-4740-82a6-ae96bbf0a8ad",
+  "V6_chase": "4d916a3f-f312-4071-8b82-f70b48adca13",
+  "V7_parked": "14627bf9-01ba-40b0-b133-d6fd5a975b21",
+  "V8_front_wheel": "b6850c35-7a6c-485b-97ad-93fb18fa52ef",
+  "V9_rear_wheel": "cc01fad0-5fff-44db-8afd-cae2b8ce6e24"
+ },
+ "keyframes_v2_high": {
+  "K1_wheel_black": "35c608ca-a28f-4c4c-8f80-d4b9afd4d0ad",
+  "K3a_front34_stock_palms (edit of K3b)": "1544ce1b-290e-48fa-936f-5c3fcc830eb2",
+  "K3b_front34_msp02_palms": "83f7da03-ee89-4981-8ef3-0d14788f88ff",
+  "K4_dive_macro_msp02": "33003b58-6726-47b2-b51b-104825ff53fb",
+  "K5_side_window_snow": "69684bb4-bd05-4e56-8de2-32a36cb43cc7",
+  "K8_front_wheel_close_snow": "8125310d-a748-4f0b-9a14-9fc840759f99",
+  "K9_rear_wheel_wing_snow": "1d7bffff-3c0b-4f84-94fc-0bc4715dbf65"
+ },
+ "keyframes_v3": {
+  "K4b_snow_lit_macro_msp02": "276da64e-696e-457c-a827-dcbfd5407564"
+ },
+ "clips_v3": {
+  "VT_transformation_locked_cam (omni: start 1544ce1b, end 83f7da03, ref 88c9ceef)": "7a3b30f5-b7bb-4e22-b189-7ea908c9a611",
+  "VE_emerge_pullback_driveaway (omni: start 276da64e, end f9b79f89, refs 71613174, 1d27274d)": "054620a6-1ce8-4811-b879-36d7393769ff"
+ }
 }

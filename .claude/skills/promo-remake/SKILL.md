@@ -116,6 +116,24 @@ Read `references/higgsfield-pipeline.md` before the first call. Key facts:
   3. Call `media_confirm`.
   4. Give the user the CDN link.
 
+## 5. Motion match and finishing (reels, after "it looks artificial" feedback)
+
+- **Measure the reference camera, do not guess it.** Run
+  `scripts/camera_motion.py ref.mp4 ref_motion.csv --window 0.25`. It gives pan, zoom, roll and motion energy
+  per window: where the camera is locked, where it pushes, where it whips, where it rolls. Write those moves
+  into the Seedance prompts (start and end keyframes plus "locked camera" or "fast pull-back, then locked")
+  and check ours with `--compare ours.csv`.
+- **Copy only what the reference does.** If its cuts are clean, use no whip, zoom or impact effects and no
+  added shake. Effects the reference lacks are what make a cut look "touched by AI".
+- **Finishing** uses `scripts/reel_finish.py plan.json` (template `templates/reel_finish_turismo_msp02.json`).
+  1. Interpolate every clip to 96 fps with minterpolate (one job per clip, in parallel on an XL sandbox,
+     about 4 min).
+  2. Sample 30 fps output with eased speed ramps; split a shot into two entries when its speed must change
+     (a fast pull-back, then a calm drive-away).
+  3. Use `cam` for small digital moves the reference has: `{zoom: [a, b], pan: [[x0, y0], [x1, y1]],
+     roll: [r0, r1], ease}`.
+  4. Apply one filmic grade across all clips.
+
 ## QC before reporting
 
 Run these in the sandbox:
@@ -152,6 +170,7 @@ Keep jargon out. The client cares about the product looking right and the cut ma
 | `scripts/new_project.sh` | Copy the CGI and 2D toolkit and fonts into a new project |
 | `scripts/cgi/` | scene, shots, post, sound, bookends, qc, compare, progress, render_sheet, build |
 | `scripts/hf_assemble.py` + `templates/hf_plan_turismo_c19r.json` | Plan-driven assembly |
+| `scripts/camera_motion.py`, `scripts/reel_finish.py` | Reference camera fingerprint; 96 fps ramps, camera moves, grade |
 | `assets/fonts/` | Orbitron (Turismo) and Archivo Expanded (wide grotesk), both OFL |
 
 Brand tokens for Turismo live in the youtube-edit skill: `references/BRAND-TURISMO.md`.
