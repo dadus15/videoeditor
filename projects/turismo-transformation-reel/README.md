@@ -57,3 +57,30 @@ The reference is someone else's CGI, so the rebuild generates new footage: no VA
 - what transforms: keep the hood (as VANTA) or, as recommended for a wheel brand, transform the wheels themselves,
 - whether to add a Turismo logo on the black end frame (the reference has none),
 - budget.
+
+## Client decisions (3 Nov 2026)
+
+- **Transformation:** the **Turismo wheels** fly in and lock onto the hubs of the driving car, replacing the stock
+  wheels (instead of VANTA's hood).
+- **Car:** Porsche 911 GT3 RS (992), as in the reference: yellow at the start, light blue in the snowy world.
+- **Branding:** the Turismo logo resolves on the final black frame (about the last 1 s), and the loop still works.
+- **Waiting on:** the wheel model and photos (2–4 clean renders on white).
+
+## Shot plan for generation (9:16, Seedance 2.5, 720p)
+
+| Clip | Reference shots | Content | Length | Credits |
+|---|---|---|---|---|
+| V1 | 1 + 11 | Turismo wheel on tyre, black void, turning (end version plus logo) | 4 s | 28 |
+| V2 | 2–3 | FPV arc around the yellow GT3 RS front on stock wheels, palms, sunset | 4–5 s | 28–35 |
+| V3 | 4 | **Transformation:** Turismo wheels fly in and lock onto the hubs while it drives | 5 s | 35 |
+| V4 | 5 | Dive into the spokes, frame fills with light-blue paint | 4 s | 28 |
+| V5 | 6 | Out of the paint: light-blue GT3 RS on Turismo wheels, snowy road, whip to side | 4 s | 28 |
+| V6 | 7 | Chase from rear 3/4, wing rises, car pulls away | 4 s | 28 |
+| V7 | 8 | Static wide, parked on wet asphalt, snowy trees | 4 s | 28 |
+| V8 | 9 | Low front-wheel close-up, slow push | 4 s | 28 |
+| V9 | 10 | Rear-wheel close-up with wing, slow push | 4 s | 28 |
+
+**Keyframes:** stills of the car with Turismo wheels in each world, from GPT Image 2.5 with the wheel photos as
+references, at 0.25 credits each. They are the start frames, and keep the car and wheels consistent.
+
+**Estimate:** about 260–290 credits, plus retries for leaks. Balance before: 431.5.
