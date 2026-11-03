@@ -178,3 +178,22 @@ The reference cuts are clean, with no transition effects and no shake.
 
 **Plan:** `finish_plan_v3.json`. **Comparison:** `/home/user/reel2/cm/cm.py` in the sandbox prints the
 reference against ours per 0.5 s window.
+
+**QC (v3b):**
+- 1080×1920, 30 fps, 540 frames, 18.0 s;
+- 0 black frames;
+- −14.1 LUFS, −1.7 dBTP.
+
+**Motion against the reference** (zoom %/frame, energy):
+- dive at 8.0 s: 2.41 / 5.09 against 2.98 / 5.04;
+- pull-back at 9.5–10.5 s: −3.14 / −1.39 against −2.56 / −1.33;
+- locked windows within 0.2 %/frame.
+
+The transformation (3–7 s) has more energy than the reference (about 0.9 against 0.2) because the road
+moves under the car in our clip; a parked-car regeneration would fix it (35 credits).
+
+**Credits:** 151 → 78.25 (2.75 for a keyframe, 70 for two clips).
+
+**Delivered:** media `dbe86bfa-114d-4907-b392-484f563f50f7`
+https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/dbe86bfa-114d-4907-b392-484f563f50f7.mp4
+(the first v3 render, before the dive retiming: `1a9c83bd-d072-403a-8843-d6be03ff37bd`).
