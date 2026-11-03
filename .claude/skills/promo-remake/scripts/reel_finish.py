@@ -12,9 +12,12 @@ speed ramp samples real in-between frames:
 
 Plan JSON (see templates/reel_finish_turismo_msp02.json):
   fps (output, e.g. 30), duration (s), size [w, h], src_fps (96), workdir, audio, frames_dir ("hf")
-  shots: [{src, t, dur, src_in, src_out, ease, shake, blur}]   t/dur = place in the film (s);
-         src_in/src_out = source seconds consumed; ease = linear|in|out|inout|ramp (fast-slow-fast)
+  shots: [{src, t, dur, src_in, src_out, ease, shake, blur, cam}]   t/dur = place in the film (s);
+         src_in/src_out = source seconds consumed (src_out < src_in plays backwards, equal values hold a frame);
+         ease = linear|in|out|inout|ramp (fast-slow-fast)
          shake = drone micro-shake in px; blur = shutter (0.5 = 180 degrees, scaled by speed)
+         cam = digital camera move over the shot: {zoom: [a, b], pan: [[x0, y0], [x1, y1]] (fractions of the frame),
+               roll: [a, b] (deg), ease}  e.g. a slow pan right on a still close-up to match the reference
   transitions: [{t, type: whip_h|whip_v|zoom|spin|impact, frames, strength}]   centred on the cut at t
   grade: {sat, hot_sat, contrast, lift, warmth, halation, grain, vignette, ca}
   overlays: [{file, t0, t1, fade, cx, cy, width}]
@@ -102,6 +105,14 @@ class Finisher:
             img = self.src(s["src"], ts)
         else:
             img = sum(self.src(s["src"], ts + (j / (k - 1) - 0.5) * shutter) for j in range(k)) / k
+        if s.get("cam"):
+            c = s["cam"]
+            u = EASE[c.get("ease", "inout")](min(max((t - s["t"]) / s["dur"], 0.0), 1.0))
+            z0, z1 = c.get("zoom", [1.0, 1.0])
+            (px0, py0), (px1, py1) = c.get("pan", [[0, 0], [0, 0]])
+            r0, r1 = c.get("roll", [0.0, 0.0])
+            img = self.affine(img, z0 + (z1 - z0) * u, r0 + (r1 - r0) * u,
+                              (px0 + (px1 - px0) * u) * self.w, (py0 + (py1 - py0) * u) * self.h)
         if s.get("shake"):
             img = self.shake(img, t, s["shake"])
         return img
