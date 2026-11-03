@@ -107,3 +107,37 @@ https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/089a5226-
 
 **Credits:** 431.5 → 151 (280.5 spent: about 22 on keyframes, 259 on clips). Clip ids are in
 `higgsfield_media.json`.
+
+## v2: pro finishing (3 Nov 2026), after "too artificial" feedback
+
+**Diagnosis of v1:**
+- The 24 fps AI clips were assembled at 25 fps by dropping or duplicating frames: 5 repeated frames in the
+  transformation, and very uneven motion in the chase (irregularity 0.84).
+- The white flash was a cheap transition.
+- Every clip kept its own over-saturated "AI" colour.
+
+**Fixes, with no extra credits** (`.claude/skills/promo-remake/scripts/reel_finish.py`, plan `finish_plan_v2.json`):
+- All clips are optical-flow interpolated to 96 fps (ffmpeg minterpolate, 4 parallel jobs on an XL sandbox, about
+  4 min).
+- Output is 30 fps with eased speed ramps (out, in, inout) sampled from the 96 fps frames, so nothing is dropped or
+  repeated.
+- Motion blur scales with speed (180° shutter).
+- Real transitions on the beats:
+  - impact at 1.0 s,
+  - whip at 3.0 s,
+  - zoom at 7.7 s,
+  - spin-zoom through the cap at 8.9 s, instead of the white flash,
+  - whip at 10.3 s,
+  - impacts on the hard cuts.
+- Drone micro-shake on the FPV shots.
+- One filmic grade: hot oranges desaturated, S-curve, lifted blacks, warm halation, grain, vignette, 1 px lens CA.
+
+**QC:**
+- 1080×1920, 30 fps, 540 frames, 18.0 s;
+- 0 repeated frames in moving shots;
+- no black frames;
+- −14.1 LUFS, −1.7 dBTP.
+
+**Delivered:** media `5fb482a0-414a-4e13-a1dd-2b7295e0bd1f`
+https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/5fb482a0-414a-4e13-a1dd-2b7295e0bd1f.mp4
+(97 MB master, CRF 16 with grain).
