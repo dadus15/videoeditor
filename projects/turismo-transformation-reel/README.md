@@ -288,3 +288,10 @@ The client chose free fixes only, and a colour change: another colour before, wh
   rich. Plan `finish_plan_v5.json`.
 
 **Still open (needs credits):** gaps 1, 2, 3, 5 and 6 above.
+
+**Result v5:**
+- QC: 540 frames, 18.0 s, 0 black frames, −14.1 LUFS, −1.7 dBTP.
+- 12 consecutive frames (4.8–5.2 s) show a steady repaint with no flicker.
+- Credits spent: 0 (balance 14).
+- **Delivered:** media `c14edad5-92f4-4c84-b161-9c8e9fa2c113`
+  https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/c14edad5-92f4-4c84-b161-9c8e9fa2c113.mp4
