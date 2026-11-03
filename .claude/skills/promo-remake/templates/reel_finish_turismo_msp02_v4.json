@@ -1,0 +1,223 @@
+{
+ "_note": "v4: intro rebuilt 1:1 (flat 2PC wheel assembly/spin loop, match cut, FPV 90-degree roll to level), rest as v3b.",
+ "fps": 30,
+ "duration": 18.0,
+ "size": [
+  1080,
+  1920
+ ],
+ "src_fps": 96,
+ "frames_dir": "hf",
+ "workdir": "/home/user/reel2/asm",
+ "audio": "score.mp3",
+ "shots": [
+  {
+   "src": "vA",
+   "t": 0.0,
+   "dur": 1.0,
+   "src_in": 1.6,
+   "src_out": 3.1,
+   "ease": "linear",
+   "blur": 0.5,
+   "cam": {
+    "zoom": [
+     1.0,
+     1.0
+    ],
+    "pan": [
+     [
+      0,
+      0.12
+     ],
+     [
+      0,
+      0.12
+     ]
+    ],
+    "ease": "linear"
+   }
+  },
+  {
+   "src": "vF",
+   "t": 1.0,
+   "dur": 2.0,
+   "src_in": 0.0,
+   "src_out": 4.0,
+   "keys": [
+    [
+     1.0,
+     0.0
+    ],
+    [
+     1.75,
+     2.0
+    ],
+    [
+     2.25,
+     3.0
+    ],
+    [
+     2.6,
+     3.5
+    ],
+    [
+     3.0,
+     4.0
+    ]
+   ],
+   "blur": 0.5
+  },
+  {
+   "src": "vT",
+   "t": 3.0,
+   "dur": 4.3,
+   "src_in": 0.05,
+   "src_out": 4.6,
+   "ease": "linear",
+   "blur": 0.5
+  },
+  {
+   "src": "v4",
+   "t": 7.3,
+   "dur": 1.2,
+   "src_in": 1.2,
+   "src_out": 3.35,
+   "ease": "linear",
+   "blur": 0.7
+  },
+  {
+   "src": "v4",
+   "t": 8.5,
+   "dur": 0.4,
+   "src_in": 3.98,
+   "src_out": 3.98,
+   "ease": "linear",
+   "blur": 0.0
+  },
+  {
+   "src": "vE",
+   "t": 8.9,
+   "dur": 1.5,
+   "src_in": 0.0,
+   "src_out": 2.6,
+   "ease": "linear",
+   "blur": 0.7
+  },
+  {
+   "src": "vE",
+   "t": 10.4,
+   "dur": 2.8,
+   "src_in": 2.6,
+   "src_out": 5.0,
+   "ease": "linear",
+   "blur": 0.5
+  },
+  {
+   "src": "v7",
+   "t": 13.2,
+   "dur": 2.0,
+   "src_in": 2.3,
+   "src_out": 1.2,
+   "ease": "linear",
+   "blur": 0.5
+  },
+  {
+   "src": "v8",
+   "t": 15.2,
+   "dur": 1.0,
+   "src_in": 1.2,
+   "src_out": 1.5,
+   "ease": "linear",
+   "blur": 0.5,
+   "cam": {
+    "zoom": [
+     1.07,
+     1.07
+    ],
+    "pan": [
+     [
+      -0.025,
+      0
+     ],
+     [
+      0.025,
+      0
+     ]
+    ],
+    "ease": "linear"
+   }
+  },
+  {
+   "src": "v9",
+   "t": 16.2,
+   "dur": 0.8,
+   "src_in": 1.4,
+   "src_out": 1.6,
+   "ease": "linear",
+   "blur": 0.5,
+   "cam": {
+    "zoom": [
+     1.05,
+     1.05
+    ],
+    "roll": [
+     0,
+     0.8
+    ],
+    "ease": "linear"
+   }
+  },
+  {
+   "src": "vA",
+   "t": 17.0,
+   "dur": 1.0,
+   "src_in": 0.3,
+   "src_out": 1.6,
+   "ease": "linear",
+   "blur": 0.5,
+   "cam": {
+    "zoom": [
+     1.0,
+     1.0
+    ],
+    "pan": [
+     [
+      0,
+      0.12
+     ],
+     [
+      0,
+      0.12
+     ]
+    ],
+    "ease": "linear"
+   }
+  }
+ ],
+ "transitions": [],
+ "grade": {
+  "sat": 0.92,
+  "hot_sat": 0.78,
+  "contrast": 0.12,
+  "lift": 0.02,
+  "warmth": 0.0,
+  "halation": 0.07,
+  "grain": 0.014,
+  "vignette": 0.18,
+  "ca": 0
+ },
+ "overlays": [
+  {
+   "file": "logo_white.png",
+   "t0": 17.0,
+   "t1": 18.0,
+   "fade": [
+    17.2,
+    17.55
+   ],
+   "cx": 0.5,
+   "cy": 0.2,
+   "width": 0.46
+  }
+ ]
+}

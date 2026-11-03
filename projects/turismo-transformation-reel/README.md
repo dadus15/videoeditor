@@ -197,3 +197,40 @@ moves under the car in our clip; a parked-car regeneration would fix it (35 cred
 **Delivered:** media `dbe86bfa-114d-4907-b392-484f563f50f7`
 https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/dbe86bfa-114d-4907-b392-484f563f50f7.mp4
 (the first v3 render, before the dive retiming: `1a9c83bd-d072-403a-8843-d6be03ff37bd`).
+
+## v4: intro rebuilt 1:1 (3 Nov 2026)
+
+The brief was to analyse the intro in detail; it has to be the exact same clip. Sheets are in `analysis/`:
+`ref_intro_0-3.4s_10fps.jpg`, `ref_shot1_25fps.jpg`, `ref_shot11_10fps.jpg`, `ref_matchcut_1.0s.jpg`.
+
+**What the reference actually does** (v1–v3 had shots 1, 2 and 11 wrong):
+- **Shot 1 (0.00–0.96):**
+  - The wheel and tyre **lie flat, face up**, on a glossy black mirror floor; the camera is low, about 20° above
+    the floor.
+  - The face reads as a wide ellipse; the wheel sits in the lower part of the frame (centre at about 0.66 H,
+    width about 0.86 W) with empty black above.
+  - From 0.0 to 0.2 s the spoke centre is still settling into the barrel (the spoke tips stand proud); after
+    that the wheel spins with motion blur until the cut. The camera is locked.
+- **Shot 11 (17.0–18.0):** the same set-up. The spoke centre floats well above the barrel (exploded view) and
+  descends into it. The film loops into shot 1, which is the end of that settle.
+- **Cut at 1.0 s:** a **match cut**. The flat wheel becomes the car's front wheel seen from above, at the same
+  position and size in the frame.
+- **Shot 2 (1.0–3.0):** an FPV take that starts **rolled 90°** (horizon vertical, sky on the left, road on the
+  right, the fender and wheel at the bottom).
+  - 1.0–1.7 s: it flies along the fender, over the wheel arch, the headlight and the bumper corner.
+  - 1.8–2.2 s: the roll is about 45°.
+  - 2.3–2.6 s: it swings out in front of the car and the horizon comes back to level.
+  - 2.6–3.0 s: a low front 3/4 of the car driving at the camera, continuous into the transformation.
+
+**Rebuild:** for MSP02 2PC, the reference's exploded spoke centre becomes our gold centre lifting out of the
+chrome barrel.
+- **KA:** the assembled wheel flat on black.
+- **KB:** KA edited so the gold centre floats above the barrel.
+- **KF:** a 16:9 FPV frame hugging the front-left wheel, rotated 90° in the sandbox into a 9:16 portrait. This is
+  the exact rolled opening frame.
+- **Clips:**
+  - VA (start KB, end KA): the centre descends and seats, then the wheel spins. It feeds both 17–18 s and
+    0–1 s, so the film loops seamlessly.
+  - VF (start KF rotated, end 1544ce1b): the barrel roll back to level, ending on the transformation's first
+    frame.
+- **Spend:** 3 keyframes at 2.75 credits each, plus 2 clips at 28 credits each.

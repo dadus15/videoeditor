@@ -12,7 +12,8 @@ speed ramp samples real in-between frames:
 
 Plan JSON (see templates/reel_finish_turismo_msp02.json):
   fps (output, e.g. 30), duration (s), size [w, h], src_fps (96), workdir, audio, frames_dir ("hf")
-  shots: [{src, t, dur, src_in, src_out, ease, shake, blur, cam}]   t/dur = place in the film (s);
+  shots: [{src, t, dur, src_in, src_out, ease, shake, blur, cam, keys}]   t/dur = place in the film (s);
+         keys: [[film_t, src_t], ...] = smooth monotone retime through measured beats (overrides src_in/out/ease)
          src_in/src_out = source seconds consumed (src_out < src_in plays backwards, equal values hold a frame);
          ease = linear|in|out|inout|ramp (fast-slow-fast)
          shake = drone micro-shake in px; blur = shutter (0.5 = 180 degrees, scaled by speed)
@@ -31,6 +32,20 @@ from pathlib import Path
 
 import numpy as np
 from PIL import Image, ImageFilter
+
+def pchip(keys, x):
+    """Monotone cubic (Fritsch-Carlson) through keys [[x, y], ...]: no overshoot, so no backward frames."""
+    xs = [k[0] for k in keys]
+    ys = [k[1] for k in keys]
+    n = len(xs)
+    d = [(ys[i + 1] - ys[i]) / (xs[i + 1] - xs[i]) for i in range(n - 1)]
+    m = [d[0]] + [0.0 if d[i - 1] * d[i] <= 0 else 2 / (1 / d[i - 1] + 1 / d[i]) for i in range(1, n - 1)] + [d[-1]]
+    i = max(0, min(n - 2, sum(1 for v in xs if v <= x) - 1))
+    h = xs[i + 1] - xs[i]
+    u = (x - xs[i]) / h
+    h00, h10, h01, h11 = 2*u**3 - 3*u**2 + 1, u**3 - 2*u**2 + u, -2*u**3 + 3*u**2, u**3 - u**2
+    return h00 * ys[i] + h10 * h * m[i] + h01 * ys[i + 1] + h11 * h * m[i + 1]
+
 
 EASE = {
     "linear": lambda u: u,
@@ -91,6 +106,8 @@ class Finisher:
         return cur
 
     def src_time(self, s, t):
+        if s.get("keys"):          # [[film_t, src_t], ...]: smooth monotone retime through measured beats
+            return pchip(s["keys"], min(max(t, s["keys"][0][0]), s["keys"][-1][0]))
         u = min(max((t - s["t"]) / s["dur"], 0.0), 1.0)
         return s["src_in"] + (s["src_out"] - s["src_in"]) * EASE[s.get("ease", "linear")](u)
 

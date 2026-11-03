@@ -47,5 +47,15 @@
  "clips_v3": {
   "VT_transformation_locked_cam (omni: start 1544ce1b, end 83f7da03, ref 88c9ceef)": "7a3b30f5-b7bb-4e22-b189-7ea908c9a611",
   "VE_emerge_pullback_driveaway (omni: start 276da64e, end f9b79f89, refs 71613174, 1d27274d)": "054620a6-1ce8-4811-b879-36d7393769ff"
+ },
+ "keyframes_intro_v4": {
+  "KA_msp02_flat_on_black_assembled": "fbaab93e-f9b1-4794-b54a-04c7b544ee5f",
+  "KB_msp02_flat_exploded_centre_lifted": "09958ce2-98f0-4e8e-9516-e77f576e1e57",
+  "KF_fpv_front_wheel_16x9 (job)": "23612cde-e03a-4e49-9732-09df2d2902ce",
+  "KF_fpv_front_wheel_rot90_portrait (upload)": "a2ef8669-4899-4dec-bffe-4e685c40f5ca"
+ },
+ "clips_intro_v4": {
+  "VA_assembly_spin_loop (start KB, end KA, ref 8476b598)": "6e6a27f9-7fd7-4ba2-9b79-443bdc44986c",
+  "VF_fpv_roll90_to_level (start KF rot90, end 1544ce1b, ref 805977f1)": "1c3bb573-c9df-4ecf-8c68-34455ce84226"
  }
 }

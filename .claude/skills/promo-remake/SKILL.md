@@ -125,6 +125,19 @@ Read `references/higgsfield-pipeline.md` before the first call. Key facts:
   and check ours with `--compare ours.csv`.
 - **Copy only what the reference does.** If its cuts are clean, use no whip, zoom or impact effects and no
   added shake. Effects the reference lacks are what make a cut look "touched by AI".
+- **Read the opening at 10–25 fps, never at 2 fps.** The first 3 s carry the hook, and coarse sheets hide it. In
+  the VANTA reel they hid three things:
+  - the wheel lies flat on a mirror floor;
+  - its spoke centre settles into the barrel and loops with the end shot;
+  - the cut at 1.0 s is a match cut into an FPV take that starts rolled 90°.
+- **Rolled FPV openers:** generate the first frame in 16:9 with a level horizon, rotate it 90° in the sandbox,
+  so it fills 9:16 exactly, and upload it as Seedance `start_image`. Use the next shot's first frame as
+  `end_image` and describe the barrel roll back to level. One 4 s clip does it.
+- **Exploded 2PC loops:** keyframe A shows the wheel assembled; keyframe B is A edited so the centre floats above
+  the barrel. A Seedance clip (start B, end A, "descend, seat, spin") feeds both the end shot and the opening, for
+  a seamless loop.
+- **Retime to beats:** with `keys: [[film_t, src_t], ...]` in a `reel_finish.py` shot, a monotone cubic carries
+  each measured beat (roll 90°, 45°, level) to the reference time.
 - **Finishing** uses `scripts/reel_finish.py plan.json` (template `templates/reel_finish_turismo_msp02.json`).
   1. Interpolate every clip to 96 fps with minterpolate (one job per clip, in parallel on an XL sandbox,
      about 4 min).
