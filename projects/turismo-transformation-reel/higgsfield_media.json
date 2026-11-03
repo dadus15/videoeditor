@@ -21,5 +21,14 @@
     "K8_front_wheel_close_snow": "68329f2f-8142-4681-9d9f-4d109a0cd20c",
     "K9_rear_wheel_wing_snow": "8f8ebc9c-230b-4c96-b8f9-62de5ba24ef6"
   },
-  "clips": {}
+  "clips": {},
+  "keyframes_v2_high": {
+    "K1_wheel_black": "35c608ca-a28f-4c4c-8f80-d4b9afd4d0ad",
+    "K3a_front34_stock_palms (edit of K3b)": "1544ce1b-290e-48fa-936f-5c3fcc830eb2",
+    "K3b_front34_msp02_palms": "83f7da03-ee89-4981-8ef3-0d14788f88ff",
+    "K4_dive_macro_msp02": "33003b58-6726-47b2-b51b-104825ff53fb",
+    "K5_side_window_snow": "69684bb4-bd05-4e56-8de2-32a36cb43cc7",
+    "K8_front_wheel_close_snow": "8125310d-a748-4f0b-9a14-9fc840759f99",
+    "K9_rear_wheel_wing_snow": "1d7bffff-3c0b-4f84-94fc-0bc4715dbf65"
+  }
 }

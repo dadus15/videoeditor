@@ -44,3 +44,13 @@ The first keyframes (GPT Image 2.5, low quality, 1k):
 The keyframes with a visible wheel are being regenerated at high quality (2k) with the DNA above:
 - K1: as an edit of the client's render, wheel kept unchanged;
 - K4, K5, K6, K8, K9: regenerated with the DNA.
+
+**Result of the high-quality pass (2k, quality high, the DNA in every prompt, edits of earlier frames where
+possible):**
+- **Fixed:** 10 Y-forked spokes, the gold bolt ring with rivets, the deep chrome lip, and the turbine-facet cap with
+  the GT logo all read correctly in K1, K4, K8 and K9.
+- **Bonus:** the macro (K4) shows the TURISMO / FORGED hub engraving.
+- **Cost:** 2.75 credits per frame.
+
+**Lesson:** low-quality 1k frames simplify complex mesh wheels into a generic BBS look. Always use quality high at
+2k and paste the measured spec.
