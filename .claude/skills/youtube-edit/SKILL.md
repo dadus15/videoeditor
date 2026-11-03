@@ -17,6 +17,7 @@ Use the bundled files in `references/` when relevant:
 - `README.md` describes the original kit and its components.
 - `AUTOMOTIVE-SHORTS.md` is the detailed playbook for short product or automotive films: source forensics, framing, transitions, brand bookends, audio, QC, and gotchas. Read it before any non-talking-head product edit.
 - `BRAND-TURISMO.md` holds the Turismo Wheels brand tokens and asset notes.
+- To rebuild someone else's product commercial 1:1 for a Turismo product (reference forensics → CGI motion guide → Higgsfield AI video → assembly), use the separate `promo-remake` skill.
 
 ## Tools in this skill
 

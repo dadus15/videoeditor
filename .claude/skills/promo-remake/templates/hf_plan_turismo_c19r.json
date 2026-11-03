@@ -1,0 +1,38 @@
+{
+  "_note": "Turismo Forged C19R promo (Nov 2026), the approved master. Reference: Vossen Hybrid Forged Series, 34.72 s. Frames at 25 fps. Later timeline entries override earlier ones.",
+  "fps": 25,
+  "frames": 868,
+  "size": [1920, 1080],
+  "workdir": "/home/user/c19r",
+  "audio": "score.mp3",
+  "sources": {
+    "book": {"file": "bookends.mp4"},
+    "seg1": {"file": "ai1.mp4", "retime_to": 7.84},
+    "seg2": {"file": "ai2.mp4", "retime_to": 6.08},
+    "seg3": {"file": "ai3.mp4", "retime_to": 7.76},
+    "seg4": {"file": "ai4.mp4", "retime_to": 8.44},
+    "p1": {"file": "p1.mp4"},
+    "p2": {"file": "p2.mp4"},
+    "p3": {"file": "p3.mp4"},
+    "p4": {"file": "p4.mp4"}
+  },
+  "white": ["book", 65],
+  "timeline": [
+    {"_": "title card", "from": 0, "to": 64, "src": "book", "in": 0},
+    {"_": "AI segment 1: line-up .. turntable", "from": 64, "to": 260, "src": "seg1", "in": 0},
+    {"_": "white bridge", "from": 260, "to": 264, "src": "book", "in": 64},
+    {"_": "AI segment 2: windowed-lip macro, ghost hub", "from": 264, "to": 416, "src": "seg2", "in": 0},
+    {"_": "AI segment 3: montage A, dark hero", "from": 416, "to": 610, "src": "seg3", "in": 0},
+    {"_": "white bridge", "from": 610, "to": 615, "src": "book", "in": 68},
+    {"_": "AI segment 4: montage B, bronze hero, whip", "from": 615, "to": 826, "src": "seg4", "in": 0},
+    {"_": "end card", "from": 826, "to": 868, "src": "book", "in": 73},
+
+    {"_": "PATCH line-up (video edit kept the old star wheels)", "from": 64, "to": 120, "src": "p1", "in": 6, "fade_out": [4.0, 4.6]},
+    {"_": "PATCH gloss flash + flat wheel with whip", "from": 189, "to": 213, "src": "p3", "in": 60},
+    {"_": "PATCH ghost hub", "from": 370, "to": 416, "src": "p2", "in": 0, "ghost": [14.8, 16.64, 0.55]},
+    {"_": "PATCH centre-cap close-up", "from": 477, "to": 483, "src": "p2", "in": 50},
+    {"_": "PATCH hub flash", "from": 505, "to": 515, "src": "p2", "in": 75},
+    {"_": "dark hero starts where the AI clip is clean, slowed to fill", "from": 515, "to": 610, "src": "seg3", "in": 115, "span": 79},
+    {"_": "PATCH whip into the cap (2x speed)", "from": 810, "to": 826, "src": "p4", "in": 30, "speed": 2}
+  ]
+}
