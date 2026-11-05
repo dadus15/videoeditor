@@ -398,3 +398,48 @@ The full measured breakdown is in `TECH_ANALYSIS.md`.
   - media `abc81ad7-73a4-4212-9ba9-3dc921525535`:
     https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/abc81ad7-73a4-4212-9ba9-3dc921525535.mp4
 - **New guides for `video_edit`:** `93f74ab7` (A), `45397b05` (B). They supersede `6c02e284` and `66489d0e`.
+
+## v6 film (5 Nov 2026): slow motion, metamorphosis, in-camera transitions
+
+Feedback on animatic v2: still not the same; the original has slow motion, the Porsche metamorphosis and
+interesting transitions and effects.
+
+**Credits:** Higgsfield was at 0, so the missing photoreal metamorphosis came from Seedance through the Tella
+connector (Pro trial, 4,500 credits).
+- Seedance 2.5 with an image reference failed every time; 2.0 Fast with a reference works.
+- Portrait references fail, so the reference is our style frame SF2 centred on a 16:9 canvas with blurred sides.
+- Clip `su_cmw3kjyr2000108lb1gaag2q9` (2.0 Fast, 915 credits): the yellow 911 with an open frunk; the white RS
+  bonnet with vents floats, descends in slow motion and lands. The 404×720 centre crop is the vertical shot.
+- Clip `su_cmw3kk17k000l08l8cq376bix` (2.5 text-only, 1080p, about 3,000 credits): a backup angle, unused.
+- Tella credits are now 0. Download path: `get_source_thumbnail(format mp4, full duration, width 1280/1920)`
+  gives a signed MP4 URL that the Higgsfield sandbox can fetch.
+
+**Edit:** `cgi/reel_v6.py`, a per-frame compositor in the sandbox, 30 fps, 1080×1920.
+- All sources are interpolated to 96 fps, so every slow-down is real slow motion (no frame repeats).
+- Timeline:
+
+| Time (s) | Shot |
+|---|---|
+| 0–1.04 | vA, MSP02 assembly loop |
+| 1.04–3.0 | vF repainted yellow with `recolor_car.py`, speed-ramped, rolled FPV |
+| 3.0–6.9 | Tella metamorphosis, slow, with a gentle creep-in |
+| 6.9–8.45 | Same clip at 0.45× slow motion, with an exponential digital push-in (×5.5) and zoom motion blur toward the bonnet paint, fading into |
+| 8.45–8.95 | 0.5 s flat white-paint hold (push-through transition) |
+| 8.95–10.6 | vE bursting out: digital zoom 3.2× → 1× with an explosive ease-out and blur, from the gold MSP02 macro to the white GT3 RS in the snow |
+| 10.6–13.3 | Chase |
+| 13.3–17.07 | v7/v8/v9 beauty shots in slow motion (0.5×) |
+| 17.07–18 | vA with the logo |
+
+- Motion blur: 270° shutter, with adaptive sub-frame sampling (source time and zoom).
+- Grade, as measured in `TECH_ANALYSIS.md`: high-key; the FPV sunset oranges are pulled to neutral with the
+  yellow paint kept; the snow world is lifted and cool; soften instead of sharpen; fine grain.
+
+**Result v6:**
+- 1080×1920, 30 fps, 540 frames, 18.0 s; 0 black frames; −14.1 LUFS, −1.7 dBTP.
+- **Delivered:** media `b7a008f8-6940-4db0-8e0e-cdee62be8ceb`
+  https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/b7a008f8-6940-4db0-8e0e-cdee62be8ceb.mp4
+- **Known limits:**
+  - The metamorphosis is a 404 px-wide crop of a 720p clip, upscaled, so it is softer than the rest.
+  - A brief puddle-like reflection artefact sits low in frame at 3.3–4.0 s.
+  - The stock bonnet's burst-off (2.25 s) and the rising wing (10.5 s) are not in the generated material: those
+    two beats would need another 2 clips, about 1,830 Tella or about 60 Higgsfield credits.

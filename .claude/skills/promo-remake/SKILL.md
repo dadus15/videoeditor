@@ -176,6 +176,17 @@ Read `references/higgsfield-pipeline.md` before the first call. Key facts:
   motion blur by temporal supersampling: minterpolate to 4× fps, `tmix=frames=3` (a 270° shutter), back to the
   delivery fps. Grade to the measured stats: AI output is typically about 1 stop darker, oversaturated and 2–3×
   too sharp.
+- **When Higgsfield credits run out, check the other connectors.** Tella's `generate_video` (Seedance) worked:
+  - 2.0 Fast with an image reference; references must be landscape, so pad a 9:16 frame onto a blurred 16:9
+    canvas and crop the centre afterwards.
+  - Seedance 2.5 with a reference failed, and text-only 2.5 cost about 3,000 credits.
+  - Download with `get_source_thumbnail(format mp4, width 1280/1920)` and fetch the URL in the sandbox.
+- **Editing effects that sell the reference's motion:** use `scripts/reel_v6_compositor.py`.
+  - Real slow motion from 96 fps interpolation.
+  - PCHIP speed ramps.
+  - An exponential digital push-in with zoom blur into a flat-paint hold (push-through transition).
+  - An explosive zoom-out reveal.
+  - Hue-selective sky neutralising, to match worlds without touching the paint.
 - **Finishing** uses `scripts/reel_finish.py plan.json` (template `templates/reel_finish_turismo_msp02.json`).
   1. Interpolate every clip to 96 fps with minterpolate (one job per clip, in parallel on an XL sandbox,
      about 4 min).
