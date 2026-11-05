@@ -83,8 +83,8 @@ WARP = {
 # relative camera speed (m/s, before scaling to the path length) for B: a slow glide on the door paint (continuous
 # with the end of A), the burst out of the glass peaking at about 9.6, then the car pulls away ever faster; the
 # curve is Gaussian-smoothed so the speed has no corners
-SPEED = {"B": [(8.65, 0.5), (8.95, 0.9), (9.25, 3.5), (9.65, 7.0), (10.0, 6.0), (10.5, 4.0), (11.0, 4.5),
-               (12.0, 8.0), (13.32, 12.0)]}
+SPEED = {"B": [(8.65, 0.5), (8.95, 0.8), (9.25, 2.2), (9.55, 6.0), (9.70, 7.5), (10.0, 6.5), (10.5, 3.0),
+               (11.0, 3.0), (11.6, 5.0), (12.4, 10.0), (13.32, 16.0)]}
 _ARC = {}
 
 
@@ -639,8 +639,9 @@ def resolve_keys(seg, objs):
         V, NV = surface(nb, xv, -0.30)
         B1, NB1 = surface(nb, xv - 0.22, -0.30)
         B2, _ = surface(nb, xv - 0.34, -0.30)
-        sym.update({"VENT": V + NV * 0.13, "BEHIND": B1,
-                    "GLIDE": B1 + NB1 * 0.06 + Vector((-0.03, 0, 0)), "GLIDET": B2})
+        # look down into the paint (targets below the surface), so the frame is paint only once past the vent
+        sym.update({"VENT": V + NV * 0.13, "BEHIND": B1 - NB1 * 0.30,
+                    "GLIDE": B1 + NB1 * 0.06 + Vector((-0.03, 0, 0)), "GLIDET": B2 - NB1 * 0.20})
     else:
         body = objs["body"]
         mw = body.matrix_world
