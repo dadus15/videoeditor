@@ -45,9 +45,9 @@ KEYS = {
         (2.05, (3.60, 1.60, 0.60), (1.60, 0.45, 0.55), -45, 16),
         (2.30, (4.20, 2.20, 0.45), (1.60, 0.40, 0.60), -28, 17),
         (2.60, (4.90, 1.60, 0.50), (1.50, 0.20, 0.70), -10, 19),
-        (3.00, (6.40, 0.30, 0.70), (1.40, 0.00, 0.95), 0, 22),
-        (4.50, (6.25, 0.10, 0.75), (1.40, 0.00, 1.15), 0, 22),
-        (6.00, (5.90, -0.45, 0.80), (1.40, -0.05, 0.95), 0, 22),
+        (3.00, (5.70, 0.30, 0.55), (1.40, 0.00, 0.80), 0, 22),
+        (4.50, (5.55, 0.10, 0.58), (1.40, 0.00, 0.88), 0, 22),
+        (6.00, (5.30, -0.45, 0.65), (1.40, -0.05, 0.85), 0, 22),
         (6.90, (4.90, -1.90, 0.95), (1.50, -0.15, 0.80), 0, 22),
         (7.50, (3.70, -2.00, 1.10), (1.70, -0.25, 0.85), -3, 20),
         (8.10, "DIVE1", "DIVEP", -10, 20),
@@ -66,7 +66,7 @@ KEYS = {
 }
 # film clock -> path clock (speed ramps, measured): (film t0, t1, path p0, p1, shape (a, b) of u^a (1-u)^b)
 WARP = {
-    "A": [(1.04, 3.10, 1.04, 3.00, (0.6, 1.2)),
+    "A": [(1.04, 3.10, 1.04, 3.00, (0.25, 0.5)),
           (3.10, 5.40, 3.00, 5.40, (0.0, 0.0)),
           (5.40, 8.45, 5.40, 8.75, (2.6, 0.0))],
     "B": [(8.95, 10.60, 8.75, 10.75, (1.0, 1.6)),
@@ -523,13 +523,18 @@ def world(seg):
     sep = nt.nodes.new("ShaderNodeSeparateXYZ")
     ramp = nt.nodes.new("ShaderNodeValToRGB")
     nt.links.new(tc.outputs["Generated"], sep.inputs[0])
-    nt.links.new(sep.outputs["Z"], ramp.inputs["Fac"])
-    hor, zen, gnd = ((1.00, 0.96, 0.90), (0.72, 0.74, 0.78), (0.25, 0.24, 0.22)) if seg == "A" else \
-        ((0.86, 0.91, 0.96), (0.58, 0.64, 0.72), (0.25, 0.27, 0.30))
+    z01 = nt.nodes.new("ShaderNodeMath")
+    z01.operation = "MULTIPLY_ADD"
+    z01.inputs[1].default_value = 0.5
+    z01.inputs[2].default_value = 0.5
+    nt.links.new(sep.outputs["Z"], z01.inputs[0])
+    nt.links.new(z01.outputs[0], ramp.inputs["Fac"])
+    hor, zen, gnd = ((1.00, 0.97, 0.93), (0.80, 0.82, 0.85), (0.25, 0.24, 0.22)) if seg == "A" else \
+        ((0.88, 0.93, 0.98), (0.62, 0.68, 0.76), (0.25, 0.27, 0.30))
     r = ramp.color_ramp
-    r.elements[0].position, r.elements[0].color = 0.47, (*gnd, 1)
-    r.elements[1].position, r.elements[1].color = 0.80, (*zen, 1)
-    e = r.elements.new(0.505)
+    r.elements[0].position, r.elements[0].color = 0.49, (*gnd, 1)
+    r.elements[1].position, r.elements[1].color = 0.85, (*zen, 1)
+    e = r.elements.new(0.502)
     e.color = (*hor, 1)
     # soft clouds: noise on the view direction, only above the horizon
     nz = nt.nodes.new("ShaderNodeTexNoise")
@@ -543,11 +548,11 @@ def world(seg):
     cr.color_ramp.elements[1].color = (0.72, 0.74, 0.78, 1) if seg == "A" else (0.55, 0.60, 0.68, 1)
     nt.links.new(nz.outputs["Fac"], cr.inputs["Fac"])
     mask = nt.nodes.new("ShaderNodeMapRange")
-    mask.inputs["From Min"].default_value = 0.51
-    mask.inputs["From Max"].default_value = 0.60
+    mask.inputs["From Min"].default_value = 0.505
+    mask.inputs["From Max"].default_value = 0.56
     mask.inputs["To Min"].default_value = 0.0
     mask.inputs["To Max"].default_value = 0.65
-    nt.links.new(sep.outputs["Z"], mask.inputs["Value"])
+    nt.links.new(z01.outputs[0], mask.inputs["Value"])
     mix = nt.nodes.new("ShaderNodeMix")
     mix.data_type = "RGBA"
     mix.blend_type = "MULTIPLY"
@@ -617,15 +622,15 @@ def pose(seg, objs, env, t, rest):
         up = math.radians(90)
         if t < 3.40:          # from far above, upright like a shield facing the camera, growing as it nears
             v = smoothstep((t - 3.05) / 0.35) ** 0.7
-            off = Vector((-0.20, 0, 0.60)).lerp(Vector((-28.0, 0, 22.0)), 1 - v)
+            off = Vector((-0.20, 0, 0.32)).lerp(Vector((-28.0, 0, 22.0)), 1 - v)
             rot = (0.0, up, 0.25 * (1 - v))
         elif t < 6.30:        # hovers, tips from upright to flat over its front edge, sways gently
             v = smoothstep((t - 3.40) / 2.70)
-            off = Vector((-0.20 * (1 - v) + 0.05 * v, 0.05 * math.sin(t * 1.6), 0.60 * (1 - v) + 0.38 * v))
+            off = Vector((-0.20 * (1 - v) + 0.05 * v, 0.05 * math.sin(t * 1.6), 0.32 * (1 - v) + 0.30 * v))
             rot = (0.05 * math.sin(t * 1.2), up * (1 - v), 0.05 * math.sin(t * 0.9))
         else:                 # lands and seats flush
             v = smoothstep((t - 6.30) / 0.50)
-            off = Vector((0.05 * (1 - v), 0, 0.38 * (1 - v)))
+            off = Vector((0.05 * (1 - v), 0, 0.30 * (1 - v)))
             rot = (0, 0, 0)
         # pivot about the bonnet's front edge while upright: shift so the front edge stays put
         L = rest["hoodlen"]
