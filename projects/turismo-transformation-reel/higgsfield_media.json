@@ -82,5 +82,10 @@
   ],
   "animatic_v6": "d7560748-f792-4d71-9000-fdf09d5d5469",
   "styleframes_sheet": "53d8c238-01d4-4f97-9b57-4148f31b3039"
+ },
+ "v6_guide30 (speed ramps measured on the reference, 30 fps; use these for video_edit)": {
+  "guide30_A_1.04-8.75s": "93f74ab7-da8d-4695-b80e-efd966e83875",
+  "guide30_B_8.75-13.30s": "45397b05-9737-4b76-aa4d-9dd756c6eccd",
+  "animatic_v2 (30fps, 270deg motion blur on the guide, graded photoreal shots)": "abc81ad7-73a4-4212-9ba9-3dc921525535"
  }
 }

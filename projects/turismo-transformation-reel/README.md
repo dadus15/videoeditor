@@ -378,3 +378,23 @@ The method is "Playblast2Render", the industry approach found in research:
   https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/53d8c238-01d4-4f97-9b57-4148f31b3039.jpg
 - **To finish:** `video_edit` on guide A (59 credits) and guide B (35 credits). Then reassemble: replace
   1.04–13.3 in the animatic and grade.
+
+### v6, animatic v2: technical pass (fluidity, transitions, grade)
+
+The full measured breakdown is in `TECH_ANALYSIS.md`.
+- **Guide re-timed** with `WARP` speed ramps measured on the reference:
+  - FPV peak at about 1.9 s, easing to still at 3.1;
+  - metamorphosis hold;
+  - exponential ramp-in 6.3–8.45 into the vent;
+  - **0.5 s flat-paint hold** at 8.45–8.95 (push-through transition);
+  - ramp-out burst peaking at about 9.6–9.8, settling at 10.6;
+  - eased chase.
+- **Frame rate:** now 30 fps, the reference's true content rate. The guide was re-rendered (369 frames, 6
+  processes).
+- **Animatic v2:**
+  - 270° motion blur on the guide (minterpolate to 120 fps, then `tmix=3`, then 30 fps);
+  - the photoreal shots lifted toward the reference's high-key grade (gamma 1.28, sat 1.2, slightly cool,
+    softened instead of sharpened);
+  - media `abc81ad7-73a4-4212-9ba9-3dc921525535`:
+    https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/abc81ad7-73a4-4212-9ba9-3dc921525535.mp4
+- **New guides for `video_edit`:** `93f74ab7` (A), `45397b05` (B). They supersede `6c02e284` and `66489d0e`.
