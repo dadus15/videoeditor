@@ -353,50 +353,86 @@ def obj_mat(o, m):
     o.data.materials.append(m)
 
 
-def box(name, loc, size, m, parent=None, rot=(0, 0, 0)):
-    bpy.ops.mesh.primitive_cube_add(size=1, location=loc, rotation=rot)
-    o = bpy.context.object
-    o.name = name
-    o.scale = size
-    obj_mat(o, m)
+_MESH = {}
+
+
+def link(name, me, loc=(0, 0, 0), rot=(0, 0, 0), size=(1, 1, 1), parent=None):
+    o = bpy.data.objects.new(name, me)
+    bpy.context.scene.collection.objects.link(o)
+    o.location, o.rotation_euler, o.scale = loc, rot, size
     if parent:
         o.parent = parent
     return o
 
 
-def palm(env, x, y, h, lean, rng, mt, ml):
-    bpy.ops.mesh.primitive_cone_add(vertices=10, radius1=0.28, radius2=0.16, depth=h, location=(x, y, h / 2),
-                                    rotation=(lean, 0, 0))
-    t = bpy.context.object
-    obj_mat(t, mt)
-    t.parent = env
-    top = Vector((x, y - math.sin(lean) * h, math.cos(lean) * h))
+def box(name, loc, size, m, parent=None, rot=(0, 0, 0)):
+    """Instanced unit cube (one mesh per material: fast even for thousands of boxes)."""
+    me = _MESH.get("cube_" + m.name)
+    if me is None:
+        bm = bmesh.new()
+        bmesh.ops.create_cube(bm, size=1.0)
+        me = bpy.data.meshes.new("cube_" + m.name)
+        bm.to_mesh(me)
+        bm.free()
+        me.materials.append(m)
+        _MESH["cube_" + m.name] = me
+    return link(name, me, loc, rot, size, parent)
+
+
+def _cone(bm, r1, r2, depth, M, segs=8, mat=0):
+    res = bmesh.ops.create_cone(bm, cap_ends=True, segments=segs, radius1=r1, radius2=r2, depth=depth, matrix=M)
+    for f in {f for v in res["verts"] for f in v.link_faces}:
+        f.material_index = mat
+
+
+def proto_palm(h, mt, ml, rng, key):
+    bm = bmesh.new()
+    _cone(bm, 0.28, 0.16, h, Matrix.Translation((0, 0, h / 2)), 10, 0)
     for k in range(9):
         a = k / 9 * 2 * math.pi + rng.uniform(0, 0.4)
-        bpy.ops.mesh.primitive_plane_add(size=1, location=top + Vector((math.cos(a) * 1.4, math.sin(a) * 1.4, -0.35)))
-        lf = bpy.context.object
-        lf.scale = (2.8, 0.55, 1)
-        lf.rotation_euler = (rng.uniform(-0.2, 0.2), 0.45, a)
-        obj_mat(lf, ml)
-        lf.parent = env
+        M = (Matrix.Translation((math.cos(a) * 1.4, math.sin(a) * 1.4, h - 0.35))
+             @ Matrix.Rotation(a, 4, "Z") @ Matrix.Rotation(0.45, 4, "Y")
+             @ Matrix.Rotation(rng.uniform(-0.2, 0.2), 4, "X") @ Matrix.Diagonal((2.8, 0.55, 1, 1)))
+        res = bmesh.ops.create_grid(bm, x_segments=1, y_segments=1, size=0.5, matrix=M)
+        for f in {f for v in res["verts"] for f in v.link_faces}:
+            f.material_index = 1
+    me = bpy.data.meshes.new(key)
+    bm.to_mesh(me)
+    bm.free()
+    me.materials.append(mt)
+    me.materials.append(ml)
+    return me
 
 
-def bare_tree(env, x, y, h, rng, mt):
-    bpy.ops.mesh.primitive_cone_add(vertices=8, radius1=0.22, radius2=0.04, depth=h, location=(x, y, h / 2))
-    t = bpy.context.object
-    obj_mat(t, mt)
-    t.parent = env
+def proto_tree(h, mt, rng, key):
+    bm = bmesh.new()
+    _cone(bm, 0.22, 0.04, h, Matrix.Translation((0, 0, h / 2)), 8)
     for k in range(7):
         z = h * rng.uniform(0.35, 0.85)
         a = rng.uniform(0, 2 * math.pi)
         L = h * rng.uniform(0.18, 0.32)
-        bpy.ops.mesh.primitive_cylinder_add(vertices=6, radius=0.04, depth=L,
-                                            location=(x + math.cos(a) * L * 0.35, y + math.sin(a) * L * 0.35,
-                                                      z + L * 0.3),
-                                            rotation=(0.9 * math.sin(a), -0.9 * math.cos(a), 0))
-        b = bpy.context.object
-        obj_mat(b, mt)
-        b.parent = env
+        M = (Matrix.Translation((math.cos(a) * L * 0.35, math.sin(a) * L * 0.35, z + L * 0.3))
+             @ Matrix.Rotation(-0.9 * math.cos(a), 4, "Y") @ Matrix.Rotation(0.9 * math.sin(a), 4, "X"))
+        _cone(bm, 0.04, 0.02, L, M, 6)
+    me = bpy.data.meshes.new(key)
+    bm.to_mesh(me)
+    bm.free()
+    me.materials.append(mt)
+    return me
+
+
+def palm(env, x, y, h, lean, rng, mt, ml):
+    key = f"palm{int(round(h))}"
+    if key not in _MESH:
+        _MESH[key] = proto_palm(round(h), mt, ml, rng, key)
+    link("ENV_palm", _MESH[key], (x, y, 0), (lean, 0, rng.uniform(0, 6.28)), parent=env)
+
+
+def bare_tree(env, x, y, h, rng, mt):
+    key = f"tree{int(round(h))}"
+    if key not in _MESH:
+        _MESH[key] = proto_tree(round(h), mt, rng, key)
+    link("ENV_tree", _MESH[key], (x, y, 0), (0, 0, rng.uniform(0, 6.28)), parent=env)
 
 
 def road_material(name, rgb, rough, wet=False):
@@ -427,39 +463,39 @@ def build_env(seg):
     rng = np.random.default_rng(7)
     env = bpy.data.objects.new("ENV", None)
     bpy.context.scene.collection.objects.link(env)
-    L = 1400
+    L, X0 = 700, 150
     line = principled("line", (0.75, 0.75, 0.72), 0.5)
     if seg == "A":
-        box("ENV_road", (0, 0, -0.02), (L, 14, 0.04), road_material("asphalt", (0.10, 0.10, 0.10), 0.7), env)
-        for x in np.arange(-L / 2, L / 2, 9):
+        road = box("ENV_road", (X0, 0, -0.02), (L, 14, 0.04), road_material("asphalt", (0.10, 0.10, 0.10), 0.7), env)
+        for x in np.arange(X0 - L / 2, X0 + L / 2, 9):
             box("ENV_dash", (x, 2.1, 0.005), (3.0, 0.14, 0.01), line, env)
             box("ENV_dash", (x + 4.5, -5.3, 0.005), (3.0, 0.14, 0.01), line, env)
         kerb = principled("kerb", (0.45, 0.44, 0.41), 0.8)
-        box("ENV_kerbL", (0, 7.6, 0.1), (L, 1.2, 0.2), kerb, env)
-        box("ENV_kerbR", (0, -7.6, 0.1), (L, 1.2, 0.2), kerb, env)
+        box("ENV_kerbL", (X0, 7.6, 0.1), (L, 1.2, 0.2), kerb, env)
+        box("ENV_kerbR", (X0, -7.6, 0.1), (L, 1.2, 0.2), kerb, env)
         rock = principled("rock", (0.20, 0.18, 0.15), 0.9)
-        for x in np.arange(-L / 2, L / 2, 3.2):
+        for x in np.arange(X0 - L / 2, X0 + L / 2, 3.2):
             s = rng.uniform(0.8, 1.6)
             box("ENV_rock", (x, 9.3 + rng.uniform(-0.4, 0.4), 0.3), (s, s * 0.9, s * 0.7), rock, env,
                 rot=(rng.uniform(0, 1), rng.uniform(0, 1), rng.uniform(0, 3)))
         box("ENV_sea", (0, 160, -0.3), (L * 2, 300, 0.1), principled("sea", (0.30, 0.38, 0.42), 0.15), env)
         box("ENV_verge", (0, -60, -0.03), (L * 2, 100, 0.05), principled("verge", (0.32, 0.29, 0.22), 0.9), env)
         mt, ml = principled("trunk", (0.22, 0.17, 0.12), 0.9), principled("leaf", (0.06, 0.13, 0.05), 0.6)
-        for x in np.arange(-L / 2, L / 2, 16):
+        for x in np.arange(X0 - L / 2, X0 + L / 2, 16):
             palm(env, x + rng.uniform(-2, 2), -9.5, rng.uniform(9, 13), rng.uniform(-0.12, 0.05), rng, mt, ml)
             if rng.random() < 0.5:
                 palm(env, x + 8, 8.6, rng.uniform(8, 12), rng.uniform(-0.05, 0.12), rng, mt, ml)
     else:
-        box("ENV_road", (0, 0, -0.02), (L, 10, 0.04), road_material("wet", (0.025, 0.027, 0.03), 0.1, True), env)
-        for x in np.arange(-L / 2, L / 2, 9):
+        road = box("ENV_road", (X0, 0, -0.02), (L, 10, 0.04), road_material("wet", (0.025, 0.027, 0.03), 0.1, True), env)
+        for x in np.arange(X0 - L / 2, X0 + L / 2, 9):
             box("ENV_dash", (x, -1.9, 0.005), (3.0, 0.13, 0.01), line, env)
-        box("ENV_edgeL", (0, 4.6, 0.005), (L, 0.12, 0.01), line, env)
-        box("ENV_edgeR", (0, -4.6, 0.005), (L, 0.12, 0.01), line, env)
+        box("ENV_edgeL", (X0, 4.6, 0.005), (L, 0.12, 0.01), line, env)
+        box("ENV_edgeR", (X0, -4.6, 0.005), (L, 0.12, 0.01), line, env)
         snow = principled("snow", (0.78, 0.80, 0.84), 0.85)
-        box("ENV_snowL", (0, 40, 0.15), (L, 70, 0.3), snow, env)
-        box("ENV_snowR", (0, -40, 0.15), (L, 70, 0.3), snow, env)
+        box("ENV_snowL", (X0, 40, 0.15), (L, 70, 0.3), snow, env)
+        box("ENV_snowR", (X0, -40, 0.15), (L, 70, 0.3), snow, env)
         mt = principled("bark", (0.04, 0.035, 0.03), 0.9)
-        for x in np.arange(-L / 2, L / 2, 11):
+        for x in np.arange(X0 - L / 2, X0 + L / 2, 11):
             bare_tree(env, x + rng.uniform(-3, 3), 8 + rng.uniform(0, 6), rng.uniform(7, 12), rng, mt)
             bare_tree(env, x + rng.uniform(-3, 3), -8 - rng.uniform(0, 6), rng.uniform(7, 12), rng, mt)
         mtn = principled("mountain", (0.62, 0.66, 0.72), 0.9)
@@ -473,6 +509,8 @@ def build_env(seg):
                                             rotation=(0, 0, rng.uniform(0, 3)))
             m = bpy.context.object
             obj_mat(m, mtn if rng.random() < 0.65 else rock)
+    road.data.transform(Matrix.Diagonal((*road.scale, 1)))       # real metres for the asphalt texture
+    road.scale = (1, 1, 1)
     return env
 
 
