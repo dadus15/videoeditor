@@ -58,7 +58,7 @@ KEYS = {
         (6.90, (4.30, -1.85, 1.20), (1.60, -0.18, 0.85), -2, 21),
         (7.55, (3.40, -1.60, 1.20), (1.80, -0.25, 0.75), -5, 20),
         (8.00, "DIVE1", "DIVEP", -9, 20),
-        (8.30, "DIVE2", "DIVEP", -13, 20),
+        (8.33, "DIVE2", "DIVEP", -13, 20),
         (8.45, "DIVE3", "DIVET", -12, 20),
     ],
     "B": [
@@ -604,7 +604,7 @@ def resolve_keys(seg, objs):
         px = nb.location.x + min(xs) + 0.80 * L                       # just ahead of the right vent
         P, N = surface(nb, px, -0.30)
         print("DIVE point", P, N)
-        sym = {"DIVEP": P, "DIVE1": P + Vector((0.95, -0.60, 0.35)), "DIVE2": P + Vector((0.28, -0.12, 0.12)),
+        sym = {"DIVEP": P, "DIVE1": P + Vector((0.95, -0.60, 0.35)), "DIVE2": P + Vector((0.40, -0.18, 0.18)),
                "DIVE3": P + N * 0.035 + Vector((0.01, 0, 0)), "DIVET": P + Vector((-0.12, 0.0, 0.0)) - N * 0.4}
     else:
         body = objs["body"]
