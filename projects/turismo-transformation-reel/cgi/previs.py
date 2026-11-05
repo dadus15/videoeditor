@@ -61,7 +61,7 @@ KEYS = {
         (8.33, "DIVE2", "DIVEP", -13, 20),
         # the reference never stops on the paint: the camera skims over the vent (it slides out of the bottom of
         # the frame) and glides on, slowing, over the bonnet paint, which becomes the new car's door paint in B
-        (8.50, "VENT", "BEHIND", -13, 20),
+        (8.45, "VENT", "BEHIND", -13, 20),
         (8.75, "GLIDE", "GLIDET", -15, 20),
     ],
     "B": [   # path shape only: the speed along it comes from SPEED (arc length), so the motion has no stalls
@@ -637,8 +637,8 @@ def resolve_keys(seg, objs):
                }
         xv = nb.location.x + min(xs) + 0.55 * L                       # vent centre (see add_vents)
         V, NV = surface(nb, xv, -0.30)
-        B1, NB1 = surface(nb, xv - 0.22, -0.30)
-        B2, _ = surface(nb, xv - 0.34, -0.30)
+        B1, NB1 = surface(nb, xv - 0.34, -0.30)       # vent spans xv +-0.18
+        B2, _ = surface(nb, xv - 0.44, -0.30)
         # look down into the paint (targets below the surface), so the frame is paint only once past the vent
         sym.update({"VENT": V + NV * 0.13, "BEHIND": B1 - NB1 * 0.30,
                     "GLIDE": B1 + NB1 * 0.06 + Vector((-0.03, 0, 0)), "GLIDET": B2 - NB1 * 0.20})
