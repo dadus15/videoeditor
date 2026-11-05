@@ -45,14 +45,21 @@ KEYS = {
         (2.05, (3.00, 1.50, 0.60), (1.60, 0.70, 0.50), -45, 16),
         (2.30, (3.40, 1.65, 0.55), (1.50, 0.55, 0.55), -32, 17),
         (2.60, (4.50, 1.40, 0.50), (1.50, 0.20, 0.70), -10, 19),
-        (3.00, (6.60, 0.30, 0.55), (1.40, 0.00, 0.95), 0, 22),
-        (4.50, (6.45, 0.10, 0.58), (1.40, 0.00, 1.00), 0, 22),
-        (6.00, (6.10, -0.45, 0.65), (1.40, -0.05, 0.92), 0, 22),
-        (6.90, (4.90, -1.90, 0.95), (1.50, -0.15, 0.80), 0, 22),
-        (7.50, (3.70, -2.00, 1.10), (1.70, -0.25, 0.85), -3, 20),
-        (7.90, "DIVE1", "DIVEP", -8, 20),
-        (8.40, "DIVE2", "DIVEP", -12, 20),
-        (8.75, "DIVE3", "DIVET", -12, 20),
+        # metamorphosis: the camera never stops (measured on the reference at 5 fps):
+        # arc from the front-left 3/4 to dead front (2.8-3.45), slow drift (3.45-5.0), then a continuous arc to
+        # the front-right 3/4 with a push-in (5.0-6.9) that runs straight into the dive
+        (2.85, (5.00, 1.75, 0.60), (1.40, 0.30, 0.78), -6, 20),
+        (3.10, (5.90, 0.95, 0.66), (1.40, 0.10, 0.88), -3, 21),
+        (3.45, (6.40, 0.15, 0.70), (1.40, 0.00, 0.98), 0, 22),
+        (4.20, (6.35, 0.00, 0.69), (1.40, 0.00, 1.00), 1, 22),
+        (5.00, (6.20, -0.30, 0.67), (1.40, -0.03, 0.97), 0, 22),
+        (5.60, (5.85, -0.85, 0.65), (1.45, -0.06, 0.92), -1, 22),
+        (6.20, (5.20, -1.40, 0.64), (1.50, -0.10, 0.86), 0, 22),
+        (6.90, (4.30, -1.85, 0.68), (1.60, -0.18, 0.82), -2, 21),
+        (7.50, (3.40, -1.60, 0.88), (1.80, -0.25, 0.80), -5, 20),
+        (7.95, "DIVE1", "DIVEP", -9, 20),
+        (8.25, "DIVE2", "DIVEP", -12, 20),
+        (8.45, "DIVE3", "DIVET", -12, 20),
     ],
     "B": [
         (8.75, "DOOR0", "DOORP", -35, 20),
@@ -66,9 +73,7 @@ KEYS = {
 }
 # film clock -> path clock (speed ramps, measured): (film t0, t1, path p0, p1, shape (a, b) of u^a (1-u)^b)
 WARP = {
-    "A": [(1.04, 3.10, 1.04, 3.00, (0.25, 0.5)),
-          (3.10, 5.40, 3.00, 5.40, (0.0, 0.0)),
-          (5.40, 8.45, 5.40, 8.75, (1.6, 0.0))],
+    "A": [(1.04, 8.45, 1.04, 8.45, (0.0, 0.0))],      # keys are on the film clock: speed comes from their spacing
     "B": [(8.95, 10.60, 8.75, 10.75, (1.0, 1.6)),
           (10.60, 13.30, 10.75, 13.30, (0.8, 0.0))],
 }
@@ -601,6 +606,10 @@ def cam_at(seg, K, t):
     loc = Vector(hermite(K, p, 1))
     tgt = Vector(hermite(K, p, 2))
     roll, lens = float(hermite(K, p, 3)), float(hermite(K, p, 4))
+    if seg == "A":       # drone float during the slow-motion act: tiny drift and roll, never a locked frame
+        w = smoothstep((t - 2.9) / 0.6) * (1 - smoothstep((t - 6.6) / 0.6))
+        loc += Vector((0, 0.05 * math.sin(2 * math.pi * (t - 2.9) / 3.3), 0.03 * math.sin(2 * math.pi * (t - 2.9) / 2.4))) * w
+        roll += 1.4 * math.sin(2 * math.pi * (t - 2.9) / 2.8) * w
     q = (tgt - loc).to_track_quat("-Z", "Y") @ Quaternion((0, 0, 1), math.radians(roll))
     return loc, q, lens, (tgt - loc).length
 
@@ -628,14 +637,14 @@ def pose(seg, objs, env, t, rest):
             v = smoothstep((t - 3.05) / 0.35) ** 0.7
             off = Vector((-0.35, 0, -0.12)).lerp(Vector((-28.0, 0, 22.0)), 1 - v)
             rot = (0.0, up, 0.25 * (1 - v))
-        elif t < 6.30:        # hovers, tips from upright to flat over its front edge, sways gently
-            v = smoothstep((t - 3.40) / 2.70)
-            off = Vector((-0.35 * (1 - v) + 0.05 * v, 0.05 * math.sin(t * 1.6), -0.12 * (1 - v) + 0.30 * v))
-            rot = (0.05 * math.sin(t * 1.2), up * (1 - v), 0.05 * math.sin(t * 0.9))
-        else:                 # lands and seats flush
-            v = smoothstep((t - 6.30) / 0.50)
-            off = Vector((0.05 * (1 - v), 0, 0.30 * (1 - v)))
-            rot = (0, 0, 0)
+        else:                 # hovers upright to 4.4, tips flat over its front edge by 6.2, lands 6.2-6.65
+            tilt = smoothstep((t - 4.40) / 1.80)
+            land = smoothstep((t - 6.20) / 0.45)
+            a = smoothstep((t - 3.40) / 0.6) * (1 - land)           # sway fades in after the entry, out on landing
+            lean = up - math.radians(6) * smoothstep((t - 3.40) / 1.0)
+            off = Vector(((-0.35 * (1 - tilt) + 0.05 * tilt) * (1 - land), 0.05 * math.sin(t * 1.6) * a,
+                          (-0.12 * (1 - tilt) + 0.25 * tilt) * (1 - land)))
+            rot = (0.05 * math.sin(t * 1.2) * a, lean * (1 - tilt), 0.05 * math.sin(t * 0.9) * a)
         # pivot about the bonnet's front edge while upright: shift so the front edge stays put
         L = rest["hoodlen"]
         piv = Vector((L / 2, 0, 0))
