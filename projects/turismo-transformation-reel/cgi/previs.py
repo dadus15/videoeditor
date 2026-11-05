@@ -59,9 +59,9 @@ KEYS = {
         (9.30, (-0.10, -2.00, 1.15), (-0.20, -0.90, 0.95), -30, 20),
         (9.80, (0.50, -2.60, 1.10), (0.00, -0.80, 0.85), -15, 22),
         (10.25, (-1.20, -3.40, 0.95), (-0.30, -0.50, 0.75), -5, 24),
-        (10.75, (-3.20, -3.20, 0.90), (-0.60, -0.20, 0.70), 0, 26),
-        (11.50, (-7.00, -2.40, 1.00), (-0.50, 0.00, 0.70), 0, 28),
-        (13.30, (-20.0, -1.20, 1.30), (-0.40, 0.00, 0.70), 0, 30),
+        (10.75, (-5.50, -3.00, 0.90), (-0.60, -0.20, 0.70), 0, 26),
+        (11.50, (-12.0, -2.00, 1.00), (-0.50, 0.00, 0.70), 0, 28),
+        (13.30, (-35.0, -1.00, 1.30), (-0.40, 0.00, 0.70), 0, 30),
     ],
 }
 # film clock -> path clock (speed ramps, measured): (film t0, t1, path p0, p1, shape (a, b) of u^a (1-u)^b)
@@ -499,12 +499,12 @@ def build_env(seg):
             bare_tree(env, x + rng.uniform(-3, 3), 8 + rng.uniform(0, 6), rng.uniform(7, 12), rng, mt)
             bare_tree(env, x + rng.uniform(-3, 3), -8 - rng.uniform(0, 6), rng.uniform(7, 12), rng, mt)
         # jagged snowy ranges: many overlapping low-poly peaks, snow and dark rock (static, far away)
-        mtn = principled("mountain", (0.80, 0.83, 0.88), 0.9)
-        rock = principled("mrock", (0.16, 0.19, 0.23), 0.9)
+        mtn = principled("mountain", (0.78, 0.82, 0.88), 0.9)
+        rock = principled("mrock", (0.36, 0.41, 0.48), 0.9)
         for k in range(110):
             a = rng.uniform(0, 2 * math.pi)
-            r = rng.uniform(650, 1300)
-            h = rng.uniform(110, 360)
+            r = rng.uniform(900, 1500)
+            h = rng.uniform(50, 150)
             bm = bmesh.new()
             _cone(bm, h * rng.uniform(0.8, 1.5), 0.0, h, Matrix(), int(rng.integers(4, 7)))
             me = bpy.data.meshes.new("peak")
@@ -623,14 +623,14 @@ def pose(seg, objs, env, t, rest):
         n0 = rest["newhood"]
         n.hide_render = t < 3.05
         n.rotation_mode = "XYZ"
-        up = math.radians(90)
+        up = math.radians(78)                   # upright, leaning back a little, as in the reference
         if t < 3.40:          # from far above, upright like a shield facing the camera, growing as it nears
             v = smoothstep((t - 3.05) / 0.35) ** 0.7
-            off = Vector((-0.35, 0, 0.08)).lerp(Vector((-28.0, 0, 22.0)), 1 - v)
+            off = Vector((-0.35, 0, -0.12)).lerp(Vector((-28.0, 0, 22.0)), 1 - v)
             rot = (0.0, up, 0.25 * (1 - v))
         elif t < 6.30:        # hovers, tips from upright to flat over its front edge, sways gently
             v = smoothstep((t - 3.40) / 2.70)
-            off = Vector((-0.35 * (1 - v) + 0.05 * v, 0.05 * math.sin(t * 1.6), 0.08 * (1 - v) + 0.30 * v))
+            off = Vector((-0.35 * (1 - v) + 0.05 * v, 0.05 * math.sin(t * 1.6), -0.12 * (1 - v) + 0.30 * v))
             rot = (0.05 * math.sin(t * 1.2), up * (1 - v), 0.05 * math.sin(t * 0.9))
         else:                 # lands and seats flush
             v = smoothstep((t - 6.30) / 0.50)
@@ -665,7 +665,7 @@ def setup(seg, res, samples):
     sc.render.engine = "BLENDER_EEVEE_NEXT"
     ee = sc.eevee
     ee.taa_render_samples = samples
-    ee.use_raytracing = True
+    ee.use_raytracing = seg == "B"                               # wet-road reflections; saves time in A
     ee.ray_tracing_method = "SCREEN"
     ee.ray_tracing_options.resolution_scale = "2"
     ee.use_shadows = True
@@ -749,7 +749,10 @@ def main():
         f1 = n if a.f1 < 0 else min(a.f1, n)
         frames = [(f"{f:04d}", f) for f in range(a.f0, f1 + 1)]
     import time
+    import os
     for name, f in frames:
+        if not a.stills and os.path.exists(f"{a.out}/{name}.png"):
+            continue                                              # resume an interrupted chunk
         st = time.time()
         sc.frame_set(f + 1)
         sc.render.filepath = f"{a.out}/{name}.png"
