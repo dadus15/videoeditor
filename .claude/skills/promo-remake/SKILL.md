@@ -161,6 +161,21 @@ Read `references/higgsfield-pipeline.md` before the first call. Key facts:
 - **Count beats, not cuts.** The VANTA reel has 5 hard cuts but 14 beats: 1.04–13.3 s is one continuous camera
   move through a metamorphosis and a world change. Key frames for those beats live in
   `projects/turismo-transformation-reel/analysis/ref_keys_seg*.jpg`.
+- **Analyse the technical "back end" before finishing** (`projects/turismo-transformation-reel/TECH_ANALYSIS.md`
+  is the template):
+  1. The true content fps: a phone capture runs at 60 fps VFR, but frame diffs that change every 2nd frame
+     mean 30 fps.
+  2. Shutter and motion blur, DOF and lens.
+  3. The speed profile from `camera_motion.py` at 0.2 s: ease curves, ramp-in, holds, ramp-out.
+  4. The transition types (match cut, push-through/object wipe with a colour hold, reverse whip, hard cuts
+     at rest on the beat, seamless loop).
+  5. Drop sync: a dip and riser into the transition, the bass drop on the reveal.
+  6. The grade fingerprint from `scripts/grade_stats.py` (luma percentiles, saturation, RGB, sharpness).
+
+  Then carry the measured speed profile into the guide (`WARP` beta-shaped ramps in `guide_car_reel.py`). Add
+  motion blur by temporal supersampling: minterpolate to 4× fps, `tmix=frames=3` (a 270° shutter), back to the
+  delivery fps. Grade to the measured stats: AI output is typically about 1 stop darker, oversaturated and 2–3×
+  too sharp.
 - **Finishing** uses `scripts/reel_finish.py plan.json` (template `templates/reel_finish_turismo_msp02.json`).
   1. Interpolate every clip to 96 fps with minterpolate (one job per clip, in parallel on an XL sandbox,
      about 4 min).

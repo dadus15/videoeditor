@@ -26,7 +26,7 @@ import bpy
 import numpy as np
 from mathutils import Euler, Matrix, Quaternion, Vector
 
-FPS = 24
+FPS = 30
 CAR_GLB = "/home/user/guide/car.glb"
 SCALE = 4.24                       # mesh length 1.078 -> 4.57 m (911 GT3 RS); wheelbase comes out 2.46 m
 
@@ -253,8 +253,43 @@ def build_env(seg):
 
 
 # --------------------------------------------------------------------------------------- animation
+# Speed ramps measured on the reference with camera_motion.py (energy per 0.2 s): every move eases; peaks at
+# 1.8 s (FPV) and 9.6 s (burst out of the glass), an exponential ramp-in into the bonnet vent, a 0.5 s hold on
+# flat paint (8.45-8.95). Each entry: (film t0, t1, path p0, p1, speed-shape exponents (a, b) for u^a (1-u)^b).
+WARP = {
+    "A": [(1.04, 3.10, 1.04, 3.00, (0.6, 1.2)),     # FPV: fast early peak, eases to near-still
+          (3.10, 5.40, 3.00, 5.40, (0.0, 0.0)),     # metamorphosis hold: slow, constant creep
+          (5.40, 8.45, 5.40, 8.75, (2.6, 0.0)),     # exponential ramp-in to the vent
+          (8.45, 8.75, 8.75, 8.75, None)],          # hold on flat paint
+    "B": [(8.75, 8.95, 8.75, 8.75, None),           # hold on flat paint
+          (8.95, 10.60, 8.75, 10.75, (1.0, 1.6)),   # burst out of the glass, peak about 9.6 s, eases
+          (10.60, 13.30, 10.75, 13.30, (0.8, 0.0))],  # calm chase, eases in, the car pulls away
+}
+
+
+def _ramp(u, shape):
+    if shape is None:
+        return 0.0
+    a, b = shape
+    n = 400
+    xs = [(i + 0.5) / n for i in range(n)]
+    w = [x ** a * (1 - x) ** b for x in xs]
+    tot = sum(w)
+    k = int(min(max(u, 0.0), 1.0) * n)
+    return (sum(w[:k]) + (u * n - k) * (w[k] if k < n else 0)) / tot
+
+
+def path_time(seg, t):
+    for t0, t1, p0, p1, shape in WARP[seg]:
+        if t0 <= t < t1 or (t >= t1 and (t0, t1, p0, p1, shape) == WARP[seg][-1]):
+            u = min(max((t - t0) / (t1 - t0), 0.0), 1.0)
+            return p0 if shape is None else p0 + (p1 - p0) * _ramp(u, shape)
+    return WARP[seg][0][2]
+
+
 def cam_at(seg, t):
     K = KEYS[seg]
+    t = path_time(seg, t)
     loc = Vector(hermite(K, t, 1))
     tgt = Vector(hermite(K, t, 2))
     roll, lens = hermite(K, t, 3), hermite(K, t, 4)
