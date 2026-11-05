@@ -443,3 +443,48 @@ connector (Pro trial, 4,500 credits).
   - A brief puddle-like reflection artefact sits low in frame at 3.3–4.0 s.
   - The stock bonnet's burst-off (2.25 s) and the rising wing (10.5 s) are not in the generated material: those
     two beats would need another 2 clips, about 1,830 Tella or about 60 Higgsfield credits.
+
+## Previs v7: the analysis in practice, 0 credits
+
+A free 3D previs that plays `ANALIZA_ORYGINALU.md` beat for beat, to check timing, camera and effects before
+spending credits. It is rendered in Blender 4.5 EEVEE in the Higgsfield sandbox (XL, 4 processes, about
+35 s a frame each at 360×640, 8 samples).
+
+**Scene** (`cgi/previs.py`): the Hunyuan3D GT3 RS mesh from the client's photos, with real materials:
+- gloss paint with clear coat; glass, trim, lamps and tyres, split from the mesh by geometry;
+- stock black rims before; gold MSP02 rims with a chrome lip and red calipers after;
+- a cloudy overcast sky; palms, kerbs and rocks on the coast; a wet, reflective road, snow, bare trees and peaks
+  in the winter world.
+
+**Analysis to previs, beat by beat:**
+
+| Analysis (time, s) | Previs |
+|---|---|
+| Time remapping: real time to 2.5, ramp-down to about 1/40 by 3.0, slow motion to 6.5, ramp-up by 8.25 | The whole scene slows (road scroll, wheel spin) through an integrated scene clock |
+| 2.20–2.60: the stock bonnet opens on its hinge, then tears off | Hinge at the bonnet's rear edge, opens 62° by 2.42, then flies up and left with a tumble; the brown underside shows |
+| 3.05–3.40: the new bonnet drops in upright like a shield, small then large | Comes from far above and behind, upright (78°), and stops standing on its front edge above its slot |
+| 3.40–6.30: it tips from upright to flat while it hovers | Tips back over its front edge with a gentle sway |
+| 6.30–6.80: it lands | Seats flush |
+| 6.8–8.45: push-in and dive into the right vent | Front-right 3/4, low along the bonnet into the vent, ending 3.5 cm from the paint |
+| 8.45–8.95: paint hold | The last dive frame, blurred into a soft paint gradient |
+| 8.95–10.4: out of the side glass, pull back along the right flank | Starts on the right-door paint below the window, rolled 35°, pulls out |
+| 10.40–10.90: the swan-neck wing deploys | Rises and tilts into place |
+| 10.9–13.3: the car pulls away on the wet road | Chase that slows; the car shrinks into the distance |
+
+**Also in the previs:**
+- Real motion blur (270° shutter) and depth of field (f/2 in the close-ups) from per-frame keyframes.
+- Score v7 (`reel_sound_v7.py`) on the measured sound map:
+  - silence to 0.2 s, then an intro without bass;
+  - the bass drop on the 1.04 cut;
+  - the break 7.6–8.3 and the stutter 8.4–9.3;
+  - the full drop at 9.4;
+  - hits at 13.30, 15.30 and 16.22;
+  - a hard stop at 17.0 with a reverb tail.
+- The opening 0–1.04 s and the packshots 13.30–18.0 s come from v6 (photoreal).
+
+**Workflow:**
+1. Pass the files to the sandbox via the public GitHub raw URL of this branch.
+2. Render: `blender -b -P previs.py -- --seg A|B --f0 N --f1 M --out A|B`. Chunks resume, skipping frames
+   already rendered.
+3. Edit: `cgi/previs_edit.sh`, which writes `Turismo_Reel_previs_v7.mp4` and
+   `Turismo_Reel_previs_v7_vs_oryginal.mp4` (the reference on the left, the previs on the right, same clock).
