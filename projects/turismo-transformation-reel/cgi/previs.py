@@ -42,33 +42,33 @@ KEYS = {
         (1.04, (2.35, 1.40, 0.50), (0.40, 0.95, 0.40), -90, 14),
         (1.40, (2.30, 1.25, 0.95), (1.20, 0.80, 0.45), -84, 14),
         (1.75, (2.70, 1.10, 1.05), (1.60, 0.55, 0.50), -65, 15),
-        (2.05, (3.60, 1.60, 0.60), (1.60, 0.45, 0.55), -45, 16),
-        (2.30, (4.20, 2.20, 0.45), (1.60, 0.40, 0.60), -28, 17),
-        (2.60, (4.90, 1.60, 0.50), (1.50, 0.20, 0.70), -10, 19),
+        (2.05, (3.00, 1.50, 0.60), (1.60, 0.70, 0.50), -45, 16),
+        (2.30, (3.40, 1.65, 0.55), (1.50, 0.55, 0.55), -32, 17),
+        (2.60, (4.50, 1.40, 0.50), (1.50, 0.20, 0.70), -10, 19),
         (3.00, (5.70, 0.30, 0.55), (1.40, 0.00, 0.80), 0, 22),
         (4.50, (5.55, 0.10, 0.58), (1.40, 0.00, 0.88), 0, 22),
         (6.00, (5.30, -0.45, 0.65), (1.40, -0.05, 0.85), 0, 22),
         (6.90, (4.90, -1.90, 0.95), (1.50, -0.15, 0.80), 0, 22),
         (7.50, (3.70, -2.00, 1.10), (1.70, -0.25, 0.85), -3, 20),
-        (8.10, "DIVE1", "DIVEP", -10, 20),
-        (8.50, "DIVE2", "DIVEP", -12, 20),
+        (7.90, "DIVE1", "DIVEP", -8, 20),
+        (8.40, "DIVE2", "DIVEP", -12, 20),
         (8.75, "DIVE3", "DIVET", -12, 20),
     ],
     "B": [
         (8.75, "DOOR0", "DOORP", -35, 20),
         (9.30, (-0.10, -2.00, 1.15), (-0.20, -0.90, 0.95), -30, 20),
-        (9.80, (0.30, -3.60, 1.20), (-0.10, -0.70, 0.80), -15, 22),
-        (10.25, (-2.60, -4.20, 1.10), (-0.40, -0.30, 0.75), -5, 24),
-        (10.75, (-6.20, -2.60, 1.10), (-0.60, 0.00, 0.75), 0, 26),
-        (11.50, (-10.5, -1.20, 1.20), (-0.40, 0.00, 0.70), 0, 28),
-        (13.30, (-20.0, -0.60, 1.40), (-0.40, 0.00, 0.70), 0, 30),
+        (9.80, (0.50, -2.60, 1.10), (0.00, -0.80, 0.85), -15, 22),
+        (10.25, (-1.20, -3.40, 0.95), (-0.30, -0.50, 0.75), -5, 24),
+        (10.75, (-3.20, -3.20, 0.90), (-0.60, -0.20, 0.70), 0, 26),
+        (11.50, (-7.00, -2.40, 1.00), (-0.50, 0.00, 0.70), 0, 28),
+        (13.30, (-20.0, -1.20, 1.30), (-0.40, 0.00, 0.70), 0, 30),
     ],
 }
 # film clock -> path clock (speed ramps, measured): (film t0, t1, path p0, p1, shape (a, b) of u^a (1-u)^b)
 WARP = {
     "A": [(1.04, 3.10, 1.04, 3.00, (0.25, 0.5)),
           (3.10, 5.40, 3.00, 5.40, (0.0, 0.0)),
-          (5.40, 8.45, 5.40, 8.75, (2.6, 0.0))],
+          (5.40, 8.45, 5.40, 8.75, (1.6, 0.0))],
     "B": [(8.95, 10.60, 8.75, 10.75, (1.0, 1.6)),
           (10.60, 13.30, 10.75, 13.30, (0.8, 0.0))],
 }
@@ -498,17 +498,21 @@ def build_env(seg):
         for x in np.arange(X0 - L / 2, X0 + L / 2, 11):
             bare_tree(env, x + rng.uniform(-3, 3), 8 + rng.uniform(0, 6), rng.uniform(7, 12), rng, mt)
             bare_tree(env, x + rng.uniform(-3, 3), -8 - rng.uniform(0, 6), rng.uniform(7, 12), rng, mt)
-        mtn = principled("mountain", (0.62, 0.66, 0.72), 0.9)
-        rock = principled("mrock", (0.20, 0.23, 0.27), 0.9)
-        for k in range(30):
-            a = k / 30 * 2 * math.pi
-            r = rng.uniform(900, 1300)
-            h = rng.uniform(160, 300)
-            bpy.ops.mesh.primitive_cone_add(vertices=7, radius1=h * 1.2, depth=h,
-                                            location=(math.cos(a) * r, math.sin(a) * r, h / 2 - 10),
-                                            rotation=(0, 0, rng.uniform(0, 3)))
-            m = bpy.context.object
-            obj_mat(m, mtn if rng.random() < 0.65 else rock)
+        # jagged snowy ranges: many overlapping low-poly peaks, snow and dark rock (static, far away)
+        mtn = principled("mountain", (0.80, 0.83, 0.88), 0.9)
+        rock = principled("mrock", (0.16, 0.19, 0.23), 0.9)
+        for k in range(110):
+            a = rng.uniform(0, 2 * math.pi)
+            r = rng.uniform(650, 1300)
+            h = rng.uniform(110, 360)
+            bm = bmesh.new()
+            _cone(bm, h * rng.uniform(0.8, 1.5), 0.0, h, Matrix(), int(rng.integers(4, 7)))
+            me = bpy.data.meshes.new("peak")
+            bm.to_mesh(me)
+            bm.free()
+            me.materials.append(mtn if rng.random() < 0.7 else rock)
+            link("ENV_peak", me, (math.cos(a) * r, math.sin(a) * r, h / 2 - 15),
+                 (rng.uniform(-0.12, 0.12), rng.uniform(-0.12, 0.12), rng.uniform(0, 3)))
     road.data.transform(Matrix.Diagonal((*road.scale, 1)))       # real metres for the asphalt texture
     road.scale = (1, 1, 1)
     return env
@@ -538,20 +542,20 @@ def world(seg):
     e.color = (*hor, 1)
     # soft clouds: noise on the view direction, only above the horizon
     nz = nt.nodes.new("ShaderNodeTexNoise")
-    nz.inputs["Scale"].default_value = 2.2
+    nz.inputs["Scale"].default_value = 4.5
     nz.inputs["Detail"].default_value = 8
     nz.inputs["Roughness"].default_value = 0.62
     nt.links.new(tc.outputs["Generated"], nz.inputs["Vector"])
     cr = nt.nodes.new("ShaderNodeValToRGB")
-    cr.color_ramp.elements[0].position, cr.color_ramp.elements[0].color = 0.45, (1, 1, 1, 1)
-    cr.color_ramp.elements[1].position = 0.75
-    cr.color_ramp.elements[1].color = (0.72, 0.74, 0.78, 1) if seg == "A" else (0.55, 0.60, 0.68, 1)
+    cr.color_ramp.elements[0].position, cr.color_ramp.elements[0].color = 0.42, (1, 1, 1, 1)
+    cr.color_ramp.elements[1].position = 0.62
+    cr.color_ramp.elements[1].color = (0.70, 0.71, 0.74, 1) if seg == "A" else (0.42, 0.47, 0.55, 1)
     nt.links.new(nz.outputs["Fac"], cr.inputs["Fac"])
     mask = nt.nodes.new("ShaderNodeMapRange")
     mask.inputs["From Min"].default_value = 0.505
     mask.inputs["From Max"].default_value = 0.56
     mask.inputs["To Min"].default_value = 0.0
-    mask.inputs["To Max"].default_value = 0.65
+    mask.inputs["To Max"].default_value = 0.9
     nt.links.new(z01.outputs[0], mask.inputs["Value"])
     mix = nt.nodes.new("ShaderNodeMix")
     mix.data_type = "RGBA"
@@ -560,7 +564,7 @@ def world(seg):
     nt.links.new(ramp.outputs["Color"], mix.inputs["A"])
     nt.links.new(cr.outputs["Color"], mix.inputs["B"])
     nt.links.new(mix.outputs["Result"], bg.inputs["Color"])
-    bg.inputs["Strength"].default_value = 1.6
+    bg.inputs["Strength"].default_value = 1.25
     return w
 
 
@@ -576,7 +580,7 @@ def resolve_keys(seg, objs):
         px = nb.location.x + min(xs) + 0.80 * L                       # just ahead of the right vent
         P, N = surface(nb, px, -0.30)
         print("DIVE point", P, N)
-        sym = {"DIVEP": P, "DIVE1": P + Vector((0.95, -0.55, 0.30)), "DIVE2": P + Vector((0.28, -0.12, 0.10)),
+        sym = {"DIVEP": P, "DIVE1": P + Vector((0.70, -0.45, 0.25)), "DIVE2": P + Vector((0.18, -0.08, 0.08)),
                "DIVE3": P + N * 0.035 + Vector((0.01, 0, 0)), "DIVET": P + Vector((-0.12, 0.0, 0.0)) - N * 0.4}
     else:
         body = objs["body"]
@@ -622,11 +626,11 @@ def pose(seg, objs, env, t, rest):
         up = math.radians(90)
         if t < 3.40:          # from far above, upright like a shield facing the camera, growing as it nears
             v = smoothstep((t - 3.05) / 0.35) ** 0.7
-            off = Vector((-0.20, 0, 0.32)).lerp(Vector((-28.0, 0, 22.0)), 1 - v)
+            off = Vector((-0.35, 0, 0.08)).lerp(Vector((-28.0, 0, 22.0)), 1 - v)
             rot = (0.0, up, 0.25 * (1 - v))
         elif t < 6.30:        # hovers, tips from upright to flat over its front edge, sways gently
             v = smoothstep((t - 3.40) / 2.70)
-            off = Vector((-0.20 * (1 - v) + 0.05 * v, 0.05 * math.sin(t * 1.6), 0.32 * (1 - v) + 0.30 * v))
+            off = Vector((-0.35 * (1 - v) + 0.05 * v, 0.05 * math.sin(t * 1.6), 0.08 * (1 - v) + 0.30 * v))
             rot = (0.05 * math.sin(t * 1.2), up * (1 - v), 0.05 * math.sin(t * 0.9))
         else:                 # lands and seats flush
             v = smoothstep((t - 6.30) / 0.50)
@@ -641,7 +645,7 @@ def pose(seg, objs, env, t, rest):
     else:
         w = objs["wing"]
         u = smoothstep((t - 10.40) / 0.50)
-        w.location = rest["wing"] + Vector((0.12 * (1 - u), 0, -0.30 * (1 - u)))
+        w.location = rest["wing"] + Vector((0.15 * (1 - u), 0, -0.45 * (1 - u)))
         w.rotation_euler = (0, 0.25 * (1 - u), 0)
 
 
@@ -670,9 +674,8 @@ def setup(seg, res, samples):
     sc.render.resolution_x = res * 9 // 16 // 2 * 2
     sc.render.resolution_y = res
     sc.render.fps = FPS
-    sc.view_settings.view_transform = "AgX"
-    sc.view_settings.look = "AgX - Base Contrast"
-    sc.view_settings.exposure = 0.35
+    sc.view_settings.view_transform = "Khronos PBR Neutral"
+    sc.view_settings.exposure = 0.0
     cam = bpy.data.objects.new("CAM", bpy.data.cameras.new("CAM"))
     sc.collection.objects.link(cam)
     cam.data.sensor_fit = "VERTICAL"
