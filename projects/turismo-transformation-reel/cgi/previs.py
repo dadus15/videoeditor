@@ -836,6 +836,7 @@ def main():
     ap.add_argument("--out", default="/home/user/previs/out")
     ap.add_argument("--res", type=int, default=960)
     ap.add_argument("--samples", type=int, default=12)
+    ap.add_argument("--probe", action="store_true", help="print what the camera sees instead of rendering")
     a = ap.parse_args(argv)
     sc, cam, objs, env, rest = setup(a.seg, a.res, a.samples)
     K = resolve_keys(a.seg, objs)
@@ -853,6 +854,15 @@ def main():
             continue                                              # resume an interrupted chunk
         st = time.time()
         sc.frame_set(f + 1)
+        if a.probe:                       # what does the camera see? (centre and corners), no render
+            dg = bpy.context.evaluated_depsgraph_get()
+            cw = cam.matrix_world
+            for u, v in ((0, 0), (-0.25, -0.4), (0.25, 0.4)):
+                d = (cw.to_3x3() @ Vector((u * 0.56, v, -1.0))).normalized()
+                hit, loc, nrm, idx, ob, _ = sc.ray_cast(dg, cw.translation, d)
+                print("PROBE", name, (u, v), ob.name if hit else None, round((loc - cw.translation).length, 3) if hit else None)
+            print("CAM", name, tuple(round(x, 3) for x in cw.translation))
+            continue
         sc.render.filepath = f"{a.out}/{name}.png"
         bpy.ops.render.render(write_still=True)
         print("FRAME", name, round(time.time() - st, 1), flush=True)
