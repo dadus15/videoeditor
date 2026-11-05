@@ -64,5 +64,23 @@
   "guide_B_8.75-13.30s (video_edit source, 35 cr)": "66489d0e-6602-4895-b75c-e7dbe32b09c0",
   "guide_preview_full (timecoded, for review)": "889c7b58-aae3-4528-b2b1-f38d66f29c0e",
   "3d_jutsu_project (unused, catalogue has no sports car)": "cf3c9cd9-65b6-42ab-9731-afc483990133"
+ },
+ "v6_styleframes (gpt_image_2_5 medium 1k on guide frames)": {
+  "SF1_2.4s_bonnet_bursts": "bc462b19-c62f-4302-9adf-2ede30f0cc21",
+  "SF2_3.6s_new_bonnet_floats": "8668a6fc-96d1-4b75-a3f1-e7b22360b09c",
+  "SF3_6.9s_bonnet_seated": "ac387b23-f788-460f-b33c-b872c361013a",
+  "SF4_9.8s_snow_side": "b8a29a64-a303-422f-99cc-2653bd09d659",
+  "SF5_10.8s_rear34_wing_MSP02": "cb82a72e-288c-4510-8fb0-ed7cc638a90d",
+  "SF6_12.5s_pull_away": "f157eec1-09e8-4f19-8fc2-0099fec9bf92",
+  "guide_frames_uploaded (A033,A061,A141,B025,B049,B090)": [
+   "d9976c38-68d2-4bec-84be-b60fde6d691e",
+   "54efd500-f1e0-4d17-980e-ff3feac698e9",
+   "6cb0afd4-13aa-4372-8067-0ff44377eac8",
+   "b9dd4511-96fe-4c65-8b55-59761efb255d",
+   "feb7cd8f-848c-4207-8827-5ea9c7687c24",
+   "2e97d519-cf7f-4727-a576-e5c0e74ab640"
+  ],
+  "animatic_v6": "d7560748-f792-4d71-9000-fdf09d5d5469",
+  "styleframes_sheet": "53d8c238-01d4-4f97-9b57-4148f31b3039"
  }
 }

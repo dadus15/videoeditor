@@ -362,3 +362,19 @@ The method is "Playblast2Render", the industry approach found in research:
   cars, no user files), so it cannot host this guide. Project `cf3c9cd9-65b6-42ab-9731-afc483990133` exists but
   is unused.
 - comfy.org and gittrend.io are outside this session's allowed network.
+
+### v6 with the remaining credits (3 → 0)
+
+- **6 photoreal style frames** (gpt_image_2_5, medium quality, 1k, 0.5 credits each). Each was built on its guide
+  frame plus the client's photos: 2.4 bonnet bursts, 3.6 new RS bonnet floats, 6.9 bonnet seated, 9.8 snow side,
+  10.8 rear 3/4 with wing on MSP02, 12.5 pull-away. All six hold the guide composition 1:1, which validates the
+  pipeline. Use them as `image_references` in the Seedance `video_edit` pass.
+- **Animatic v6:** the full 18.0 s at 24 fps, 720×1280, with music and logo.
+  - Photoreal: vA at 0–1.04 and 17.07–18; v7/v8/v9 at 13.3–17.07.
+  - Grey-box guide at 1.04–13.3, with the style frames inset at their beats.
+  - Media `d7560748-f792-4d71-9000-fdf09d5d5469`:
+    https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/d7560748-f792-4d71-9000-fdf09d5d5469.mp4
+- **Style-frame sheet** (guide vs. target), media `53d8c238-01d4-4f97-9b57-4148f31b3039`:
+  https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/53d8c238-01d4-4f97-9b57-4148f31b3039.jpg
+- **To finish:** `video_edit` on guide A (59 credits) and guide B (35 credits). Then reassemble: replace
+  1.04–13.3 in the animatic and grade.
