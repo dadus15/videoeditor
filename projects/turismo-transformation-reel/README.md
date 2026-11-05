@@ -295,3 +295,70 @@ The client chose free fixes only, and a colour change: another colour before, wh
 - Credits spent: 0 (balance 14).
 - **Delivered:** media `c14edad5-92f4-4c84-b161-9c8e9fa2c113`
   https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/c14edad5-92f4-4c84-b161-9c8e9fa2c113.mp4
+
+## v6: the scenario rebuilt 1:1 with a CGI motion guide (5 Nov 2026)
+
+The client's verdict on v5 was that the scenario still differs: the reference has more beats, a Porsche
+metamorphosis and more winter shots. It needs a professional rebuild, faster rendering, and research into
+plug-ins and skills.
+
+### The reference's real scenario (14 beats, read at 8–25 fps)
+
+Hard cuts fall only at 1.04, 13.30, 15.30, 16.22 and 17.07 s. Everything between 1.04 and 13.30 s is ONE
+continuous camera move.
+
+| # | Time (s) | Reference | Our rebuild |
+|---|---|---|---|
+| 1 | 0.00–1.04 | Wheel lying flat on black, spokes settle, spin | MSP02 assembly loop (vA), kept |
+| 2 | 1.04–2.25 | FPV rolled 90° over the front-left wheel, fender and headlight; roll to 45° | Guide A |
+| 3 | 2.25–2.60 | The stock bonnet bursts off and flies away, front-left low | Guide A |
+| 4 | 2.60–3.10 | Level, low front 3/4; the car drives at the camera, bonnet gone | Guide A |
+| 5 | 3.10–6.90 | Metamorphosis: the new vented bonnet drops in, floats tilted above the car, lands | Guide A (white GT3 RS bonnet) |
+| 6 | 6.90–7.90 | Push in at front-left 3/4 on the new bonnet | Guide A |
+| 7 | 7.90–8.75 | Dive along the bonnet into the vent; the frame becomes flat paint | Guide A |
+| 8 | 8.75–9.95 | Out of the paint at the side-window glass; pull back along the flank in the snow world; the car is a new colour | Guide B (white GT3 RS on MSP02) |
+| 9 | 9.95–10.95 | Drop to rear 3/4; the swan-neck wing rises | Guide B |
+| 10 | 10.95–13.30 | Chase slows; the car pulls away on the wet snowy road | Guide B |
+| 11 | 13.30–15.30 | Static wide: parked, wheels turned, snowy trees | v7, kept |
+| 12 | 15.30–16.22 | Low front-wheel close-up | v8, kept |
+| 13 | 16.22–17.07 | Rear wheel and wing | v9, kept |
+| 14 | 17.07–18.00 | Wheel on black, spokes float down, assemble | vA, kept, with logo |
+
+### Pipeline
+
+The method is "Playblast2Render", the industry approach found in research:
+1. A grey-box 3D animation with the reference's exact choreography.
+2. Seedance `video_edit` repaints it photoreal, with the client's photos as references.
+3. Motion and timing stay locked to the playblast.
+
+- **Car model:** Hunyuan3D v3 Geometry from the three studio photos (11 credits). It came out at 497k triangles
+  and is a recognisable GT3 RS with swan-neck wing, bonnet vents and mesh wheels.
+  - Job: `4cdddcc3-06db-4ecc-a566-353e4262ade5`.
+  - Scale ×4.24 gives 4.57 m long and a 2.46 m wheelbase, exactly as the real car.
+  - `cgi/guide.py` splits it by geometry into body, bonnet, wing and four wheels.
+- **Rendering**, about 1,000× cheaper in time than the C19R Cycles guide:
+  - Blender 4.5 in the Higgsfield sandbox, BLENDER_WORKBENCH (EEVEE needs a GPU; on CPU it is 4–50 s a frame);
+  - 360×640 at 24 fps, 294 frames, 6 parallel processes on the XL sandbox, about 10 min.
+  - Local tests on the same frame:
+
+    | Engine | Time per frame |
+    |---|---|
+    | Workbench | 0.64 s |
+    | EEVEE on llvmpipe | 3.9 s |
+    | Cycles, 4 spp | 5.7 s |
+    | C19R Cycles | ~20 s |
+- **Prompts:** `seedance_prompts_v6.md`, written with the cinema-worldbuilder skill.
+- **Cost of the final pass:** `video_edit` is billed by source length, about 7.6 credits/s at 720p. Segments A
+  (7.7 s) and B (4.6 s) come to about 94 credits, plus patches. Balance: 3 credits after the model.
+
+### Research (web)
+
+- **Playblast2Render (ComfyUI + Seedance):** the same workflow: a grey CG playblast plus reference images and a
+  shot/style description, with the motion locked.
+- **Blender MCP / blender-skills (94 skills, blender-director):** both need a live Blender UI or a local host
+  shell. Higgsfield `/use-blender` (fnf-blender-mcp) also refuses cloud sessions. Not installable here; direct
+  headless bpy does the same job.
+- **Higgsfield 3D Jutsu:** hosted Blender 5.2 with EEVEE. It imports only its curated catalogue (no sports
+  cars, no user files), so it cannot host this guide. Project `cf3c9cd9-65b6-42ab-9731-afc483990133` exists but
+  is unused.
+- comfy.org and gittrend.io are outside this session's allowed network.

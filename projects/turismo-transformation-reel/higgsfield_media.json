@@ -57,5 +57,12 @@
  "clips_intro_v4": {
   "VA_assembly_spin_loop (start KB, end KA, ref 8476b598)": "6e6a27f9-7fd7-4ba2-9b79-443bdc44986c",
   "VF_fpv_roll90_to_level (start KF rot90, end 1544ce1b, ref 805977f1)": "1c3bb573-c9df-4ecf-8c68-34455ce84226"
+ },
+ "v6_guide": {
+  "car_mesh_hunyuan3d_geometry (job, from 71613174+805977f1+90bc2d6b)": "4cdddcc3-06db-4ecc-a566-353e4262ade5",
+  "guide_A_1.04-8.75s (video_edit source, 59 cr)": "6c02e284-f0c5-44e6-ab8a-eab4793612cf",
+  "guide_B_8.75-13.30s (video_edit source, 35 cr)": "66489d0e-6602-4895-b75c-e7dbe32b09c0",
+  "guide_preview_full (timecoded, for review)": "889c7b58-aae3-4528-b2b1-f38d66f29c0e",
+  "3d_jutsu_project (unused, catalogue has no sports car)": "cf3c9cd9-65b6-42ab-9731-afc483990133"
  }
 }

@@ -145,6 +145,22 @@ Read `references/higgsfield-pipeline.md` before the first call. Key facts:
 - **Compare the whole film side by side before reporting:** 4 fps sheets of the reference and ours in the
   same layout. Name the gaps honestly (light, removal beat, hero presentation, colour change, mechanical beats
   such as a rising wing) and price the ones that need regeneration.
+- **Car reels: a motion guide in minutes, not hours** (VANTA reel v6):
+  1. Build the car mesh with `generate_3d` `hunyuan3d_v3_image_to_3d`, `generate_type: Geometry`, from 3
+     studio photos (side, front 3/4, rear 3/4). It costs 11 credits and gave about 500k triangles at the right
+     proportions; scale it to the real length.
+  2. Split the parts by geometry (bonnet, wing, wheels): `scripts/cgi/guide_car_reel.py`.
+  3. Render in the Higgsfield sandbox with the Blender 4.5 tarball (download.blender.org) and
+     BLENDER_WORKBENCH, which has EGL there.
+     - About 1–2 s a frame at 360×640 per process; 6 parallel processes on XL rendered 296 frames in about
+       4 min.
+     - EEVEE on CPU is 4–50 s a frame; the C19R Cycles guide was about 20 s a frame.
+  4. Feed the guide to Seedance `video_edit` (the industry "Playblast2Render" pattern).
+
+  This cloud session cannot download Higgsfield CDN files, so build and render everything in the sandbox.
+- **Count beats, not cuts.** The VANTA reel has 5 hard cuts but 14 beats: 1.04–13.3 s is one continuous camera
+  move through a metamorphosis and a world change. Key frames for those beats live in
+  `projects/turismo-transformation-reel/analysis/ref_keys_seg*.jpg`.
 - **Finishing** uses `scripts/reel_finish.py plan.json` (template `templates/reel_finish_turismo_msp02.json`).
   1. Interpolate every clip to 96 fps with minterpolate (one job per clip, in parallel on an XL sandbox,
      about 4 min).
