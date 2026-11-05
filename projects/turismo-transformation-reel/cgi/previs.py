@@ -32,7 +32,7 @@ from mathutils import Matrix, Quaternion, Vector
 FPS = 30
 CAR_GLB = "/home/user/guide/car.glb"
 SCALE = 4.24
-SEG = {"A": (1.04, 8.45), "B": (8.95, 13.30)}
+SEG = {"A": (1.04, 8.75), "B": (8.65, 13.32)}      # A and B overlap 8.65-8.75 for the paint match
 ROAD_SPEED = {"A": 22.0, "B": 25.0}
 
 # camera keys on the PATH clock: (path t, camera xyz, target xyz, roll deg, lens mm on a 24 mm vertical sensor).
@@ -59,24 +59,53 @@ KEYS = {
         (7.55, (3.40, -1.60, 1.20), (1.80, -0.25, 0.75), -5, 20),
         (8.00, "DIVE1", "DIVEP", -9, 20),
         (8.33, "DIVE2", "DIVEP", -13, 20),
-        (8.45, "DIVE3", "DIVET", -12, 20),
+        # the reference never stops on the paint: the camera skims over the vent (it slides out of the bottom of
+        # the frame) and glides on, slowing, over the bonnet paint, which becomes the new car's door paint in B
+        (8.50, "VENT", "BEHIND", -13, 20),
+        (8.75, "GLIDE", "GLIDET", -15, 20),
     ],
-    "B": [
-        (8.75, "DOOR0", "DOORP", -35, 20),
-        (9.30, (-0.10, -2.00, 1.15), (-0.20, -0.90, 0.95), -30, 20),
-        (9.80, (0.50, -2.60, 1.10), (0.00, -0.80, 0.85), -15, 22),
-        (10.25, (-1.20, -3.40, 0.95), (-0.30, -0.50, 0.75), -5, 24),
-        (10.75, (-5.50, -3.00, 0.90), (-0.60, -0.20, 0.70), 0, 26),
-        (11.50, (-12.0, -2.00, 1.00), (-0.50, 0.00, 0.70), 0, 28),
-        (13.30, (-35.0, -1.00, 1.30), (-0.40, 0.00, 0.70), 0, 30),
+    "B": [   # path shape only: the speed along it comes from SPEED (arc length), so the motion has no stalls
+        (8.65, "DOORA", "DOORAT", -36, 20),          # skimming the right-door paint, moving up towards the window
+        (8.95, "DOORB", "DOORBT", -35, 20),          # the window edge slides in from the top
+        (9.30, (-0.15, -1.20, 1.05), (-0.25, -0.60, 1.00), -30, 20),
+        (9.60, (-0.05, -1.75, 1.10), (-0.20, -0.70, 0.95), -22, 21),
+        (9.95, (0.40, -2.70, 1.08), (0.00, -0.80, 0.85), -12, 22),
+        (10.30, (-1.20, -3.40, 0.95), (-0.30, -0.50, 0.75), -5, 24),
+        (10.80, (-5.00, -3.10, 0.90), (-0.60, -0.20, 0.70), 0, 26),
+        (11.60, (-11.0, -2.20, 1.00), (-0.50, 0.00, 0.70), 0, 28),
+        (13.30, (-32.0, -1.00, 1.30), (-0.40, 0.00, 0.70), 0, 30),
     ],
 }
 # film clock -> path clock (speed ramps, measured): (film t0, t1, path p0, p1, shape (a, b) of u^a (1-u)^b)
 WARP = {
     "A": [(1.04, 8.45, 1.04, 8.45, (0.0, 0.0))],      # keys are on the film clock: speed comes from their spacing
-    "B": [(8.95, 10.60, 8.75, 10.75, (1.0, 1.6)),
-          (10.60, 13.30, 10.75, 13.30, (0.8, 0.0))],
 }
+# relative camera speed (m/s, before scaling to the path length) for B: a slow glide on the door paint (continuous
+# with the end of A), the burst out of the glass peaking at about 9.6, then the car pulls away ever faster; the
+# curve is Gaussian-smoothed so the speed has no corners
+SPEED = {"B": [(8.65, 0.5), (8.95, 0.9), (9.25, 3.5), (9.65, 7.0), (10.0, 6.0), (10.5, 4.0), (11.0, 4.5),
+               (12.0, 8.0), (13.32, 12.0)]}
+_ARC = {}
+
+
+def arc_param(seg, K, t):
+    """Path parameter at film time t such that the speed along the path follows SPEED[seg]."""
+    if seg not in _ARC:
+        ps = np.linspace(K[0][0], K[-1][0], 3000)
+        P = np.array([hermite(K, p, 1) for p in ps])
+        d = np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(P, axis=0), axis=1))])
+        t0, t1 = SEG[seg]
+        tt = np.arange(t0 - 0.05, t1 + 0.05, 0.002)
+        c = SPEED[seg]
+        g = np.interp(tt, [a for a, _ in c], [b for _, b in c])
+        k = np.exp(-0.5 * (np.arange(-150, 151) * 0.002 / 0.12) ** 2)
+        g = np.convolve(np.pad(g, 150, mode="edge"), k / k.sum(), mode="valid")
+        S = np.concatenate([[0], np.cumsum(g[:-1])])
+        S = S / S[-1] * d[-1]
+        _ARC[seg] = (tt, S, ps, d)
+        print("PATH", seg, "length", round(float(d[-1]), 2), "m")
+    tt, S, ps, d = _ARC[seg]
+    return float(np.interp(np.interp(t, tt, S), d, ps))
 
 
 def smoothstep(u):
@@ -604,24 +633,34 @@ def resolve_keys(seg, objs):
         px = nb.location.x + min(xs) + 0.80 * L                       # just ahead of the right vent
         P, N = surface(nb, px, -0.30)
         print("DIVE point", P, N)
-        sym = {"DIVEP": P, "DIVE1": P + Vector((0.95, -0.60, 0.35)), "DIVE2": P + Vector((0.40, -0.18, 0.18)),
-               "DIVE3": P + N * 0.035 + Vector((0.01, 0, 0)), "DIVET": P + Vector((-0.12, 0.0, 0.0)) - N * 0.4}
+        sym = {"DIVEP": P, "DIVE1": P + Vector((0.95, -0.60, 0.35)), "DIVE2": P + Vector((0.22, -0.10, 0.14)),
+               }
+        xv = nb.location.x + min(xs) + 0.55 * L                       # vent centre (see add_vents)
+        V, NV = surface(nb, xv, -0.30)
+        B1, NB1 = surface(nb, xv - 0.22, -0.30)
+        B2, _ = surface(nb, xv - 0.34, -0.30)
+        sym.update({"VENT": V + NV * 0.13, "BEHIND": B1,
+                    "GLIDE": B1 + NB1 * 0.06 + Vector((-0.03, 0, 0)), "GLIDET": B2})
     else:
         body = objs["body"]
         mw = body.matrix_world
         inv = mw.inverted()
-        o = inv @ Vector((-0.25, -4.0, 0.88))
-        ok, loc, nrm, _ = body.ray_cast(o, (inv.to_3x3() @ Vector((0, 1, 0))).normalized())
-        D = mw @ loc if ok else Vector((-0.25, -0.95, 0.88))
-        print("DOOR point", D)
-        sym = {"DOOR0": D + Vector((0.0, -0.035, 0.0)), "DOORP": D + Vector((0.0, 0.5, 0.06))}
+
+        def door(z):
+            o = inv @ Vector((-0.25, -4.0, z))
+            ok, loc, nrm, _ = body.ray_cast(o, (inv.to_3x3() @ Vector((0, 1, 0))).normalized())
+            return mw @ loc if ok else Vector((-0.25, -0.90, z))
+        DA, DB = door(0.62), door(0.80)
+        print("DOOR points", DA, DB)
+        sym = {"DOORA": DA + Vector((0.0, -0.05, 0.0)), "DOORAT": DA + Vector((0.04, 0.5, 0.12)),
+               "DOORB": DB + Vector((0.0, -0.10, 0.0)), "DOORBT": DB + Vector((0.0, 0.5, 0.15))}
     for t, c, g, r, l in KEYS[seg]:
         K.append((t, tuple(sym[c]) if isinstance(c, str) else c, tuple(sym[g]) if isinstance(g, str) else g, r, l))
     return K
 
 
 def cam_at(seg, K, t):
-    p = path_time(seg, t)
+    p = arc_param(seg, K, t) if seg in SPEED else path_time(seg, t)
     loc = Vector(hermite(K, p, 1))
     tgt = Vector(hermite(K, p, 2))
     roll, lens = float(hermite(K, p, 3)), float(hermite(K, p, 4))
@@ -635,6 +674,17 @@ def cam_at(seg, K, t):
 
 def pose(seg, objs, env, t, rest):
     tau = scene_time(seg, t)
+    # the car is not on rails: sprung body (heave, pitch, roll) over the wheels, a little lane wander and yaw,
+    # all on the scene clock so they slow down with the slow motion; squat as it pulls away in B
+    T = tau
+    pitch = math.radians(0.22) * math.sin(2 * math.pi * 1.3 * T + 0.5) + math.radians(0.08) * math.sin(2 * math.pi * 2.9 * T)
+    if seg == "B":
+        pitch -= math.radians(0.7) * smoothstep((t - 10.3) / 0.6) * (1 - 0.5 * smoothstep((t - 11.6) / 1.2))
+    objs["rig"].location = rest["rig"] + Vector((0, 0, 0.004 * math.sin(2 * math.pi * 1.7 * T)
+                                                   + 0.002 * math.sin(2 * math.pi * 3.1 * T + 1.0)))
+    objs["rig"].rotation_euler = (math.radians(0.18) * math.sin(2 * math.pi * 0.9 * T + 2.0), pitch, 0)
+    objs["all"].location = (0, 0.05 * math.sin(2 * math.pi * 0.22 * T), 0)
+    objs["all"].rotation_euler = (0, 0, math.radians(0.35) * math.sin(2 * math.pi * 0.22 * T + 1.3))
     env.location.x = -ROAD_SPEED[seg] * tau
     spin = ROAD_SPEED[seg] * tau / 0.35
     for k in ("wFL", "wFR", "wRL", "wRR"):
@@ -714,7 +764,25 @@ def setup(seg, res, samples):
     cam.rotation_mode = "QUATERNION"
     sc.camera = cam
     bpy.context.view_layer.update()
-    rest = {k: objs[k].location.copy() for k in ("hinge", "newhood", "wing") if k in objs}
+    # rig: CAR_ALL (lane wander, yaw) > wheels, calipers and CAR_RIG (sprung body, pivot near the axle line)
+    allr = bpy.data.objects.new("CAR_ALL", None)
+    rig = bpy.data.objects.new("CAR_RIG", None)
+    sc.collection.objects.link(allr)
+    sc.collection.objects.link(rig)
+    rig.location = (0.1, 0, 0.45)
+    bpy.context.view_layer.update()
+    tops = [o for o in sc.objects if o.parent is None and o not in (allr, rig, cam, sun, env)
+            and not o.name.startswith("ENV")]
+    rig.parent = allr
+    for o in tops:
+        unsprung = o.name.startswith("CAR_w") or "caliper" in [m.name for m in getattr(o.data, "materials", [])]
+        p = allr if unsprung else rig
+        o.parent = p
+        o.matrix_parent_inverse = p.matrix_world.inverted()
+    print("RIG", sorted(o.name for o in tops))
+    objs["rig"], objs["all"] = rig, allr
+    bpy.context.view_layer.update()
+    rest = {k: objs[k].location.copy() for k in ("hinge", "newhood", "wing", "rig") if k in objs}
     if "newhood" in objs:
         xs = [v.co.x for v in objs["newhood"].data.vertices]
         rest["hoodlen"] = max(xs) - min(xs)
@@ -731,7 +799,8 @@ def animate(seg, sc, cam, objs, env, rest, K):
     t0, t1 = SEG[seg]
     n = int(round((t1 - t0) * FPS))
     sc.frame_start, sc.frame_end = 1, n + 1
-    movers = [o for k, o in objs.items() if k in ("wFL", "wFR", "wRL", "wRR", "hinge", "hood", "newhood", "wing")]
+    movers = [o for k, o in objs.items() if k in ("wFL", "wFR", "wRL", "wRR", "hinge", "hood", "newhood", "wing",
+                                                       "rig", "all")]
     for f in range(0, n + 3):
         t = t0 + (f - 1) / FPS
         loc, q, lens, dist = cam_at(seg, K, t)
