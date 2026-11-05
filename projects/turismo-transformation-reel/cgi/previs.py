@@ -56,9 +56,9 @@ KEYS = {
         (5.60, (5.85, -0.85, 1.02), (1.45, -0.06, 1.05), -1, 22),
         (6.20, (5.20, -1.40, 1.10), (1.50, -0.10, 0.95), 0, 22),
         (6.90, (4.30, -1.85, 1.20), (1.60, -0.18, 0.85), -2, 21),
-        (7.50, (3.40, -1.60, 1.20), (1.80, -0.25, 0.75), -5, 20),
-        (7.95, "DIVE1", "DIVEP", -9, 20),
-        (8.25, "DIVE2", "DIVEP", -12, 20),
+        (7.55, (3.40, -1.60, 1.20), (1.80, -0.25, 0.75), -5, 20),
+        (8.00, "DIVE1", "DIVEP", -9, 20),
+        (8.30, "DIVE2", "DIVEP", -13, 20),
         (8.45, "DIVE3", "DIVET", -12, 20),
     ],
     "B": [
@@ -458,9 +458,28 @@ def road_material(name, rgb, rough, wet=False):
         ramp.color_ramp.elements[1].color = (0.30, 0.30, 0.30, 1)
         nt.links.new(ramp.outputs["Color"], b.inputs["Roughness"])
     else:
-        ramp.color_ramp.elements[0].color = (rgb[0] * 0.8, rgb[1] * 0.8, rgb[2] * 0.8, 1)
-        ramp.color_ramp.elements[1].color = (rgb[0] * 1.15, rgb[1] * 1.15, rgb[2] * 1.15, 1)
-        nt.links.new(ramp.outputs["Color"], b.inputs["Base Color"])
+        # asphalt that reads in motion: large patches x fine aggregate grain (about 2 cm), like the reference
+        ramp.color_ramp.elements[0].color = (rgb[0] * 0.7, rgb[1] * 0.7, rgb[2] * 0.7, 1)
+        ramp.color_ramp.elements[1].color = (rgb[0] * 1.3, rgb[1] * 1.3, rgb[2] * 1.3, 1)
+        grain = nt.nodes.new("ShaderNodeTexNoise")
+        grain.inputs["Scale"].default_value = 55.0
+        grain.inputs["Detail"].default_value = 2
+        nt.links.new(tc.outputs["Object"], grain.inputs["Vector"])
+        gr = nt.nodes.new("ShaderNodeValToRGB")
+        gr.color_ramp.elements[0].position, gr.color_ramp.elements[0].color = 0.35, (0.55, 0.55, 0.55, 1)
+        gr.color_ramp.elements[1].position, gr.color_ramp.elements[1].color = 0.65, (1.45, 1.45, 1.45, 1)
+        nt.links.new(grain.outputs["Fac"], gr.inputs["Fac"])
+        mul = nt.nodes.new("ShaderNodeMix")
+        mul.data_type = "RGBA"
+        mul.blend_type = "MULTIPLY"
+        mul.inputs["Factor"].default_value = 1.0
+        nt.links.new(ramp.outputs["Color"], mul.inputs["A"])
+        nt.links.new(gr.outputs["Color"], mul.inputs["B"])
+        nt.links.new(mul.outputs["Result"], b.inputs["Base Color"])
+        bump = nt.nodes.new("ShaderNodeBump")
+        bump.inputs["Strength"].default_value = 0.35
+        nt.links.new(grain.outputs["Fac"], bump.inputs["Height"])
+        nt.links.new(bump.outputs["Normal"], b.inputs["Normal"])
     return m
 
 
@@ -585,7 +604,7 @@ def resolve_keys(seg, objs):
         px = nb.location.x + min(xs) + 0.80 * L                       # just ahead of the right vent
         P, N = surface(nb, px, -0.30)
         print("DIVE point", P, N)
-        sym = {"DIVEP": P, "DIVE1": P + Vector((0.70, -0.45, 0.25)), "DIVE2": P + Vector((0.18, -0.08, 0.08)),
+        sym = {"DIVEP": P, "DIVE1": P + Vector((0.95, -0.60, 0.35)), "DIVE2": P + Vector((0.28, -0.12, 0.12)),
                "DIVE3": P + N * 0.035 + Vector((0.01, 0, 0)), "DIVET": P + Vector((-0.12, 0.0, 0.0)) - N * 0.4}
     else:
         body = objs["body"]
