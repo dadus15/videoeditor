@@ -78,7 +78,7 @@ KEYS = {
 }
 # film clock -> path clock (speed ramps, measured): (film t0, t1, path p0, p1, shape (a, b) of u^a (1-u)^b)
 WARP = {
-    "A": [(1.04, 8.45, 1.04, 8.45, (0.0, 0.0))],      # keys are on the film clock: speed comes from their spacing
+    "A": [(1.04, 8.75, 1.04, 8.75, (0.0, 0.0))],      # keys are on the film clock: speed comes from their spacing
 }
 # relative camera speed (m/s, before scaling to the path length) for B: a slow glide on the door paint (continuous
 # with the end of A), the burst out of the glass peaking at about 9.6, then the car pulls away ever faster; the
