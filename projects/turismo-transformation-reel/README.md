@@ -500,3 +500,34 @@ spending credits. It is rendered in Blender 4.5 EEVEE in the Higgsfield sandbox 
   - In the snow world the car stays closer around 10.5–11 s.
   - The car is a reconstructed mesh, and the trees and peaks are simplified.
   - The after paint is white (our brief), where the reference is light blue.
+
+**Previs v7.2: a moving camera in the metamorphosis** (feedback: v7 was a static frame during the slow motion)
+
+Measured on the reference at 5 fps, the camera never stops during the bonnet change:
+- 2.8–3.45: an arc from the front-left 3/4 to dead front;
+- 3.45–5.0: a slow drift;
+- 5.0–7.5: an arc to the front-right 3/4 with a push-in that runs straight into the dive.
+
+It also looks down on the bonnet from about 1 m.
+
+The changes:
+- **Camera clock.** v7's warp stalled the camera speed to zero at 3.1 and 5.4 s. The keys are now on the film
+  clock, with a light drone float (±5 cm, ±1.4° roll).
+- **Bonnet.** It stays upright to 4.4, tips flat by 6.2 and lands by 6.65.
+- **Asphalt.** It now has aggregate grain and bump, so the slow-motion road visibly moves.
+- **Dive.** The vent is close at 8.0 and still in frame at 8.3; the frame is paint only at 8.45.
+
+`camera_motion.py`, 2.6–8.45 s, compared with the reference:
+
+| Window (s) | Reference zoom (%/frame) | v7.2 zoom (%/frame) |
+|---|---|---|
+| 7.0 | 0.32 | 0.27 |
+| 7.4 | 0.54 | 0.41 |
+| 7.8 | 1.27 | 1.37 |
+
+In the 3–6.6 s slow motion, v7.2's motion energy is 0.4–0.9, against 0.1–0.5 in the reference. v7 had
+0.01–0.06 there.
+
+Deliverables:
+- previs: `79fadda9-a024-43ee-9013-68a649d06b81`;
+- side by side with the reference: `08b7a6c2-2c71-40b1-91ac-4b04bd82f734`.

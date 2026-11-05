@@ -101,5 +101,15 @@
   "ref_upload_whatsapp": {
     "media_id": "3dc47f75-15bf-4ccf-8c72-1a1663b442bb",
     "note": "Reference re-upload by the user"
+  },
+  "previs_v7_2": {
+    "media_id": "79fadda9-a024-43ee-9013-68a649d06b81",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/79fadda9-a024-43ee-9013-68a649d06b81.mp4",
+    "note": "Previs v7.2: moving camera through the metamorphosis, retimed dive, textured asphalt"
+  },
+  "previs_v7_2_vs_ref": {
+    "media_id": "08b7a6c2-2c71-40b1-91ac-4b04bd82f734",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/08b7a6c2-2c71-40b1-91ac-4b04bd82f734.mp4",
+    "note": "Side by side v7.2 vs reference, frame-synced"
   }
 }
