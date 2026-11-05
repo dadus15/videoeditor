@@ -488,3 +488,15 @@ spending credits. It is rendered in Blender 4.5 EEVEE in the Higgsfield sandbox 
    already rendered.
 3. Edit: `cgi/previs_edit.sh`, which writes `Turismo_Reel_previs_v7.mp4` and
    `Turismo_Reel_previs_v7_vs_oryginal.mp4` (the reference on the left, the previs on the right, same clock).
+
+**Result v7 previs** (540×960, 30 fps, 540 frames, 18.0 s):
+- previs: media `ce6d1abe-478b-4d4d-a8b4-3d40d00c0da9`
+  https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/ce6d1abe-478b-4d4d-a8b4-3d40d00c0da9.mp4
+- side by side with the reference: media `e79a6537-a9dc-42f0-8e4c-9b2209ed98b5`
+  https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/e79a6537-a9dc-42f0-8e4c-9b2209ed98b5.mp4
+- Render: 354 frames in 3 waves of 4 processes on the XL sandbox, about 50 minutes; 0 credits.
+- Known gaps against the reference:
+  - The dive reaches the vent about 0.2 s later.
+  - In the snow world the car stays closer around 10.5–11 s.
+  - The car is a reconstructed mesh, and the trees and peaks are simplified.
+  - The after paint is white (our brief), where the reference is light blue.
