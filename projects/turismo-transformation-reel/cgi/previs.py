@@ -899,6 +899,20 @@ def setup(seg, res, samples):
     sun.data.color = (1.0, 0.97, 0.92) if seg == "A" else (0.92, 0.96, 1.0)
     sun.rotation_euler = (math.radians(35), 0, math.radians(-40 if seg == "A" else 140))
     sc.render.engine = "BLENDER_EEVEE_NEXT"
+    if _os.environ.get("PV_ENGINE") == "CYCLES":            # path traced (CPU): real GI, no shader-compile wait
+        sc.render.engine = "CYCLES"
+        cy = sc.cycles
+        cy.device = "CPU"
+        cy.samples = int(_os.environ.get("PV_CY_SAMPLES", "24"))
+        cy.use_denoising = True
+        cy.denoiser = "OPENIMAGEDENOISE"
+        cy.max_bounces = 4
+        cy.diffuse_bounces = 2
+        cy.glossy_bounces = 2
+        cy.transmission_bounces = 2
+        cy.use_adaptive_sampling = True
+        cy.adaptive_threshold = 0.05
+        sc.render.use_persistent_data = True
     ee = sc.eevee
     ee.taa_render_samples = samples
     ee.use_raytracing = seg == "B"                               # wet-road reflections; saves time in A
