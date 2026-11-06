@@ -1,4 +1,4 @@
-# Status: previs v7.4 APPROVED (6 Nov 2026); next = production with credits + licensed music
+# Status: v8 photoreal production DELIVERED (6 Nov 2026); only the licensed music WAV is pending
 
 ## Approved by the user
 - **v7.2 = "idealnie"** (perfect): the camera through the metamorphosis.

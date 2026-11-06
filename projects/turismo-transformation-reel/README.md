@@ -569,3 +569,36 @@ Deliverables:
   - Needed: about 95 Higgsfield credits at 720p for both segments, plus a margin for retries.
 - **Music:** `MUSIC.md`. The best Epidemic Sound matches for "NEXT! (Slowed)" by NCTS, found with
   `cgi/music_match.py`, with demo edits made by `cgi/cutmusic.py`.
+
+## v8: photoreal production (6 Nov 2026)
+
+**Source footage:** Seedance 2.5 `video_edit` at 1080p on the approved previs v7.4. The previs locks motion,
+framing and timing; Seedance only repaints. Credits: 1045 before, 641 after.
+
+| Segment | Cost (credits) | Result |
+|---|---|---|
+| B (snow) | 94 | Excellent: GT3 RS on gold MSP02, real peaks, trees and a wet road. |
+| A, first pass | 155 | The car and bonnet are photoreal, but the scenery stayed grey-box. The reference of the studio car on white is the likely cause. |
+| A, second pass (A2) | 155 | References: v6 photoreal coast stills `3dd8968f` and `04cca05e`. The world is now photoreal, but the last white-paint glide turned into clouds. |
+
+**Final cut of A:**
+- A2 up to clip frame 174, then a blend into the first pass over frames 175–179. Those frames are dark,
+  motion-blurred vent close-ups in both passes, so the seam is invisible.
+- The first pass then carries the paint glide into the swap.
+
+**Assembly:** `cgi/final_v8.sh`.
+- Conform to 30 fps with motion-compensated interpolation.
+- v6 opening 0–1.04 s.
+- A to 8.6 s.
+- 3-frame paint-on-paint swap.
+- B to 13.3 s.
+- v6 packshots and logo to 18 s.
+- Score: Montagem Samba slowed ×0.92, from the preview.
+- Output: 1080×1920, 540 frames, 18.0 s.
+
+**Deliverables:**
+- final: `a603f63a-d8d7-4c78-a646-d075d3cad836`;
+- side by side with the reference: `e7c72ffe-34bb-4041-8b17-438deeecdc46`.
+
+**To finish:** licence Montagem Samba and re-cut it from the full-quality WAV with `cgi/cutmusic.py` (rate 0.92),
+then remux. The picture stays as it is.
