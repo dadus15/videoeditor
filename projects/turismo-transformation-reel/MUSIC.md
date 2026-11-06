@@ -48,3 +48,12 @@ The demos are laid over previs v7.4. The media IDs are in `higgsfield_media.json
 - Download the full-quality WAV (or stems, so the break and stutter can be built from the stems rather than with
   filters).
 - Re-run `cutmusic.py` on it.
+
+## Decision (6 Nov 2026)
+The user picked **Montagem Samba** by Daniel Löfgren, slowed ×0.92 (about 123 BPM, the reference's tempo):
+- Track: https://www.epidemicsound.com/music/tracks/2e9fd206-eccb-4fd7-9363-f8ffa377039c/
+- Cut: `cgi/cutmusic.py <licensed WAV> score_final.wav 0.92`. On the preview, the drop sits at 73.25 s of the
+  slowed track (offset 63.85 s).
+- Demo: media `7e28162b-4281-401b-93dc-bf941457ed06`.
+- To do: licence the track and download the full-quality WAV (and stems if available), then re-cut it for the
+  final.
