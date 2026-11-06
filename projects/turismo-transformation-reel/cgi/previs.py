@@ -515,6 +515,11 @@ def road_material(name, rgb, rough, wet=False):
 
 
 ASSETS = "/home/user/assets"
+import os as _os
+PV_HDRI = _os.environ.get("PV_HDRI", "1") == "1"        # photographed sky in A
+PV_PBR = _os.environ.get("PV_PBR", "1") == "1"          # photo textures in A
+PV_BOX = _os.environ.get("PV_BOX", "0") == "1"          # triplanar (box) projection: much slower shader compile
+PV_NRM = _os.environ.get("PV_NRM", "0") == "1"          # normal maps
 
 
 def _img(path, color=True):
@@ -538,12 +543,15 @@ def pbr_material(name, stem, scale, tint=(1, 1, 1), box=False, normal=0.6):
     def tex(suffix, color):
         t = nt.nodes.new("ShaderNodeTexImage")
         t.image = _img(f"{ASSETS}/{stem}_{suffix}.jpg", color)
-        if box:
+        if box and PV_BOX:
             t.projection = "BOX"
             t.projection_blend = 0.3
         nt.links.new(mp.outputs["Vector"], t.inputs["Vector"])
         return t
-    d, r, n = tex("diff", True), tex("rough", False), tex("nor", False)
+    if not PV_PBR:
+        m.node_tree.nodes["Principled BSDF"].inputs["Base Color"].default_value = (0.3 * tint[0], 0.3 * tint[1], 0.3 * tint[2], 1)
+        return m
+    d, r = tex("diff", True), tex("rough", False)
     mul = nt.nodes.new("ShaderNodeMix")
     mul.data_type = "RGBA"
     mul.blend_type = "MULTIPLY"
@@ -552,10 +560,12 @@ def pbr_material(name, stem, scale, tint=(1, 1, 1), box=False, normal=0.6):
     nt.links.new(d.outputs["Color"], mul.inputs["A"])
     nt.links.new(mul.outputs["Result"], b.inputs["Base Color"])
     nt.links.new(r.outputs["Color"], b.inputs["Roughness"])
-    nm = nt.nodes.new("ShaderNodeNormalMap")
-    nm.inputs["Strength"].default_value = normal
-    nt.links.new(n.outputs["Color"], nm.inputs["Color"])
-    nt.links.new(nm.outputs["Normal"], b.inputs["Normal"])
+    if PV_NRM:
+        n = tex("nor", False)
+        nm = nt.nodes.new("ShaderNodeNormalMap")
+        nm.inputs["Strength"].default_value = normal
+        nt.links.new(n.outputs["Color"], nm.inputs["Color"])
+        nt.links.new(nm.outputs["Normal"], b.inputs["Normal"])
     m.diffuse_color = (0.3, 0.3, 0.3, 1)
     return m
 
@@ -711,7 +721,7 @@ def world(seg):
     w.use_nodes = True
     nt = w.node_tree
     bg = nt.nodes["Background"]
-    if seg == "A":                     # photographed overcast sky with real clouds (Poly Haven, CC0)
+    if seg == "A" and PV_HDRI:         # photographed overcast sky with real clouds (Poly Haven, CC0)
         env = nt.nodes.new("ShaderNodeTexEnvironment")
         env.image = _img(f"{ASSETS}/sky_overcast_4k.hdr")
         tc = nt.nodes.new("ShaderNodeTexCoord")
