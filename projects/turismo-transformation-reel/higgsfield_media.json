@@ -182,5 +182,13 @@
     "media_id": "e7c72ffe-34bb-4041-8b17-438deeecdc46",
     "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/e7c72ffe-34bb-4041-8b17-438deeecdc46.mp4",
     "note": "v8 side by side with the reference"
+  },
+  "prod_v75_guide_A": {
+    "media_id": "289a9470-4388-4d86-977c-4845bd265619",
+    "note": "previs v7.5 A (Cycles, Poly Haven HDRI + PBR asphalt/rocks/bark, real palms, stiff suspension), 720x1280, 30 fps, 232 frames"
+  },
+  "prod_v75_job_A": {
+    "job_id": "324aa247-8c4a-4da4-904e-91b5e3ddfc78",
+    "note": "seedance_2_5 video_edit 1080p, prompts seedance_prompts_v75.md"
   }
 }
