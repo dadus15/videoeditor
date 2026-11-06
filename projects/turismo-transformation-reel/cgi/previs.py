@@ -514,6 +514,131 @@ def road_material(name, rgb, rough, wet=False):
     return m
 
 
+ASSETS = "/home/user/assets"
+
+
+def _img(path, color=True):
+    im = bpy.data.images.load(path, check_existing=True)
+    if not color:
+        im.colorspace_settings.name = "Non-Color"
+    return im
+
+
+def pbr_material(name, stem, scale, tint=(1, 1, 1), box=False, normal=0.6):
+    """Photo-scanned PBR (diffuse, roughness, GL normal), mapped in metres on object coordinates."""
+    m = bpy.data.materials.new(name)
+    m.use_nodes = True
+    nt = m.node_tree
+    b = nt.nodes["Principled BSDF"]
+    tc = nt.nodes.new("ShaderNodeTexCoord")
+    mp = nt.nodes.new("ShaderNodeMapping")
+    mp.inputs["Scale"].default_value = (1 / scale, 1 / scale, 1 / scale)
+    nt.links.new(tc.outputs["Object"], mp.inputs["Vector"])
+
+    def tex(suffix, color):
+        t = nt.nodes.new("ShaderNodeTexImage")
+        t.image = _img(f"{ASSETS}/{stem}_{suffix}.jpg", color)
+        if box:
+            t.projection = "BOX"
+            t.projection_blend = 0.3
+        nt.links.new(mp.outputs["Vector"], t.inputs["Vector"])
+        return t
+    d, r, n = tex("diff", True), tex("rough", False), tex("nor", False)
+    mul = nt.nodes.new("ShaderNodeMix")
+    mul.data_type = "RGBA"
+    mul.blend_type = "MULTIPLY"
+    mul.inputs["Factor"].default_value = 1.0
+    mul.inputs["B"].default_value = (*tint, 1)
+    nt.links.new(d.outputs["Color"], mul.inputs["A"])
+    nt.links.new(mul.outputs["Result"], b.inputs["Base Color"])
+    nt.links.new(r.outputs["Color"], b.inputs["Roughness"])
+    nm = nt.nodes.new("ShaderNodeNormalMap")
+    nm.inputs["Strength"].default_value = normal
+    nt.links.new(n.outputs["Color"], nm.inputs["Color"])
+    nt.links.new(nm.outputs["Normal"], b.inputs["Normal"])
+    m.diffuse_color = (0.3, 0.3, 0.3, 1)
+    return m
+
+
+def proto_real_palm(h, mats, rng, key):
+    """Canary-style palm: ringed tapered trunk, 16 pinnate fronds of ~70 leaflets each, a few dead fronds."""
+    bark, leaf_a, leaf_b, dead = mats
+    bm = bmesh.new()
+    res = bmesh.ops.create_cone(bm, cap_ends=False, segments=14, radius1=0.42, radius2=0.30, depth=h,
+                                matrix=Matrix.Translation((0, 0, h / 2)))
+    for v in res["verts"]:
+        z = v.co.z
+        ring = 1 + 0.05 * math.sin(z * 2 * math.pi / 0.18) + 0.08 * max(0, 1 - z / 1.2)
+        v.co.x *= ring
+        v.co.y *= ring
+    for f in {f for v in res["verts"] for f in v.link_faces}:
+        f.material_index = 0
+    top = Vector((0, 0, h))
+    nf = 16
+    for k in range(nf + 4):
+        deadf = k >= nf
+        a = (k / nf) * 2 * math.pi + rng.uniform(-0.2, 0.2) if not deadf else rng.uniform(0, 2 * math.pi)
+        e0 = rng.uniform(0.15, 0.85) if not deadf else rng.uniform(-1.2, -0.8)
+        Lf = rng.uniform(3.2, 4.4) if not deadf else rng.uniform(2.0, 2.8)
+        droop = rng.uniform(0.6, 1.1)
+        hd = Vector((math.cos(a), math.sin(a), 0))
+        side = Vector((-math.sin(a), math.cos(a), 0))
+        mat = 3 if deadf else (1 if rng.random() < 0.55 else 2)
+        npts = 18
+
+        def P(sv):
+            return top + hd * (sv * Lf * math.cos(e0)) + Vector((0, 0, sv * Lf * math.sin(e0) - droop * Lf * sv * sv))
+        for i in range(npts):
+            sv = 0.12 + 0.88 * i / (npts - 1)
+            p = P(sv)
+            tang = (P(min(sv + 0.02, 1)) - P(max(sv - 0.02, 0))).normalized()
+            ll = (0.75 * math.sin(math.pi * min(sv * 1.1, 1)) ** 0.5 + 0.12) * (0.7 if deadf else 1)
+            for sgn in (-1, 1):
+                for j in range(2):                    # two leaflets per side per station (V-shaped pinnae)
+                    d = (side * sgn * math.cos(0.5) + Vector((0, 0, -0.35 - 0.25 * j)) + tang * 0.35).normalized()
+                    w = tang * 0.025
+                    q = p + tang * (0.06 * j)
+                    vs = [bm.verts.new(q - w), bm.verts.new(q + w), bm.verts.new(q + d * ll + w * 0.3),
+                          bm.verts.new(q + d * ll - w * 0.3)]
+                    f = bm.faces.new(vs)
+                    f.material_index = mat
+    me = bpy.data.meshes.new(key)
+    bm.to_mesh(me)
+    bm.free()
+    for mm in mats:
+        me.materials.append(mm)
+    return me
+
+
+def proto_rock(rng, mat, key):
+    bm = bmesh.new()
+    bmesh.ops.create_icosphere(bm, subdivisions=2, radius=1.0)
+    for v in bm.verts:
+        v.co *= 1 + rng.normal(0, 0.12)
+        v.co.z *= 0.75
+    me = bpy.data.meshes.new(key)
+    bm.to_mesh(me)
+    bm.free()
+    me.materials.append(mat)
+    return me
+
+
+def water_material():
+    m = principled("sea", (0.035, 0.09, 0.11), 0.06, spec=0.6)
+    nt = m.node_tree
+    b = nt.nodes["Principled BSDF"]
+    tc = nt.nodes.new("ShaderNodeTexCoord")
+    nz = nt.nodes.new("ShaderNodeTexNoise")
+    nz.inputs["Scale"].default_value = 0.08
+    nz.inputs["Detail"].default_value = 10
+    nt.links.new(tc.outputs["Object"], nz.inputs["Vector"])
+    bump = nt.nodes.new("ShaderNodeBump")
+    bump.inputs["Strength"].default_value = 0.25
+    nt.links.new(nz.outputs["Fac"], bump.inputs["Height"])
+    nt.links.new(bump.outputs["Normal"], b.inputs["Normal"])
+    return m
+
+
 def build_env(seg):
     rng = np.random.default_rng(7)
     env = bpy.data.objects.new("ENV", None)
@@ -521,25 +646,33 @@ def build_env(seg):
     L, X0 = 700, 150
     line = principled("line", (0.75, 0.75, 0.72), 0.5)
     if seg == "A":
-        road = box("ENV_road", (X0, 0, -0.02), (L, 14, 0.04), road_material("asphalt", (0.10, 0.10, 0.10), 0.7), env)
+        road = box("ENV_road", (X0, 0, -0.02), (L, 14, 0.04),
+                   pbr_material("asphalt_pbr", "asphalt_02", 3.0, (0.85, 0.85, 0.85), normal=0.8), env)
         for x in np.arange(X0 - L / 2, X0 + L / 2, 9):
             box("ENV_dash", (x, 2.1, 0.005), (3.0, 0.14, 0.01), line, env)
             box("ENV_dash", (x + 4.5, -5.3, 0.005), (3.0, 0.14, 0.01), line, env)
-        kerb = principled("kerb", (0.45, 0.44, 0.41), 0.8)
+        kerb = pbr_material("kerb_pbr", "asphalt_02", 1.5, (1.6, 1.58, 1.5), box=True)
         box("ENV_kerbL", (X0, 7.6, 0.1), (L, 1.2, 0.2), kerb, env)
         box("ENV_kerbR", (X0, -7.6, 0.1), (L, 1.2, 0.2), kerb, env)
-        rock = principled("rock", (0.20, 0.18, 0.15), 0.9)
-        for x in np.arange(X0 - L / 2, X0 + L / 2, 3.2):
-            s = rng.uniform(0.8, 1.6)
-            box("ENV_rock", (x, 9.3 + rng.uniform(-0.4, 0.4), 0.3), (s, s * 0.9, s * 0.7), rock, env,
-                rot=(rng.uniform(0, 1), rng.uniform(0, 1), rng.uniform(0, 3)))
-        box("ENV_sea", (0, 160, -0.3), (L * 2, 300, 0.1), principled("sea", (0.30, 0.38, 0.42), 0.15), env)
+        rock = pbr_material("rock_pbr", "rock_boulder_dry", 1.2, (0.95, 0.92, 0.88), box=True, normal=1.0)
+        rocks = [proto_rock(rng, rock, f"rock{i}") for i in range(6)]
+        for x in np.arange(X0 - L / 2, X0 + L / 2, 1.6):
+            for row in range(2):
+                s = rng.uniform(0.6, 1.3)
+                link("ENV_rock", rocks[int(rng.integers(0, 6))], (x + rng.uniform(-0.5, 0.5), 9.0 + row * 1.3 + rng.uniform(-0.3, 0.3), 0.15 + row * 0.25),
+                     (rng.uniform(0, 3), rng.uniform(0, 3), rng.uniform(0, 3)), (s, s * rng.uniform(0.7, 1.0), s * 0.8), env)
+        box("ENV_sea", (0, 160, -0.3), (L * 2, 300, 0.1), water_material(), env)
         box("ENV_verge", (0, -60, -0.03), (L * 2, 100, 0.05), principled("verge", (0.32, 0.29, 0.22), 0.9), env)
-        mt, ml = principled("trunk", (0.22, 0.17, 0.12), 0.9), principled("leaf", (0.06, 0.13, 0.05), 0.6)
+        pm = (pbr_material("palm_bark", "bark_brown_02", 0.8, (0.85, 0.8, 0.72), box=True, normal=1.0),
+              principled("frond_a", (0.055, 0.11, 0.035), 0.55, spec=0.35),
+              principled("frond_b", (0.075, 0.13, 0.04), 0.5, spec=0.35),
+              principled("frond_dead", (0.22, 0.16, 0.08), 0.8))
+        protos = [proto_real_palm(h, pm, rng, f"rpalm{h}") for h in (9, 10, 11, 12, 13)]
         for x in np.arange(X0 - L / 2, X0 + L / 2, 16):
-            palm(env, x + rng.uniform(-2, 2), -9.5, rng.uniform(9, 13), rng.uniform(-0.12, 0.05), rng, mt, ml)
-            if rng.random() < 0.5:
-                palm(env, x + 8, 8.6, rng.uniform(8, 12), rng.uniform(-0.05, 0.12), rng, mt, ml)
+            for y, lean_r, p in ((-9.5, (-0.12, 0.05), 1.0), (8.6, (-0.05, 0.12), 0.5)):
+                if rng.random() < p:
+                    link("ENV_palm", protos[int(rng.integers(0, 5))], (x + rng.uniform(-2, 2) + (8 if y > 0 else 0), y, 0),
+                         (rng.uniform(*lean_r), 0, rng.uniform(0, 6.28)), parent=env)
     else:
         road = box("ENV_road", (X0, 0, -0.02), (L, 10, 0.04), road_material("wet", (0.025, 0.027, 0.03), 0.1, True), env)
         for x in np.arange(X0 - L / 2, X0 + L / 2, 9):
@@ -578,6 +711,17 @@ def world(seg):
     w.use_nodes = True
     nt = w.node_tree
     bg = nt.nodes["Background"]
+    if seg == "A":                     # photographed overcast sky with real clouds (Poly Haven, CC0)
+        env = nt.nodes.new("ShaderNodeTexEnvironment")
+        env.image = _img(f"{ASSETS}/sky_overcast_4k.hdr")
+        tc = nt.nodes.new("ShaderNodeTexCoord")
+        mp = nt.nodes.new("ShaderNodeMapping")
+        mp.inputs["Rotation"].default_value = (0, 0, math.radians(120))
+        nt.links.new(tc.outputs["Generated"], mp.inputs["Vector"])
+        nt.links.new(mp.outputs["Vector"], env.inputs["Vector"])
+        nt.links.new(env.outputs["Color"], bg.inputs["Color"])
+        bg.inputs["Strength"].default_value = 1.1
+        return w
     tc = nt.nodes.new("ShaderNodeTexCoord")
     sep = nt.nodes.new("ShaderNodeSeparateXYZ")
     ramp = nt.nodes.new("ShaderNodeValToRGB")
@@ -680,14 +824,15 @@ def pose(seg, objs, env, t, rest):
     # the car is not on rails: sprung body (heave, pitch, roll) over the wheels, a little lane wander and yaw,
     # all on the scene clock so they slow down with the slow motion; squat as it pulls away in B
     T = tau
-    pitch = math.radians(0.22) * math.sin(2 * math.pi * 1.3 * T + 0.5) + math.radians(0.08) * math.sin(2 * math.pi * 2.9 * T)
+    # GT3 RS: motorsport-stiff springs and dampers, so the body barely moves (v7.3 was about 5x softer)
+    pitch = math.radians(0.04) * math.sin(2 * math.pi * 1.9 * T + 0.5) + math.radians(0.015) * math.sin(2 * math.pi * 4.1 * T)
     if seg == "B":
-        pitch -= math.radians(0.7) * smoothstep((t - 10.3) / 0.6) * (1 - 0.5 * smoothstep((t - 11.6) / 1.2))
-    objs["rig"].location = rest["rig"] + Vector((0, 0, 0.004 * math.sin(2 * math.pi * 1.7 * T)
-                                                   + 0.002 * math.sin(2 * math.pi * 3.1 * T + 1.0)))
-    objs["rig"].rotation_euler = (math.radians(0.18) * math.sin(2 * math.pi * 0.9 * T + 2.0), pitch, 0)
-    objs["all"].location = (0, 0.05 * math.sin(2 * math.pi * 0.22 * T), 0)
-    objs["all"].rotation_euler = (0, 0, math.radians(0.35) * math.sin(2 * math.pi * 0.22 * T + 1.3))
+        pitch -= math.radians(0.15) * smoothstep((t - 10.3) / 0.6) * (1 - 0.5 * smoothstep((t - 11.6) / 1.2))
+    objs["rig"].location = rest["rig"] + Vector((0, 0, 0.0008 * math.sin(2 * math.pi * 2.6 * T)
+                                                   + 0.0004 * math.sin(2 * math.pi * 5.3 * T + 1.0)))
+    objs["rig"].rotation_euler = (math.radians(0.03) * math.sin(2 * math.pi * 1.4 * T + 2.0), pitch, 0)
+    objs["all"].location = (0, 0.015 * math.sin(2 * math.pi * 0.22 * T), 0)
+    objs["all"].rotation_euler = (0, 0, math.radians(0.08) * math.sin(2 * math.pi * 0.22 * T + 1.3))
     env.location.x = -ROAD_SPEED[seg] * tau
     spin = ROAD_SPEED[seg] * tau / 0.35
     for k in ("wFL", "wFR", "wRL", "wRR"):
