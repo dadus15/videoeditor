@@ -146,5 +146,21 @@
     "media_id": "5e0547a2-d99e-439f-86e5-f9f72d6a0097",
     "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/5e0547a2-d99e-439f-86e5-f9f72d6a0097.mp4",
     "note": "v7.4 + STYLE (David Halsey), internal demo"
+  },
+  "prod_v74_guide_A": {
+    "media_id": "7fa4e77b-f2ad-4a3e-9f39-a701a4307b16",
+    "note": "previs v7.4 A frames 0-231, 720x1280, 30 fps, 7.73 s"
+  },
+  "prod_v74_guide_B": {
+    "media_id": "5656a4d8-c45d-48b0-ae7b-827adc3f6c06",
+    "note": "previs v7.4 B frames 0-140, 720x1280, 30 fps, 4.70 s"
+  },
+  "prod_v74_job_A": {
+    "job_id": "84dc1ee0-28ce-44df-97d3-22c402e1883f",
+    "note": "seedance_2_5 video_edit 1080p, 155 credits"
+  },
+  "prod_v74_job_B": {
+    "job_id": "4ec607ce-2b93-4c5c-a960-e01702227964",
+    "note": "seedance_2_5 video_edit 1080p, 94 credits"
   }
 }
