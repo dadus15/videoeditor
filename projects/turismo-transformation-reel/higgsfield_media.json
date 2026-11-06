@@ -189,7 +189,9 @@
   },
   "prod_v75_job_A": {
     "job_id": "324aa247-8c4a-4da4-904e-91b5e3ddfc78",
-    "note": "seedance_2_5 video_edit 1080p, prompts seedance_prompts_v75.md"
+    "note": "seedance_2_5 video_edit 1080p, prompts seedance_prompts_v75.md",
+    "result": "https://d8j0ntlcm91z4.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/hf_20261106_151903_324aa247-8c4a-4da4-904e-91b5e3ddfc78.mp4",
+    "verdict": "photoreal asphalt with cracks, full Canary palms, textured rocks; the end is white paint (no hybrid needed)"
   },
   "prod_v75_guide_B": {
     "media_id": "acb57741-1354-4771-b3c8-06d829d82c9b",
@@ -197,6 +199,12 @@
   },
   "prod_v75_job_B": {
     "job_id": "4c1f25d0-9877-401d-9f64-aaa5e14b6b69",
-    "note": "seedance_2_5 video_edit 1080p, prompts seedance_prompts_v75.md"
+    "note": "seedance_2_5 video_edit 1080p, prompts seedance_prompts_v75.md",
+    "result": "https://d8j0ntlcm91z4.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/hf_20261106_152541_4c1f25d0-9877-401d-9f64-aaa5e14b6b69.mp4",
+    "verdict": "body rigid (lower-edge jitter 0.39 px vs 4.25 px in v8), but the scenery stayed previs (cone mountains, pole trees); redone as B2"
+  },
+  "prod_v75_job_B2": {
+    "job_id": "a64f10ed-bd2a-4ece-812b-32faf7f05d48",
+    "note": "B redo: 're-render the whole world' prompt + v8 B photoreal snow stills 011f55ca (2.6 s), ad925597 (3.8 s) as references"
   }
 }
