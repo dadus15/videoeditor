@@ -205,6 +205,18 @@
   },
   "prod_v75_job_B2": {
     "job_id": "a64f10ed-bd2a-4ece-812b-32faf7f05d48",
-    "note": "B redo: 're-render the whole world' prompt + v8 B photoreal snow stills 011f55ca (2.6 s), ad925597 (3.8 s) as references"
+    "note": "B redo: 're-render the whole world' prompt + v8 B photoreal snow stills 011f55ca (2.6 s), ad925597 (3.8 s) as references",
+    "result": "https://d8j0ntlcm91z4.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/hf_20261106_154431_a64f10ed-bd2a-4ece-812b-32faf7f05d48.mp4",
+    "verdict": "photoreal snow peaks, bare trees, wet road; slit-scan of the rear bumper line shows no visible bounce (v8 B wobbles); used in v9"
+  },
+  "final_v9": {
+    "media_id": "edeca487-96d5-4d1f-aeb6-993f3592a449",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/edeca487-96d5-4d1f-aeb6-993f3592a449.mp4",
+    "note": "FINAL v9 1080x1920 30 fps 18.0 s: v6 opening + Seedance A75 + B2 (stiff motorsport suspension, photoreal scenery) + v6 packshots, Montagem Samba slowed x0.92 (preview-quality audio until licensed)"
+  },
+  "final_v9_vs_ref": {
+    "media_id": "2dc2dff0-e05f-45da-a588-cb811f942545",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/2dc2dff0-e05f-45da-a588-cb811f942545.mp4",
+    "note": "side by side: reference left, TURISMO v9 right"
   }
 }

@@ -602,3 +602,29 @@ framing and timing; Seedance only repaints. Credits: 1045 before, 641 after.
 
 **To finish:** licence Montagem Samba and re-cut it from the full-quality WAV with `cgi/cutmusic.py` (rate 0.92),
 then remux. The picture stays as it is.
+
+## Production v9 (6 Nov 2026)
+Feedback on v8: the suspension moved too much for a motorsport-tuned GT3 RS, and the palms, asphalt and scenery
+looked artificial.
+
+**Changes:**
+- Previs v7.5: suspension stiffened (body pitch about 0.04°, heave under 1 mm, small squat on acceleration only).
+- Segment A guide rendered in Cycles with Poly Haven PBR asphalt, rock and an overcast HDRI, plus modelled palms
+  with real fronds and a ringed trunk, so Seedance keeps real textures.
+- Prompts in `seedance_prompts_v75.md`: stiff chassis, re-render the whole world photoreal, the end glide is
+  white paint, never sky.
+
+| Segment | Cost (credits) | Result |
+|---|---|---|
+| A75 | 155 | Photoreal asphalt with cracks, full palms, textured rocks; ends on white paint. Used as is. |
+| B75 | 94 | Rigid body, but the scenery stayed previs. Rejected. |
+| B2 | 94 | References: v8 B snow stills. Photoreal peaks, trees and wet road; no visible bounce. Used. |
+
+**Assembly:** `cgi/final_v8.sh A75.mp4 B2.mp4 cut_montagem_samba.wav Turismo_MSP02_Reel_v9.mp4`
+(1080×1920, 540 frames, 18.0 s).
+
+**Deliverables:**
+- final: `edeca487-96d5-4d1f-aeb6-993f3592a449`;
+- side by side with the reference: `2dc2dff0-e05f-45da-a588-cb811f942545`.
+
+Credits left: 298. The music is still the preview cut until Montagem Samba is licensed.
