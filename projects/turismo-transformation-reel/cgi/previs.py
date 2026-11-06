@@ -70,10 +70,12 @@ KEYS = {
         (9.30, (-0.15, -1.20, 1.05), (-0.25, -0.60, 1.00), -30, 20),
         (9.60, (-0.05, -1.75, 1.10), (-0.20, -0.70, 0.95), -22, 21),
         (9.95, (0.40, -2.70, 1.08), (0.00, -0.80, 0.85), -12, 22),
-        (10.30, (-1.20, -3.40, 0.95), (-0.30, -0.50, 0.75), -5, 24),
-        (10.80, (-5.00, -3.10, 0.90), (-0.60, -0.20, 0.70), 0, 26),
-        (11.60, (-11.0, -2.20, 1.00), (-0.50, 0.00, 0.70), 0, 28),
-        (13.30, (-32.0, -1.00, 1.30), (-0.40, 0.00, 0.70), 0, 30),
+        # measured on the reference: side view close at 10.0, rear-right 3/4 close at 10.5, then a near-locked
+        # follow from about 11 s, low and to the right, the car slowly receding (not shrinking into the distance)
+        (10.30, (-0.80, -3.30, 0.95), (-0.30, -0.50, 0.75), -5, 24),
+        (10.80, (-3.80, -3.20, 0.85), (-0.60, -0.20, 0.68), 0, 26),
+        (11.60, (-7.50, -2.60, 0.85), (-0.50, 0.00, 0.65), 0, 29),
+        (13.30, (-12.0, -2.20, 0.90), (-0.50, 0.00, 0.65), 0, 32),
     ],
 }
 # film clock -> path clock (speed ramps, measured): (film t0, t1, path p0, p1, shape (a, b) of u^a (1-u)^b)
@@ -83,8 +85,8 @@ WARP = {
 # relative camera speed (m/s, before scaling to the path length) for B: a slow glide on the door paint (continuous
 # with the end of A), the burst out of the glass peaking at about 9.6, then the car pulls away ever faster; the
 # curve is Gaussian-smoothed so the speed has no corners
-SPEED = {"B": [(8.65, 0.5), (8.95, 0.8), (9.25, 2.2), (9.55, 6.0), (9.70, 7.5), (10.0, 6.5), (10.5, 3.0),
-               (11.0, 3.0), (11.6, 5.0), (12.4, 10.0), (13.32, 16.0)]}
+SPEED = {"B": [(8.65, 0.5), (8.95, 0.8), (9.25, 2.0), (9.6, 3.6), (10.0, 4.2), (10.5, 6.2), (11.0, 4.8),
+               (11.5, 2.8), (12.2, 2.3), (13.32, 2.2)]}
 _ARC = {}
 
 
