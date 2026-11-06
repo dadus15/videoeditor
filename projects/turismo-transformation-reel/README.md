@@ -557,3 +557,15 @@ Deliverables:
 - The burst out of the glass is weaker: flow energy 1.1, against 5.2 in the reference.
 - From about 11 s the reference holds a near-locked follow at a constant distance. v7.3 lets the car shrink far
   into the distance.
+
+**Previs v7.4: approved by the user ("perfekcyjna") as the production base**
+- B was retimed to the reference: side view at 10.0, rear-right 3/4 close at 10.5, then a near-locked follow from
+  11 s, low and to the right.
+- Deliverables:
+  - previs: `df0d0a19-4e4c-44b3-94b8-a819e5102c63`;
+  - side by side: `6f6a2115-040a-41b5-874a-02f1677dd16a`.
+- **Production:** `seedance_prompts_v7.md` (video_edit on the v7.4 previs segments).
+  - Higgsfield and Tella both had 0 credits on 6 Nov 2026.
+  - Needed: about 95 Higgsfield credits at 720p for both segments, plus a margin for retries.
+- **Music:** `MUSIC.md`. The best Epidemic Sound matches for "NEXT! (Slowed)" by NCTS, found with
+  `cgi/music_match.py`, with demo edits made by `cgi/cutmusic.py`.

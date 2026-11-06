@@ -121,5 +121,30 @@
     "media_id": "f38d3c72-d494-4268-9d57-a989a07bee34",
     "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/f38d3c72-d494-4268-9d57-a989a07bee34.mp4",
     "note": "v7.3 side by side with the reference"
+  },
+  "previs_v7_4": {
+    "media_id": "df0d0a19-4e4c-44b3-94b8-a819e5102c63",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/df0d0a19-4e4c-44b3-94b8-a819e5102c63.mp4",
+    "note": "APPROVED previs (production base): B retimed to the reference"
+  },
+  "previs_v7_4_vs_ref": {
+    "media_id": "6f6a2115-040a-41b5-874a-02f1677dd16a",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/6f6a2115-040a-41b5-874a-02f1677dd16a.mp4",
+    "note": "v7.4 side by side with the reference"
+  },
+  "music_demo_montagem_samba": {
+    "media_id": "7e28162b-4281-401b-93dc-bf941457ed06",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/7e28162b-4281-401b-93dc-bf941457ed06.mp4",
+    "note": "v7.4 + Montagem Samba (Daniel Lofgren) slowed x0.92, internal demo from the preview"
+  },
+  "music_demo_bxdy_count": {
+    "media_id": "06c49882-2889-4cf5-a9a3-a187cc315b1e",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/06c49882-2889-4cf5-a9a3-a187cc315b1e.mp4",
+    "note": "v7.4 + BXDY COUNT (Robin Sherpa), internal demo"
+  },
+  "music_demo_style": {
+    "media_id": "5e0547a2-d99e-439f-86e5-f9f72d6a0097",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/5e0547a2-d99e-439f-86e5-f9f72d6a0097.mp4",
+    "note": "v7.4 + STYLE (David Halsey), internal demo"
   }
 }

@@ -1,4 +1,4 @@
-# Status: previs v7.3 (rendered and delivered 6 Nov 2026; B retime = v7.4 in progress)
+# Status: previs v7.4 APPROVED (6 Nov 2026); next = production with credits + licensed music
 
 ## Approved by the user
 - **v7.2 = "idealnie"** (perfect): the camera through the metamorphosis.
