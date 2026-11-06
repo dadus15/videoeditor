@@ -111,5 +111,15 @@
     "media_id": "08b7a6c2-2c71-40b1-91ac-4b04bd82f734",
     "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/08b7a6c2-2c71-40b1-91ac-4b04bd82f734.mp4",
     "note": "Side by side v7.2 vs reference, frame-synced"
+  },
+  "previs_v7_3": {
+    "media_id": "f902a7dd-ccc5-4d12-b9b9-64619b1f3bc9",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/f902a7dd-ccc5-4d12-b9b9-64619b1f3bc9.mp4",
+    "note": "v7.3: paint-glide transition into the winter world, arc-length B camera, sprung body"
+  },
+  "previs_v7_3_vs_ref": {
+    "media_id": "f38d3c72-d494-4268-9d57-a989a07bee34",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/f38d3c72-d494-4268-9d57-a989a07bee34.mp4",
+    "note": "v7.3 side by side with the reference"
   }
 }

@@ -531,3 +531,29 @@ In the 3–6.6 s slow motion, v7.2's motion energy is 0.4–0.9, against 0.1–0
 Deliverables:
 - previs: `79fadda9-a024-43ee-9013-68a649d06b81`;
 - side by side with the reference: `08b7a6c2-2c71-40b1-91ac-4b04bd82f734`.
+
+**Previs v7.3: the summer-to-winter transition, and smooth, realistic car motion**
+
+The transition follows the reference, which was measured at 15 fps. Nothing stops:
+- the camera skims over the right vent, which slides out of the bottom of the frame;
+- it glides and slows over the bonnet paint, which is the new car's colour;
+- the worlds swap during 3 paint-only frames (8.65–8.75), checked with `previs.py --probe`;
+- the glide carries on over the new car's door paint, the window edge slides in from the top, and the camera
+  pulls out.
+
+**B camera:** arc-length timing on a Gaussian-smoothed speed profile.
+- v7.2 stalled at 10.55 s (0.2 m/s) and jumped at 9.65 s.
+- In v7.3 the largest frame-to-frame jump in flow energy is 0.97, against 8.5 in the reference.
+
+**Car:** a sprung body (heave ±6 mm, pitch ±0.3°, roll ±0.2°), lane wander ±5 cm with yaw, and squat as the car
+pulls away. All of it runs on the scene clock.
+
+Deliverables:
+- previs: `f902a7dd-ccc5-4d12-b9b9-64619b1f3bc9`;
+- side by side: `f38d3c72-d494-4268-9d57-a989a07bee34`.
+
+**Left for v7.4:**
+- B runs about 0.5 s ahead of the reference.
+- The burst out of the glass is weaker: flow energy 1.1, against 5.2 in the reference.
+- From about 11 s the reference holds a near-locked follow at a constant distance. v7.3 lets the car shrink far
+  into the distance.
