@@ -190,5 +190,13 @@
   "prod_v75_job_A": {
     "job_id": "324aa247-8c4a-4da4-904e-91b5e3ddfc78",
     "note": "seedance_2_5 video_edit 1080p, prompts seedance_prompts_v75.md"
+  },
+  "prod_v75_guide_B": {
+    "media_id": "acb57741-1354-4771-b3c8-06d829d82c9b",
+    "note": "previs v7.5 B (EEVEE, stiff suspension), 720x1280, 30 fps, 141 frames"
+  },
+  "prod_v75_job_B": {
+    "job_id": "4c1f25d0-9877-401d-9f64-aaa5e14b6b69",
+    "note": "seedance_2_5 video_edit 1080p, prompts seedance_prompts_v75.md"
   }
 }
