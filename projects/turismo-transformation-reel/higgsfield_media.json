@@ -157,10 +157,18 @@
   },
   "prod_v74_job_A": {
     "job_id": "84dc1ee0-28ce-44df-97d3-22c402e1883f",
-    "note": "seedance_2_5 video_edit 1080p, 155 credits"
+    "note": "seedance_2_5 video_edit 1080p, 155 credits",
+    "result": "https://d8j0ntlcm91z4.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/hf_20261106_124822_84dc1ee0-28ce-44df-97d3-22c402e1883f.mp4",
+    "verdict": "car and bonnet photoreal, but the scenery stayed grey-box (flat sky, simple palms); redone as A2"
   },
   "prod_v74_job_B": {
     "job_id": "4ec607ce-2b93-4c5c-a960-e01702227964",
-    "note": "seedance_2_5 video_edit 1080p, 94 credits"
+    "note": "seedance_2_5 video_edit 1080p, 94 credits",
+    "result": "https://d8j0ntlcm91z4.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/hf_20261106_124824_4ec607ce-2b93-4c5c-a960-e01702227964.mp4",
+    "verdict": "excellent: photoreal GT3 RS on gold MSP02, real mountains, trees, wet road; motion locked"
+  },
+  "prod_v74_job_A2": {
+    "job_id": "19bfc4fe-c19a-4e5e-8bcc-5d0288f2717b",
+    "note": "A redo, 1080p, 155 credits: prompt asks to re-render the grey-box world photoreal; refs = v6 photoreal coastal stills 3dd8968f (4.5 s) and 04cca05e (7.2 s) + 1544ce1b; the white-background studio car ref dropped"
   }
 }
