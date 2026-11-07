@@ -1,5 +1,5 @@
 {
-  "duration": 51.69166666666666,
+  "duration": 50.44166666666666,
   "fps": 24,
   "size": [
     1080,
@@ -49,38 +49,38 @@
     },
     {
       "cut": 4,
-      "clip": "m_carry2.mp4",
-      "in": 0.4,
-      "out": 4.4,
+      "clip": "w_place.mp4",
+      "in": 0.3,
+      "out": 3.8,
       "start": 18.191699999999997,
-      "end": 22.191699999999997,
+      "end": 21.691699999999997,
       "dissolve": 0
     },
     {
       "cut": 5,
-      "clip": "b_macro.mp4",
+      "clip": "w_brush.mp4",
       "in": 0.3,
-      "out": 3.8,
-      "start": 22.191699999999997,
+      "out": 4.3,
+      "start": 21.691699999999997,
       "end": 25.691699999999997,
       "dissolve": 0
     },
     {
       "cut": 6,
-      "clip": "b_lathe.mp4",
-      "in": 1.0,
-      "out": 3.5,
+      "clip": "w_close.mp4",
+      "in": 0.5,
+      "out": 4.5,
       "start": 25.691699999999997,
-      "end": 28.191699999999997,
+      "end": 29.691699999999997,
       "dissolve": 0
     },
     {
       "cut": 7,
-      "clip": "b_air.mp4",
-      "in": 0.5,
-      "out": 4.5,
-      "start": 28.191699999999997,
-      "end": 32.1917,
+      "clip": "w_inspect.mp4",
+      "in": 0.3,
+      "out": 3.3,
+      "start": 29.691699999999997,
+      "end": 32.6917,
       "dissolve": 0
     },
     {
@@ -88,8 +88,8 @@
       "clip": "m_paint2.mp4",
       "in": 0.3,
       "out": 4.8,
-      "start": 32.1917,
-      "end": 36.6917,
+      "start": 32.6917,
+      "end": 37.1917,
       "dissolve": 0
     },
     {
@@ -97,8 +97,8 @@
       "clip": null,
       "in": 0.0,
       "out": 0.5,
-      "start": 36.6917,
-      "end": 37.1917,
+      "start": 37.1917,
+      "end": 37.6917,
       "dissolve": 0
     },
     {
@@ -106,49 +106,40 @@
       "clip": "car_arc.mp4",
       "in": 0.3,
       "out": 3.8,
-      "start": 37.1917,
-      "end": 40.6917,
+      "start": 37.6917,
+      "end": 41.1917,
       "dissolve": 0
     },
     {
       "cut": 11,
-      "clip": "car_wheelslide_cap.mp4",
-      "in": 0.6,
-      "out": 3.1,
-      "start": 40.4417,
-      "end": 42.9417,
+      "clip": "car_slide2.mp4",
+      "in": 0.3,
+      "out": 3.3,
+      "start": 40.9417,
+      "end": 43.9417,
       "dissolve": 0.25
     },
     {
       "cut": 12,
-      "clip": "car_side_cap.mp4",
-      "in": 0.8,
-      "out": 3.8,
-      "start": 42.6917,
-      "end": 45.6917,
+      "clip": "car_push2.mp4",
+      "in": 1.0,
+      "out": 4.0,
+      "start": 43.6917,
+      "end": 46.6917,
       "dissolve": 0.25
     },
     {
       "cut": 13,
-      "clip": "car_wheelpush_cap.mp4",
-      "in": 1.2,
-      "out": 3.7,
-      "start": 45.4417,
-      "end": 47.9417,
-      "dissolve": 0.25
-    },
-    {
-      "cut": 14,
       "clip": "car_hero.mp4",
       "in": 0.8,
       "out": 4.8,
-      "start": 47.6917,
-      "end": 51.6917,
+      "start": 46.4417,
+      "end": 50.4417,
       "dissolve": 0.25
     }
   ],
   "car_bed": {
-    "start": 35.292,
+    "start": 35.792,
     "clip": "s6.mp4",
     "in": 2.2,
     "out": 4.9,

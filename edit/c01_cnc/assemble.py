@@ -15,22 +15,23 @@ from pathlib import Path
 
 W, H, FPS = 1080, 1920, 24
 
-# (clip, source in, source out, audio LUFS / None = silence / "bed" = V8 bed, dissolve into this cut in s)
+# (clip, source in, source out, audio LUFS / None = silence / "bed" = V8 bed, dissolve into this cut in s
+#  [, extra ffmpeg filter for this shot only])
 CUTS = [
     ("s1.mp4", 0.0, 4.5, -13.0, 0),           # billet drops into the chuck (impact 1.64 s)
     ("s2.mp4", 0.0, 6.5, -13.0, 0),           # milling along the spokes
     ("s3.mp4", 0.5, 4.0, -14.0, 0),           # pull-back, machine reveal
     ("m_lift2.mp4", 0.1, 1.9, -16.0, 0),      # craftsman lifts the raw wheel out (no cap yet)
-    ("m_carry2.mp4", 0.4, 4.4, -16.0, 0),     # carries it to his bench, sets it on the stand
-    ("b_macro.mp4", 0.3, 3.8, -15.0, 0),      # brushing, macro: the grain appears behind the pad
-    ("b_lathe.mp4", 1.0, 3.5, -15.0, 0),      # brushing on the lathe, dust plume in the light
-    ("b_air.mp4", 0.5, 4.5, -16.0, 0),        # dust blown off, light sweep shows the satin grain
+    # finishing bench, ordinary shop light (pulled down slightly to sit with the darker film)
+    ("w_place.mp4", 0.3, 3.8, -18.0, 0, "eq=brightness=-0.035:contrast=1.06:saturation=0.9"),    # lays the wheel flat on the turntable (no walking)
+    ("w_brush.mp4", 0.3, 4.3, -15.0, 0, "eq=brightness=-0.035:contrast=1.06:saturation=0.9"),    # air sander + Scotch-Brite along a spoke
+    ("w_close.mp4", 0.5, 4.5, -15.0, 0, "eq=brightness=-0.035:contrast=1.06:saturation=0.9"),    # close-up: the satin grain forms behind the pad
+    ("w_inspect.mp4", 0.3, 3.3, -18.0, 0, "eq=brightness=-0.035:contrast=1.06:saturation=0.9"),  # wipes the dust, checks the grain in the light
     ("m_paint2.mp4", 0.3, 4.8, -15.0, 0),     # paint booth, deep black
     (None, 0.0, 0.5, None, 0),                # hard cut: black + silence
     ("car_arc.mp4", 0.3, 3.8, "bed", 0),      # CLS 63: arc around the front
-    ("car_wheelslide_cap.mp4", 0.6, 3.1, "bed", 0.25),   # *_cap: Turismo cap composited (cap_overlay.py)
-    ("car_side_cap.mp4", 0.8, 3.8, "bed", 0.25),
-    ("car_wheelpush_cap.mp4", 1.2, 3.7, "bed", 0.25),
+    ("car_slide2.mp4", 0.3, 3.3, "bed", 0.25),   # front wheel, emblem baked into the start frame (cap_still.py)
+    ("car_push2.mp4", 1.0, 4.0, "bed", 0.25),    # push-in to the cap
     ("car_hero.mp4", 0.8, 4.8, "bed", 0.25),  # final pull-back
 ]
 
@@ -61,7 +62,7 @@ def main(clips, out):
 
     # 1) Video segments and the timeline (a dissolve overlaps the previous cut).
     vids, timeline, t = [], [], 0.0
-    for i, (clip, a, b, _, xf) in enumerate(CUTS):
+    for i, (clip, a, b, _, xf, *extra) in enumerate(CUTS):
         nfr = round((b - a) * FPS)            # whole frames, so the cut points stay exact
         dur = nfr / FPS
         seg = work / f"v{i:02d}.mp4"
@@ -70,7 +71,7 @@ def main(clips, out):
                  "-frames:v", str(nfr), *enc, str(seg)])
         else:
             run(["ffmpeg", "-y", "-v", "error", "-ss", f"{a}", "-i", str(clips / clip),
-                 "-an", "-vf", vf, "-frames:v", str(nfr), *enc, str(seg)])
+                 "-an", "-vf", vf + ("," + extra[0] if extra else ""), "-frames:v", str(nfr), *enc, str(seg)])
         start = t - xf
         timeline.append({"cut": i, "clip": clip, "in": a, "out": round(a + dur, 4), "start": round(start, 4),
                          "end": round(start + dur, 4), "dissolve": xf})
@@ -106,7 +107,7 @@ def main(clips, out):
     # 3) Audio: each cut's own sound at a fixed loudness, silence where the brief wants it,
     #    and the looped V8 bed under the car section.
     pieces = []
-    for i, (clip, a, b, lufs, _) in enumerate(CUTS):
+    for i, (clip, a, b, lufs, *_) in enumerate(CUTS):
         if lufs == "bed":
             continue
         dur = timeline[i]["end"] - timeline[i]["start"]
