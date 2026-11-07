@@ -27,7 +27,7 @@ These scripts are in `scripts/` and were verified on a real project. Run them fr
 | `analyze_motion.py <video> <csv>` | Per-frame brightness and median optical flow. Use it to map shots, baked fades, and motion direction. |
 | `unique_frames.py <video>` | Detects the real film frames inside a screen capture or variable-frame-rate file, and reports per-shot frame counts. |
 | `compose.py <edl.json> <out.mp4> [--bpm N] [--crf N] [--audio wav]` | The 9:16 compositor. Shot lengths are in beats; it re-times film frames 1:1 at the EDL fps, then renders windows, pushes, aperture moves and titles. It also writes `<out>.timeline.json` with cue points. |
-| `bookends.py <edl.json> <film.mp4> <out.mp4>` | Brand intro (logo, tagline, push-slide) and end card (iris from the product, light sweep). Configured by the EDL's `bookends` block. |
+| `bookends.py <edl.json> <film.mp4> <out.mp4>` | Brand intro (logo, tagline, push-slide) and end card (iris from the product, light sweep). Configured by the EDL's `bookends` block: `theme` light/dark (dark = black card, steel logo, one light sweep), `slide` left/right/down/up (match the opener's motion), `outro: false` for an intro on any finished film. Example: `edit/c01_cnc/bookends.json`. |
 | `mix_audio.py <timeline.json> <out.wav> --music-drop S` | Mixes music and SFX to the cue points, targets −14 LUFS with true peak below −1 dBTP, and reports a phone-speaker check. |
 | `finish.sh <drop_s> [bpm]` | Runs every `edit/edl_*.json` through film → bookends → mix → mux, naming each output from the EDL's `output` field. |
 

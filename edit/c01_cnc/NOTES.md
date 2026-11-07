@@ -1,29 +1,43 @@
-# Turismo Forged C01: "Wykute. Nie produkowane." (9:16, 30 s, no music)
+# Turismo Forged C01: CNC → craftsman → car (9:16, 52 s, no music, no on-screen text)
 
-Render: `renders/Turismo_Forged_C01_CNC_9x16.mp4` (1080×1920, 24 fps, H.264 + AAC, −14.2 LUFS, true peak −2.0 dBTP).
-Rebuild: `python3 edit/c01_cnc/assemble.py source/c01_cnc renders/Turismo_Forged_C01_CNC_9x16.mp4`
+Render: `renders/Turismo_Forged_C01_CNC_9x16.mp4` (1080×1920, 24 fps, H.264 + AAC, −14.5 LUFS, true peak −2.0 dBTP).
+Rebuild everything: `bash edit/c01_cnc/build.sh` (cut → intro → mix → delivery encode, about 7 minutes).
 
-All footage is AI-generated (Higgsfield). Keyframes: GPT Image 2.6 with the client's C01 photo
+All footage is AI-generated (Higgsfield). Keyframes: GPT Image 2.6 / Nano Banana with the client's C01 photo
 (`source/c01_cnc/keyframes/C01_reference_brushed-grey.png`) as the design reference. Motion and sound: Kling 3.0 Pro,
-image-to-video, native 24 fps.
+image-to-video, native 24 fps. Logo impact SFX: Mirelo.
 
-| Time | Shot | Clip (source in–out) | Sound |
-|---|---|---|---|
-| 0.0–5.0 | Billet drops into the CNC chuck, locked camera; impact at 1.64 s | `s1.mp4` 0–5 | impact, ring, hum (−13 LUFS) |
-| 5.0–14.0 | Milling the C01 spokes, chips and coolant, tracking shot. Title 7.0–10.6: "Jeden kęs aluminium 6061" | `s2.mp4` 0–9 | spindle whine, cutting (−13) |
-| 14.0–18.0 | Pull-back, machine reveal | `s3.mp4` 0.5–4.5 | machine (−14) |
-| 18.0–18.5 | Hard cut to black and silence | slate | silence |
-| 18.5–26.0 | Finished wheel (matte black spokes, polished lip, Turismo cap) in darkness, slow orbit (shots 4+5 as one move) | `s45.mp4` 0–7.5 | silence |
-| 26.0–30.0 | Lowered black CLS 63 widebody on C01, dark garage. Title from 26.9: "TURISMO WHEELS / Wykute. Nie produkowane." | `s6.mp4` 0.5–4.5 | V8 idle (−21) |
+## Revision 2 (client notes)
+- The Mercedes did not wear the C01 and the wheel design drifted → new car keyframes made with the C01 photo plus the
+  finished-wheel frame as references; the car is now a C218 CLS 63 S facelift widebody.
+- New craftsman scene after machining: lifts the wheel out of the CNC, carries it to his bench, brushes the aluminium,
+  paints it deep black in the booth.
+- Car section is now five moves around the car and the wheels, joined by 0.25 s dissolves, over the V8 idle from
+  revision 1 (looped from its steady part, 2.2–4.9 s of `s6.mp4`).
+- All titles removed.
+- Brand intro added with the skill's `bookends.py` (new dark theme): steel-grey Turismo logo on black, one light sweep,
+  a forged-steel impact, then a push-slide down into the falling billet.
 
-Finish: one shared cold-steel grade (colour balance toward blue, saturation 0.82), fine temporal grain, titles in DM Sans
-with a soft dark halo, hard cuts only.
+## Timeline
+| Time | Shot | Sound |
+|---|---|---|
+| 0.0–2.46 | Intro: logo, light sweep, push-slide down | steel impact |
+| 1.9–6.4 | Billet drops into the chuck | impact, ring, hum |
+| 6.4–12.9 | Milling along the spokes | spindle, cutting |
+| 12.9–16.4 | Pull-back, machine reveal | machine |
+| 16.4–19.6 | Craftsman lifts the wheel out | drips, scrape |
+| 19.6–23.6 | Carries it to his bench | footsteps, clunk |
+| 23.6–26.6 | Brushing | abrasive strokes |
+| 26.6–31.1 | Paint booth, deep black | spray gun, booth fan |
+| 31.1–31.6 | Hard cut to black | silence |
+| 31.6–37.6 | Finished wheel in darkness, orbit | silence |
+| 37.6–52.1 | CLS 63: arc, wheel slide, side track, wheel push-in, final pull-back | V8 idle |
 
-Decisions and caveats:
-- Shots 2–3 show raw machined aluminium (the wheel is not finished yet). Shots 4–6 use the brief's finish: matte black face,
-  polished lip. The client photo is the Brushed Grey version; spoke geometry follows it.
-- The car is AI-generated. Its front reads close to a CLS / AMG GT 4-door; it is not a photo of a real customer car.
-- The CNC process is AI-rendered and is not a record of Turismo's real machines or cycle.
+## Caveats
+- The car and the CNC process are AI-rendered, not a record of a real customer car or of Turismo's machines.
+- The craftsman is an AI-generated person.
+- The wheel follows the C01 photo closely but is still a generated image; check it against the real part before paid use.
 
-QC passed: 720 frames, cuts at 5.0 / 14.0 / 18.0 / 26.0 s, black only at 18.0–18.5 (intended), no single-frame flashes, no
-repeated frames, no music in any clip (spectrogram check), titles clear of the Reels UI zones.
+## QC (final render)
+1250 frames; cuts on the planned frames; black only at 31.1–31.6 (intended); no single-frame flashes; no frozen frames;
+no music in any clip; V8 bed even (natural idle pulse, no loop seams).

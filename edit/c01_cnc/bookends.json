@@ -1,0 +1,12 @@
+{
+  "fps": 24,
+  "bookends": {
+    "card": "assets/brand/turismo_end_card_gemini.jpg",
+    "logo_box": [190, 70, 600, 312],
+    "ink": {"primary": "#0A1B2B", "accent": "#C7222A"},
+    "tagline": [],
+    "theme": "dark",
+    "slide": "down",
+    "outro": false
+  }
+}

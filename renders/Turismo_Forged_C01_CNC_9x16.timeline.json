@@ -1,5 +1,5 @@
 {
-  "duration": 30.0,
+  "duration": 52.108333333333334,
   "fps": 24,
   "size": [
     1080,
@@ -7,87 +7,149 @@
   ],
   "cuts": [
     {
+      "name": "brand_logo",
+      "start": 0.0,
+      "end": 2.46
+    },
+    {
       "cut": 0,
       "clip": "s1.mp4",
       "in": 0.0,
-      "out": 5.0,
-      "start": 0.0,
-      "end": 5.0
+      "out": 4.5,
+      "start": 1.9,
+      "end": 6.4,
+      "dissolve": 0
     },
     {
       "cut": 1,
       "clip": "s2.mp4",
       "in": 0.0,
-      "out": 9.0,
-      "start": 5.0,
-      "end": 14.0
+      "out": 6.5,
+      "start": 6.4,
+      "end": 12.9,
+      "dissolve": 0
     },
     {
       "cut": 2,
       "clip": "s3.mp4",
       "in": 0.5,
-      "out": 4.5,
-      "start": 14.0,
-      "end": 18.0
+      "out": 4.0,
+      "start": 12.9,
+      "end": 16.4,
+      "dissolve": 0
     },
     {
       "cut": 3,
-      "clip": null,
-      "in": 0.0,
-      "out": 0.5,
-      "start": 18.0,
-      "end": 18.5
+      "clip": "m_lift.mp4",
+      "in": 0.2,
+      "out": 3.4083,
+      "start": 16.4,
+      "end": 19.6083,
+      "dissolve": 0
     },
     {
       "cut": 4,
-      "clip": "s45.mp4",
-      "in": 0.0,
-      "out": 7.5,
-      "start": 18.5,
-      "end": 26.0
+      "clip": "m_carry.mp4",
+      "in": 0.6,
+      "out": 4.6,
+      "start": 19.6083,
+      "end": 23.6083,
+      "dissolve": 0
     },
     {
       "cut": 5,
-      "clip": "s6.mp4",
+      "clip": "m_brush.mp4",
       "in": 0.5,
-      "out": 4.5,
-      "start": 26.0,
-      "end": 30.0
-    }
-  ],
-  "titles": [
-    {
-      "lines": [
-        [
-          "Jeden kęs aluminium 6061",
-          500,
-          46,
-          0.04
-        ]
-      ],
-      "t0": 7.0,
-      "t1": 10.6,
-      "y": 1290
+      "out": 3.5,
+      "start": 23.6083,
+      "end": 26.6083,
+      "dissolve": 0
     },
     {
-      "lines": [
-        [
-          "TURISMO WHEELS",
-          700,
-          64,
-          0.16
-        ],
-        [
-          "Wykute. Nie produkowane.",
-          400,
-          44,
-          0.02
-        ]
-      ],
-      "t0": 26.9,
-      "t1": 30.5,
-      "y": 400,
-      "rule": true
+      "cut": 6,
+      "clip": "m_paint.mp4",
+      "in": 0.4,
+      "out": 4.9,
+      "start": 26.6083,
+      "end": 31.1083,
+      "dissolve": 0
+    },
+    {
+      "cut": 7,
+      "clip": null,
+      "in": 0.0,
+      "out": 0.5,
+      "start": 31.1083,
+      "end": 31.6083,
+      "dissolve": 0
+    },
+    {
+      "cut": 8,
+      "clip": "s45.mp4",
+      "in": 0.0,
+      "out": 6.0,
+      "start": 31.6083,
+      "end": 37.6083,
+      "dissolve": 0
+    },
+    {
+      "cut": 9,
+      "clip": "car_arc.mp4",
+      "in": 0.3,
+      "out": 3.8,
+      "start": 37.6083,
+      "end": 41.1083,
+      "dissolve": 0
+    },
+    {
+      "cut": 10,
+      "clip": "car_wheelslide.mp4",
+      "in": 0.6,
+      "out": 3.1,
+      "start": 40.8583,
+      "end": 43.3583,
+      "dissolve": 0.25
+    },
+    {
+      "cut": 11,
+      "clip": "car_side.mp4",
+      "in": 0.8,
+      "out": 3.8,
+      "start": 43.1083,
+      "end": 46.1083,
+      "dissolve": 0.25
+    },
+    {
+      "cut": 12,
+      "clip": "car_wheelpush.mp4",
+      "in": 1.2,
+      "out": 3.7,
+      "start": 45.8583,
+      "end": 48.3583,
+      "dissolve": 0.25
+    },
+    {
+      "cut": 13,
+      "clip": "car_hero.mp4",
+      "in": 0.8,
+      "out": 4.8,
+      "start": 48.1083,
+      "end": 52.1083,
+      "dissolve": 0.25
     }
-  ]
+  ],
+  "car_bed": {
+    "start": 35.708,
+    "clip": "s6.mp4",
+    "in": 2.2,
+    "out": 4.9,
+    "lufs": -20.0,
+    "xfade": 0.7,
+    "fade_out": 0.8
+  },
+  "intro": {
+    "slide_into_film": 1.9,
+    "slide": "down",
+    "theme": "dark"
+  }
 }
