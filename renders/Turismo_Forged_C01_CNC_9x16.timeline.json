@@ -1,0 +1,93 @@
+{
+  "duration": 30.0,
+  "fps": 24,
+  "size": [
+    1080,
+    1920
+  ],
+  "cuts": [
+    {
+      "cut": 0,
+      "clip": "s1.mp4",
+      "in": 0.0,
+      "out": 5.0,
+      "start": 0.0,
+      "end": 5.0
+    },
+    {
+      "cut": 1,
+      "clip": "s2.mp4",
+      "in": 0.0,
+      "out": 9.0,
+      "start": 5.0,
+      "end": 14.0
+    },
+    {
+      "cut": 2,
+      "clip": "s3.mp4",
+      "in": 0.5,
+      "out": 4.5,
+      "start": 14.0,
+      "end": 18.0
+    },
+    {
+      "cut": 3,
+      "clip": null,
+      "in": 0.0,
+      "out": 0.5,
+      "start": 18.0,
+      "end": 18.5
+    },
+    {
+      "cut": 4,
+      "clip": "s45.mp4",
+      "in": 0.0,
+      "out": 7.5,
+      "start": 18.5,
+      "end": 26.0
+    },
+    {
+      "cut": 5,
+      "clip": "s6.mp4",
+      "in": 0.5,
+      "out": 4.5,
+      "start": 26.0,
+      "end": 30.0
+    }
+  ],
+  "titles": [
+    {
+      "lines": [
+        [
+          "Jeden kęs aluminium 6061",
+          500,
+          46,
+          0.04
+        ]
+      ],
+      "t0": 7.0,
+      "t1": 10.6,
+      "y": 1290
+    },
+    {
+      "lines": [
+        [
+          "TURISMO WHEELS",
+          700,
+          64,
+          0.16
+        ],
+        [
+          "Wykute. Nie produkowane.",
+          400,
+          44,
+          0.02
+        ]
+      ],
+      "t0": 26.9,
+      "t1": 30.5,
+      "y": 400,
+      "rule": true
+    }
+  ]
+}

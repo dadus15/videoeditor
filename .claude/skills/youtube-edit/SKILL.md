@@ -20,7 +20,7 @@ Use the bundled files in `references/` when relevant:
 
 ## Tools in this skill
 
-These scripts are in `scripts/` and were verified on a real project. Run them from the **project root**: paths in an EDL are relative to the root, and fonts come from this skill's `assets/fonts/` (DM Sans 400/500/700, OFL). Requirements: `ffmpeg`, and Python with `numpy`, `opencv-python-headless` and `pillow`.
+These scripts are in `scripts/` and were verified on a real project. Run them from the **project root**: paths in an EDL are relative to the root, and fonts come from this skill's `assets/fonts/` (DM Sans 400/500/700, OFL; latin + latin-ext merged, so Polish diacritics such as ę, ł, ś render). Requirements: `ffmpeg`, and Python with `numpy`, `opencv-python-headless` and `pillow`.
 
 | Script | What it does |
 |---|---|
