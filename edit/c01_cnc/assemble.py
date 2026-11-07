@@ -20,16 +20,17 @@ CUTS = [
     ("s1.mp4", 0.0, 4.5, -13.0, 0),           # billet drops into the chuck (impact 1.64 s)
     ("s2.mp4", 0.0, 6.5, -13.0, 0),           # milling along the spokes
     ("s3.mp4", 0.5, 4.0, -14.0, 0),           # pull-back, machine reveal
-    ("m_lift.mp4", 0.2, 3.4, -16.0, 0),       # craftsman lifts the wheel out of the machine
-    ("m_carry.mp4", 0.6, 4.6, -16.0, 0),      # carries it to his bench, sets it on the stand
-    ("m_brush.mp4", 0.5, 3.5, -16.0, 0),      # brushing the aluminium
-    ("m_paint.mp4", 0.4, 4.9, -15.0, 0),      # paint booth, deep black
+    ("m_lift2.mp4", 0.1, 1.9, -16.0, 0),      # craftsman lifts the raw wheel out (no cap yet)
+    ("m_carry2.mp4", 0.4, 4.4, -16.0, 0),     # carries it to his bench, sets it on the stand
+    ("b_macro.mp4", 0.3, 3.8, -15.0, 0),      # brushing, macro: the grain appears behind the pad
+    ("b_lathe.mp4", 1.0, 3.5, -15.0, 0),      # brushing on the lathe, dust plume in the light
+    ("b_air.mp4", 0.5, 4.5, -16.0, 0),        # dust blown off, light sweep shows the satin grain
+    ("m_paint2.mp4", 0.3, 4.8, -15.0, 0),     # paint booth, deep black
     (None, 0.0, 0.5, None, 0),                # hard cut: black + silence
-    ("s45.mp4", 0.0, 6.0, None, 0),           # finished wheel in darkness, slow orbit, silence
     ("car_arc.mp4", 0.3, 3.8, "bed", 0),      # CLS 63: arc around the front
-    ("car_wheelslide.mp4", 0.6, 3.1, "bed", 0.25),
-    ("car_side.mp4", 0.8, 3.8, "bed", 0.25),
-    ("car_wheelpush.mp4", 1.2, 3.7, "bed", 0.25),
+    ("car_wheelslide_cap.mp4", 0.6, 3.1, "bed", 0.25),   # *_cap: Turismo cap composited (cap_overlay.py)
+    ("car_side_cap.mp4", 0.8, 3.8, "bed", 0.25),
+    ("car_wheelpush_cap.mp4", 1.2, 3.7, "bed", 0.25),
     ("car_hero.mp4", 0.8, 4.8, "bed", 0.25),  # final pull-back
 ]
 
