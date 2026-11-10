@@ -77,6 +77,35 @@ class Source:
         self.new_pts = self.pts[self.new]
         self.cache = {}
 
+    def index_at(self, t):
+        return int(self.new[int(np.argmin(np.abs(self.new_pts - t)))])
+
+    def hires(self, i, up):
+        """(ai, faithful) 4x images of the picture rect 'sr_rect' for capture i, AI result cached on disk.
+
+        ai       Real-ESRGAN general-x4v3 (sharp edges, clean surfaces; invents texture in fine meshes)
+        faithful Lanczos 4x + gentle unsharp (no invented detail): used inside the wheel masks
+        """
+        import hashlib
+        x0, y0, x1, y1 = self.cfg["sr_rect"]
+        clean = self.frame_at(self.pts[i])[0][y0:y1, x0:x1]
+        key = hashlib.md5(json.dumps([self.cfg.get("cleanup", []), self.cfg["sr_rect"], up.get("denoise", 0.5)],
+                                     sort_keys=True).encode()).hexdigest()[:8]
+        cdir = ROOT / up.get("cache", "work/sr_cache") / self.name
+        cdir.mkdir(parents=True, exist_ok=True)
+        f = cdir / f"{i:05d}_{key}.png"
+        if f.exists():
+            ai = cv2.cvtColor(cv2.imread(str(f)), cv2.COLOR_BGR2RGB).astype(np.float32) / 255
+        else:
+            ai = UPSCALER(up)(clean)
+            cv2.imwrite(str(f), cv2.cvtColor((ai * 255 + 0.5).astype(np.uint8), cv2.COLOR_RGB2BGR),
+                        [cv2.IMWRITE_PNG_COMPRESSION, 1])
+        H, W = ai.shape[:2]
+        fa = cv2.resize(clean, (W, H), interpolation=cv2.INTER_LANCZOS4)
+        sh = up.get("faithful_sharpen", 0.6)
+        fa = np.clip(fa + sh * (fa - cv2.GaussianBlur(fa, (0, 0), 2.2)), 0, 1)
+        return ai, fa
+
     def frame_at(self, t):
         j = int(np.argmin(np.abs(self.new_pts - t)))
         i = int(self.new[j])
@@ -125,6 +154,84 @@ class Source:
         a = cv2.GaussianBlur(mask, (0, 0), 0.8)[..., None]
         a = np.clip(a * 1.6, 0, 1)
         return img * (1 - a) + fill * a
+
+
+_UP = {}
+
+
+def UPSCALER(up):
+    k = up.get("denoise", 0.5)
+    if k not in _UP:
+        import upscale
+        _UP[k] = upscale.Upscaler(ROOT / up.get("models", "work/models"), denoise=k)
+    return _UP[k]
+
+
+def track_wheels(shot, src, indices):
+    """Per output frame, (x, y, r) of every wheel in the shot, in source px.
+
+    A wheel is {"c": [x, y] or [[x0, y0], [x1, y1]], "r": r or [r0, r1], "ry": vertical/horizontal ratio,
+    "track": true}. Tracked wheels follow the picture by template matching (sub-pixel) from the given start
+    position; untracked ones interpolate linearly between start and end."""
+    n = len(indices)
+    out = []
+    for wdef in shot.get("wheels", []):
+        c0, c1 = (wdef["c"] if isinstance(wdef["c"][0], (list, tuple)) else (wdef["c"], wdef["c"]))
+        r0, r1 = (wdef["r"] if isinstance(wdef["r"], (list, tuple)) else (wdef["r"], wdef["r"]))
+        pos = [(lerp(c0[0], c1[0], k / max(n - 1, 1)), lerp(c0[1], c1[1], k / max(n - 1, 1))) for k in range(n)]
+        if wdef.get("track"):
+            h = int(max(r0, r1) * 1.15) + 3
+            gray = lambda i: src.raw[i].astype(np.float32).mean(axis=2)
+            g = gray(indices[0])
+            x, y = c0
+            tmpl = g[int(y) - h:int(y) + h + 1, int(x) - h:int(x) + h + 1].copy()
+            pos, vx, vy, last = [(x, y)], 0.0, 0.0, indices[0]
+            for i in indices[1:]:
+                if i == last:
+                    pos.append(pos[-1])
+                    continue
+                g = gray(i)
+                sr_ = 10
+                px, py = x + vx, y + vy
+                X0, Y0 = int(px) - h - sr_, int(py) - h - sr_
+                win = g[max(Y0, 0):Y0 + 2 * (h + sr_) + 1, max(X0, 0):X0 + 2 * (h + sr_) + 1]
+                res = cv2.matchTemplate(win, tmpl, cv2.TM_CCOEFF_NORMED)
+                _, _, _, (mx, my) = cv2.minMaxLoc(res)
+                dx = dy = 0.0                                    # parabolic sub-pixel refinement
+                if 0 < mx < res.shape[1] - 1:
+                    a, b, c = res[my, mx - 1], res[my, mx], res[my, mx + 1]
+                    dx = 0.5 * (a - c) / (a - 2 * b + c + 1e-9)
+                if 0 < my < res.shape[0] - 1:
+                    a, b, c = res[my - 1, mx], res[my, mx], res[my + 1, mx]
+                    dy = 0.5 * (a - c) / (a - 2 * b + c + 1e-9)
+                nx, ny = max(X0, 0) + mx + dx + h, max(Y0, 0) + my + dy + h
+                vx, vy = 0.6 * vx + 0.4 * (nx - x), 0.6 * vy + 0.4 * (ny - y)
+                x, y, last = nx, ny, i
+                new = g[int(y) - h:int(y) + h + 1, int(x) - h:int(x) + h + 1]
+                if new.shape == tmpl.shape:
+                    tmpl = 0.85 * tmpl + 0.15 * new
+                pos.append((x, y))
+        out.append([(p[0], p[1], lerp(r0, r1, k / max(n - 1, 1)), wdef.get("ry", 1.0), wdef.get("core", 1.0))
+                    for k, p in enumerate(pos)])
+    return [list(z) for z in zip(*out)] if out else [[] for _ in range(n)]
+
+
+def wheel_mask(shape, wheels, sr_rect, scale=4):
+    """Soft elliptical mask (1 = faithful) over every wheel, in hi-res pixels."""
+    H, W = shape
+    m = np.zeros((H, W), np.float32)
+    for x, y, r, ry, core in wheels:
+        cx, cy = (x - sr_rect[0]) * scale, (y - sr_rect[1]) * scale
+        R = r * scale * core
+        x0, x1 = int(max(cx - R * 1.4, 0)), int(min(cx + R * 1.4, W))
+        y0, y1 = int(max(cy - R * ry * 1.4, 0)), int(min(cy + R * ry * 1.4, H))
+        if x0 >= x1 or y0 >= y1:
+            continue
+        yy, xx = np.mgrid[y0:y1, x0:x1].astype(np.float32)
+        d = np.sqrt(((xx - cx) / R) ** 2 + ((yy - cy) / (R * ry)) ** 2)
+        a = np.clip((1.12 - d) / 0.24, 0, 1)
+        m[y0:y1, x0:x1] = np.maximum(m[y0:y1, x0:x1], a * a * (3 - 2 * a))
+    return m
 
 
 # ---------------------------------------------------------------- look
@@ -316,6 +423,7 @@ def main():
     ap.add_argument("--preview-every", type=int, default=0)
     ap.add_argument("--preview-dir", default="work/preview")
     ap.add_argument("--frames", help="render only these output frames to the preview dir, e.g. 0,45,120")
+    ap.add_argument("--show-masks", action="store_true", help="outline the wheel masks (QC only)")
     args = ap.parse_args()
 
     edl = json.loads(Path(args.edl).read_text())
@@ -338,17 +446,53 @@ def main():
         print(f"  {s['start']:6.3f}-{s['end']:6.3f}  {s['name']:24s} {s['src']:7s} "
               f"src {s['src_in']:.2f}-{s['src_in'] + s['dur'] * sp:.2f}  x{sp}", file=sys.stderr)
 
+    up = edl.get("upscale")
+    grain = edl.get("grain", args.grain)
+
+    def src_index(si, k):
+        shot = shots[si]
+        ts = shot["src_in"] + k / fps * shot.get("speed", 1.0)
+        ts = min(ts, shot.get("src_max", 1e9))   # outgoing shots under a transition must not run into the next cut
+        return S[shot["src"]].index_at(ts)
+
+    # wheel positions per output frame (tracked on the source frames the shot actually shows)
+    tracks = {}
+    if up:
+        for si, shot in enumerate(shots):
+            nk = int(round(shot["end"] * fps)) - int(round(shot["start"] * fps))
+            tracks[si] = track_wheels(shot, S[shot["src"]], [src_index(si, k) for k in range(nk)])
+
     def view(si, T, f):
         """Render shot si at canvas time T / frame f -> (W, window image, hub screen pos, hub radius px, crop)."""
         shot = shots[si]
         src = S[shot["src"]]
         k = f - int(round(shot["start"] * fps))
-        ts = shot["src_in"] + k / fps * shot.get("speed", 1.0)
-        ts = min(ts, shot.get("src_max", 1e9))   # outgoing shots under a transition must not run into the next cut
-        frame, _ = src.frame_at(ts)
+        i = src_index(si, k)
         Wr, crop, hub = geometry(shot, T, edl["layout"], edl["sources"][shot["src"]]["clean"])
         ww, wh = int(round(Wr[2])), int(round(Wr[3]))
-        win = C.sample(frame, crop, ww, wh)
+        if up:
+            ai, fa = src.hires(i, up)
+            rx0, ry0 = edl["sources"][shot["src"]]["sr_rect"][:2]
+            wl = tracks[si][min(k, len(tracks[si]) - 1)] if tracks[si] else []
+            if shot.get("wheel_ai") or not wl:
+                hi = ai
+            else:
+                m = wheel_mask(ai.shape[:2], wl, (rx0, ry0))[..., None]
+                hi = ai * (1 - m) + fa * m
+            if args.show_masks and wl:
+                hi = hi.copy()
+                for x, y, r, ry, core in wl:
+                    cv2.ellipse(hi, (int((x - rx0) * 4), int((y - ry0) * 4)),
+                                (int(r * 4 * core), int(r * 4 * core * ry)), 0, 0, 360, (0, 1, 1), 2)
+            x0, y0, cw, ch = crop
+            s4 = ww / (cw * 4)
+            M = np.float32([[s4, 0, -(x0 - rx0) * 4 * s4], [0, s4, -(y0 - ry0) * 4 * s4]])
+            win = cv2.warpAffine(hi, M, (ww, wh), flags=cv2.INTER_LANCZOS4 if s4 >= 1 else cv2.INTER_AREA,
+                                 borderMode=cv2.BORDER_REPLICATE)
+            win = np.clip(win, 0, 1)
+        else:
+            frame, _ = src.frame_at(src.pts[i])
+            win = C.sample(frame, crop, ww, wh)
         win = apply_look(win, look, shot.get("grade", {}))
         (hx, hy), kk = to_screen(Wr, crop, hub)
         hx -= Wr[0]
@@ -409,7 +553,7 @@ def main():
         C.draw_texts(canvas, events, T, Wc)
         g = rng.normal(0, 1, (Hc // 2, Wc // 2)).astype(np.float32)
         g = cv2.resize(g, (Wc, Hc), interpolation=cv2.INTER_LINEAR)[..., None]
-        canvas = canvas + args.grain * g * (0.6 + 0.4 * (1 - canvas.mean(axis=2, keepdims=True)))
+        canvas = canvas + grain * g * (0.6 + 0.4 * (1 - canvas.mean(axis=2, keepdims=True)))
         rgb = (np.clip(canvas, 0, 1) * 255 + 0.5).astype(np.uint8)
         if enc:
             enc.stdin.write(rgb.tobytes())

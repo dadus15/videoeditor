@@ -1,7 +1,7 @@
 {
   "bpm": 120,
-  "duration": 18.7,
-  "fps": 30,
+  "duration": 17.950000000000003,
+  "fps": 60,
   "shots": [
     {
       "name": "brand_logo_tagline",
@@ -16,19 +16,19 @@
       "src_in": 3.07
     },
     {
-      "name": "day_carport_wide",
+      "name": "day_carport_drive_in",
       "start": 3.4,
       "end": 4.4,
       "src_in": 0.33
     },
     {
-      "name": "day_house_pan",
+      "name": "day_house_drive",
       "start": 4.4,
       "end": 5.4,
       "src_in": 1.53
     },
     {
-      "name": "day_front34_crashzoom",
+      "name": "day_front34",
       "start": 5.4,
       "end": 6.4,
       "src_in": 3.91
@@ -46,28 +46,34 @@
       "src_in": 6.28
     },
     {
-      "name": "golden_low_side_slowmo",
+      "name": "golden_low_side",
       "start": 8.4,
-      "end": 10.4,
+      "end": 9.65,
       "src_in": 6.18
     },
     {
       "name": "golden_front34",
-      "start": 10.4,
-      "end": 11.65,
+      "start": 9.65,
+      "end": 10.9,
       "src_in": 1.6
     },
     {
       "name": "golden_head_on",
-      "start": 11.65,
-      "end": 12.65,
+      "start": 10.9,
+      "end": 11.9,
       "src_in": 4.68
     },
     {
-      "name": "hero_wide_slowmo",
-      "start": 12.65,
-      "end": 15.65,
+      "name": "hero_wide_a",
+      "start": 11.9,
+      "end": 13.4,
       "src_in": 7.61
+    },
+    {
+      "name": "hero_wide_b",
+      "start": 13.4,
+      "end": 14.9,
+      "src_in": 0.03
     }
   ],
   "cue_points": {
@@ -75,14 +81,14 @@
     "tagline_accent": 0.72,
     "slide_into_film": 1.9,
     "riser_end_reveal": 8.4,
-    "signature": 12.65,
-    "end_card_iris": 15.200000000000001,
-    "end": 18.7
+    "signature": 13.4,
+    "end_card_iris": 14.450000000000001,
+    "end": 17.950000000000003
   },
   "end_hub": [
-    610.8597285067873,
-    1158.9592760180997,
-    129.17356253612022
+    540.0,
+    750.0,
+    97.73755656108598
   ],
   "shimmer_at": 3.4
 }

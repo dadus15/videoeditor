@@ -97,17 +97,27 @@ Also review full-resolution stills of: frame 1, the reveal, the titles, the midd
 
 ## 9. Screen-recorded reels and combining two shoots (A8 W12 hook, November 2026)
 
-Two Instagram-reel screen recordings (daylight and golden hour, same car) became one 16.8 s hook with `compose_multi.py`.
+Two Instagram-reel screen recordings (daylight and golden hour, same car) became one hook with `compose_multi.py`.
 
-- **Overlays sit on the picture, not in bars.** Map them with a per-pixel temporal standard deviation over the whole clip: static UI shows as a hole. The clean area is L-shaped (avatars bottom-left, caption lower), so give `clean` as a list of rects. Zoomed crops can then use the deeper part and centre the wheel.
-- **Plates: remove, don't blur.** Inpaint a padded box in source pixels (Telea, then light smoothing, darkened slightly) and feather it. On a black car it reads as a clean bumper and moves with every zoom. Check each plate at full resolution on a render. Drop shots where the plate fills a large part of the frame; inpainting can't hide it.
-- **Burned-in text in a smooth sky** inpaints cleanly. Put the titles there afterwards, so any residue is covered.
-- **Real slow motion** only where the source has the frames. Count new frames per shot: here the golden-hour pan was a true 60 fps, so 0.5× at 30 fps uses every frame. Locked-off shots can be slowed to fill time.
-- **Making two shoots one film:** the same window and framing on every shot; one shared look (contrast, light split-tone, greens tamed on the daylight footage); chapter labels (DAYLIGHT / GOLDEN HOUR) in the house type; and a **hub-to-hub iris** at the hand-over. The new shot appears inside the old shot's wheel and zooms through its own hub, so the light changes around the same wheel.
-- **Crash zoom into the wheel:** `zoom_out` (in-cubic, about 0.42 s, to about 2.4×, `centre` > 1 pulls the hub to the middle), then the next shot `zoom_in` lands from about 1.7×. Radial blur scaled by the zoom rate sells the speed and hides softness.
-- **Transitions read the outgoing shot past its end.** Set `src_max` on the outgoing shot, or it runs into the next shot of the original reel. This happened once: the iris showed the carport wide instead of the wheel.
-- **End zoom into the iris:** keep the final zoom anchor-preserving (`centre` 1). Re-centring pushed the crop into the overlay clamp and moved the wheel away from the iris.
-- **A hook opens on the product.** The logo card goes on the end; keep a brand-open variant for brand channels.
+**Revision 1 was rejected** as "very poor quality, rims look unnatural, motion altered". It had used:
+- 0.5× slow motion and 30 fps output (the reels were 60 fps);
+- digital pushes and a crash zoom with radial blur;
+- a light glint over the spokes;
+- a wheel-inside-wheel iris between the shoots and the end card's cap composited into the car's wheel;
+- a plain 4.9× Lanczos blow-up plus grain.
+
+**Revision 2:**
+- **Native motion.** Real speed at the reels' 60 fps (each output frame = the nearest new captured frame), no added camera moves, straight cuts on the beat, and a dip through white into the end card (`"outro": "fade"`; a straight dissolve double-exposes the card wheel over the car).
+- **AI upscale with wheel masks.** Real-ESRGAN general-x4v3 (`upscale.py`, denoise 0.5) on the reel picture, cached to disk. Faithful Lanczos ×4 + unsharp 0.6 inside elliptical wheel masks. Moving shots track the masks by template matching from a measured start position. Only wheels that fill a large part of the frame keep the AI (`"wheel_ai": true`). The tested rule: AI is good on close-up spokes and bad on any wheel under about 40 source px radius.
+  - A detail-density mask (AI minus Lanczos) was tried and rejected: it misses scrambled wheels and hits sharp body edges.
+- **Joining two shoots:** a straight match cut between the two low-side wheel shots (the wheel lands in the same place), the same window and grade, and the DAYLIGHT / GOLDEN HOUR labels.
+
+Still valid from revision 1:
+- **Overlays sit on the picture.** Map them with a per-pixel temporal standard deviation and give `clean` as a list of rects (an L-shaped area).
+- **Plates: remove, don't blur.** Inpaint in source pixels, feathered and slightly darkened; check each one at full resolution. Drop shots where the plate fills a large part of the frame.
+- **Burned-in text in a smooth sky** inpaints cleanly.
+- **Measure wheel positions on zoomed, gridded frames, and verify them on a render.** Two of the first estimates were off by 9–40 px; head-on shots show the wheels as narrow ellipses (`ry` ≈ 2.4).
+- **Safety:** model weights in `.pth` are pickles. Read them with the opcode-only parser in `upscale.py`, never with `pickle` or `torch.load` on a downloaded file.
 
 ## 10. Gotchas
 

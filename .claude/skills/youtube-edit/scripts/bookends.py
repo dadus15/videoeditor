@@ -36,6 +36,8 @@ CARD_HOLD = 2.70       # end card after the iris completes
 #   film_rim    rim radius in source pixels
 #               (both unused when the film's timeline.json carries "end_hub", as compose_multi.py writes it)
 #   intro       false = no logo card: the film opens on frame 1 (hook-first), the brand lands on the end card
+#   outro       "iris" (default): iris from the film's wheel through the card's hub
+#               "fade": a dip through white into the card (nothing is composited over the car's wheels)
 #   ink         {"primary": "#0A1B2B", "accent": "#C7222A"}   sampled from the logo
 #   tagline     [["UNLOCK YOUR ", "primary"], ["STYLE", "accent"]]
 CFG = {}
@@ -51,7 +53,7 @@ def load_cfg(edl):
     b = edl["bookends"]
     CFG.update(card=ROOT / b["card"], logo_box=tuple(b["logo_box"]), card_wheel=tuple(b["card_wheel"]),
                film_hub=tuple(b.get("film_hub", (0, 0))), film_rim=float(b.get("film_rim", 0)),
-               tagline=b.get("tagline", []), intro=b.get("intro", True))
+               tagline=b.get("tagline", []), intro=b.get("intro", True), outro=b.get("outro", "iris"))
     NAVY, RED = hex_rgb(b["ink"]["primary"]), hex_rgb(b["ink"]["accent"])
 
 
@@ -230,6 +232,20 @@ def main():
             img[:, W - dx:] = fr[:, :dx]
         elif t < iris_start:
             img = get_film(f - round(film_start * FPS))
+        elif CFG["outro"] == "fade":                         # cross-dissolve into the end card, then hold
+            fr = get_film(f - round(film_start * FPS))
+            u = (t - iris_start) / IRIS
+            h = t - iris_start
+            z = 1.02 - 0.02 * ease("out_cubic", h / (IRIS + CARD_HOLD))   # card settles gently
+            cimg = warp_scale(card, z, (ccx, ccy), (ccx, ccy))
+            if u < 0.5:                                      # dip through white: no double exposure of
+                k = ease("in_out_sine", u / 0.5)             # the card's wheel over the car's wheels
+                img = fr * (1 - k) + k
+            elif u < 1:
+                k = ease("in_out_sine", (u - 0.5) / 0.5)
+                img = (1 - k) + cimg * k
+            else:
+                img = cimg
         else:                                                # iris from the car's wheel into the end card
             fr = get_film(f - round(film_start * FPS))
             u = (t - iris_start) / IRIS

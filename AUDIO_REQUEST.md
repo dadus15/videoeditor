@@ -59,4 +59,4 @@ The mixer targets −14 LUFS with a true-peak ceiling below −1 dBTP. It prints
 
 ## Audi A8 W12 hook (November 2026)
 
-These are the same slot files and the same blocker. In this session the Epidemic Sound connector also needs authorising in the claude.ai connector settings. The source reels carry a copyrighted song, so they have no usable audio. Cue points are in `EDIT_NOTES_A8_W12.md` (drop on the iris into golden hour at 6.50 s in the main version, 8.40 s in the brand-open version). Edit is cut at 120 BPM in beats, so `finish.sh <drop_s> <bpm>` re-times it to the chosen track.
+These are the same slot files and the same blocker. In this session the Epidemic Sound connector also needs authorising in the claude.ai connector settings. The source reels carry a copyrighted song, so they have no usable audio. Cue points are in `EDIT_NOTES_A8_W12.md` (drop on the match cut into golden hour at 6.50 s in the main version, 8.40 s in the brand-open version). Edit is cut at 120 BPM in beats, so `finish.sh <drop_s> <bpm>` re-times it to the chosen track.

@@ -1,17 +1,24 @@
 {
- "_comment": "Audi A8 W12 on Turismo mesh wheels: two Instagram-reel screen recordings (daylight at the house, golden hour in a field) cut into one 9:16 hook. Source px are in the 368x448 capture; the reel picture is x 76-298, y 20-431 and the app's avatars/caption cover the bottom-left from y~333 (golden) / 343 (day), so 'clean' is an L-shaped union of rects. Variant: same film as edl_a8w12_hook.json, opened by the Turismo logo card (UNLOCK YOUR STYLE) and push-slide, as on the Audi S8 piece.",
+ "_comment": "Variant of edl_a8w12_hook.json (same film), opened by the Turismo logo card and push-slide.",
  "bpm": 120,
- "fps": 30,
+ "fps": 60,
  "size": [
   1080,
   1920
  ],
+ "grain": 0.0,
+ "upscale": {
+  "denoise": 0.5,
+  "faithful_sharpen": 0.6,
+  "models": "work/models",
+  "cache": "work/sr_cache"
+ },
  "layout": {
   "tall": {
    "cx": 540,
-   "cy": 710,
+   "cy": 750,
    "w": 1080,
-   "h": 1240
+   "h": 1400
   }
  },
  "sources": {
@@ -52,6 +59,12 @@
      "pad": 1.5,
      "fill_gain": 0.8
     }
+   ],
+   "sr_rect": [
+    76,
+    20,
+    299,
+    432
    ]
   },
   "gold": {
@@ -152,15 +165,21 @@
      "pad": 1.5,
      "fill_gain": 0.6
     }
+   ],
+   "sr_rect": [
+    76,
+    20,
+    299,
+    432
    ]
   }
  },
  "look": {
-  "contrast": 1.07,
+  "contrast": 1.05,
   "pivot": 0.42,
-  "split": 0.022,
-  "lift": 0.006,
-  "sat": 0.96
+  "split": 0.015,
+  "lift": 0.004,
+  "sat": 0.97
  },
  "shots": [
   {
@@ -170,24 +189,7 @@
    "src_in": 3.07,
    "frame": "tall",
    "crop": {},
-   "hub": [
-    245,
-    380
-   ],
-   "rim": 125,
-   "push": {
-    "from": 1.0,
-    "to": 1.16,
-    "ease": "out_cubic"
-   },
-   "glint": {
-    "at": 0.25,
-    "dur": 1.0,
-    "r": 128,
-    "angle": -0.75,
-    "width": 0.2,
-    "gain": 0.85
-   },
+   "wheel_ai": true,
    "grade": {
     "wb": [
      0.99,
@@ -197,76 +199,98 @@
    }
   },
   {
-   "name": "day_carport_wide",
+   "name": "day_carport_drive_in",
    "src": "day",
    "beats": 2,
    "src_in": 0.33,
    "frame": "tall",
    "crop": {},
-   "hub": [
-    193,
-    318
-   ],
-   "rim": 17,
-   "push": {
-    "from": 1.0,
-    "to": 1.04,
-    "ease": "linear"
-   },
    "grade": {
-    "exposure": 0.94,
+    "exposure": 0.95,
     "wb": [
      1.03,
      1.0,
      0.95
     ],
-    "green_sat": 0.72
-   }
+    "green_sat": 0.75
+   },
+   "wheels": [
+    {
+     "c": [
+      188,
+      316
+     ],
+     "r": 16.5,
+     "track": true
+    }
+   ]
   },
   {
-   "name": "day_house_pan",
+   "name": "day_house_drive",
    "src": "day",
    "beats": 2,
    "src_in": 1.53,
    "frame": "tall",
    "crop": {},
    "grade": {
-    "exposure": 0.93,
+    "exposure": 0.95,
     "wb": [
      1.03,
      1.0,
      0.95
     ],
-    "green_sat": 0.72
-   }
+    "green_sat": 0.75
+   },
+   "wheels": [
+    {
+     "c": [
+      101,
+      314
+     ],
+     "r": 16.5,
+     "track": true
+    },
+    {
+     "c": [
+      [
+       260,
+       327
+      ],
+      [
+       283,
+       330
+      ]
+     ],
+     "r": 17.5
+    }
+   ]
   },
   {
-   "name": "day_front34_crashzoom",
+   "name": "day_front34",
    "src": "day",
    "beats": 2,
    "src_in": 3.91,
    "frame": "tall",
    "crop": {},
-   "hub": [
-    221,
-    320
-   ],
-   "rim": 18,
-   "centre": 2.2,
-   "zoom_out": {
-    "dur": 0.42,
-    "to": 2.4,
-    "ease": "in_cubic"
-   },
    "grade": {
-    "exposure": 0.94,
+    "exposure": 0.95,
     "wb": [
      1.03,
      1.0,
      0.95
     ],
-    "green_sat": 0.72
-   }
+    "green_sat": 0.75
+   },
+   "wheels": [
+    {
+     "c": [
+      221,
+      320
+     ],
+     "r": 18,
+     "track": true
+    }
+   ]
   },
   {
    "name": "day_wheel_close",
@@ -275,22 +299,7 @@
    "src_in": 5.11,
    "frame": "tall",
    "crop": {},
-   "hub": [
-    [
-     148,
-     330
-    ],
-    [
-     140,
-     328
-    ]
-   ],
-   "rim": 80,
-   "zoom_in": {
-    "dur": 0.5,
-    "from": 1.7,
-    "ease": "out_cubic"
-   },
+   "wheel_ai": true,
    "grade": {
     "exposure": 0.95,
     "wb": [
@@ -298,7 +307,7 @@
      1.0,
      0.95
     ],
-    "green_sat": 0.72
+    "green_sat": 0.75
    }
   },
   {
@@ -308,22 +317,6 @@
    "src_in": 6.28,
    "frame": "tall",
    "crop": {},
-   "hub": [
-    [
-     201,
-     320
-    ],
-    [
-     203,
-     322
-    ]
-   ],
-   "rim": 31,
-   "push": {
-    "from": 1.0,
-    "to": 1.12,
-    "ease": "in_cubic"
-   },
    "grade": {
     "exposure": 0.95,
     "wb": [
@@ -331,47 +324,47 @@
      1.0,
      0.95
     ],
-    "green_sat": 0.72
+    "green_sat": 0.75
    },
-   "src_max": 7.4
+   "wheels": [
+    {
+     "c": [
+      201,
+      320
+     ],
+     "r": [
+      31,
+      34
+     ],
+     "track": true
+    }
+   ]
   },
   {
-   "name": "golden_low_side_slowmo",
+   "name": "golden_low_side",
    "src": "gold",
-   "beats": 4,
+   "beats": 2.5,
    "src_in": 6.18,
-   "speed": 0.5,
    "frame": "tall",
    "crop": {},
    "cue": "reveal",
-   "hub": [
-    [
-     189,
-     306
-    ],
-    [
-     187,
-     306
-    ]
-   ],
-   "rim": 37,
-   "iris_in": {
-    "dur": 0.62,
-    "zoom_from": 1.5,
-    "ease": "in_out_cubic"
-   },
-   "push": {
-    "from": 1.0,
-    "to": 1.06,
-    "ease": "out_cubic"
-   },
    "grade": {
     "wb": [
      0.99,
      1.0,
      1.02
     ]
-   }
+   },
+   "wheels": [
+    {
+     "c": [
+      189,
+      306
+     ],
+     "r": 38,
+     "track": true
+    }
+   ]
   },
   {
    "name": "golden_front34",
@@ -380,23 +373,23 @@
    "src_in": 1.6,
    "frame": "tall",
    "crop": {},
-   "hub": [
-    131,
-    300
-   ],
-   "rim": 27,
-   "push": {
-    "from": 1.0,
-    "to": 1.09,
-    "ease": "in_out_sine"
-   },
    "grade": {
     "wb": [
      0.99,
      1.0,
      1.02
     ]
-   }
+   },
+   "wheels": [
+    {
+     "c": [
+      140,
+      303
+     ],
+     "r": 26,
+     "ry": 1.17
+    }
+   ]
   },
   {
    "name": "golden_head_on",
@@ -405,55 +398,93 @@
    "src_in": 4.68,
    "frame": "tall",
    "crop": {},
-   "hub": [
-    236,
-    290
-   ],
-   "push": {
-    "from": 1.03,
-    "to": 1.0,
-    "ease": "out_cubic"
-   },
    "grade": {
     "wb": [
      0.99,
      1.0,
      1.02
     ]
-   }
+   },
+   "wheels": [
+    {
+     "c": [
+      141.5,
+      306.5
+     ],
+     "r": 11,
+     "ry": 2.35
+    },
+    {
+     "c": [
+      96,
+      288
+     ],
+     "r": 7,
+     "ry": 2.9
+    }
+   ]
   },
   {
-   "name": "hero_wide_slowmo",
+   "name": "hero_wide_a",
    "src": "gold",
-   "beats": 6,
+   "beats": 3,
    "src_in": 7.61,
-   "speed": 0.5,
    "frame": "tall",
    "crop": {},
-   "hub": [
-    202,
-    298
-   ],
-   "rim": 13.5,
-   "centre": 1.0,
-   "push": {
-    "from": 1.0,
-    "to": 1.08,
-    "ease": "in_out_sine"
-   },
-   "zoom_out": {
-    "dur": 0.75,
-    "to": 2.0,
-    "ease": "in_cubic"
-   },
-   "blur": 0.8,
    "grade": {
     "wb": [
      0.99,
      1.0,
      1.02
     ]
-   }
+   },
+   "wheels": [
+    {
+     "c": [
+      104,
+      294
+     ],
+     "r": 12
+    },
+    {
+     "c": [
+      202,
+      296
+     ],
+     "r": 15.5
+    }
+   ]
+  },
+  {
+   "name": "hero_wide_b",
+   "src": "gold",
+   "beats": 3,
+   "src_in": 0.03,
+   "frame": "tall",
+   "crop": {},
+   "grade": {
+    "wb": [
+     0.99,
+     1.0,
+     1.02
+    ]
+   },
+   "wheels": [
+    {
+     "c": [
+      103,
+      294
+     ],
+     "r": 12
+    },
+    {
+     "c": [
+      202,
+      296
+     ],
+     "r": 15.5
+    }
+   ]
   }
  ],
  "texts": [
@@ -462,7 +493,7 @@
    "font": 500,
    "size": 54,
    "track": 0.01,
-   "y": 1405,
+   "y": 1515,
    "in": 0.12,
    "out": 1.25,
    "anim": "rise"
@@ -472,7 +503,7 @@
    "font": 500,
    "size": 40,
    "track": 0.34,
-   "y": 1405,
+   "y": 1515,
    "in": 1.62,
    "out": 3.3,
    "anim": "rise"
@@ -482,7 +513,7 @@
    "w": 56,
    "h": 3,
    "color": "#0AF0F0",
-   "y": 1440,
+   "y": 1550,
    "in": 1.75,
    "out": 3.3,
    "anim": "draw"
@@ -492,9 +523,9 @@
    "font": 500,
    "size": 40,
    "track": 0.34,
-   "y": 1405,
-   "in": 6.9,
-   "out": 8.3,
+   "y": 1515,
+   "in": 6.62,
+   "out": 8.6,
    "anim": "rise"
   },
   {
@@ -502,9 +533,9 @@
    "w": 56,
    "h": 3,
    "color": "#0AF0F0",
-   "y": 1440,
-   "in": 7.03,
-   "out": 8.3,
+   "y": 1550,
+   "in": 6.75,
+   "out": 8.6,
    "anim": "draw"
   },
   {
@@ -512,23 +543,21 @@
    "font": 700,
    "size": 84,
    "track": 0.14,
-   "y": 330,
+   "y": 250,
    "stroke": 1,
-   "in_beat": 0.6,
-   "out_from_end": 0.8,
-   "anim": "rise",
-   "anchor_shot": "hero_wide_slowmo"
+   "in": 10.05,
+   "out": 12.1,
+   "anim": "rise"
   },
   {
    "rule": true,
    "w": 72,
    "h": 3,
    "color": "#0AF0F0",
-   "y": 392,
-   "in_beat": 1.2,
-   "out_from_end": 0.8,
-   "anim": "draw",
-   "anchor_shot": "hero_wide_slowmo"
+   "y": 312,
+   "in": 10.35,
+   "out": 12.1,
+   "anim": "draw"
   },
   {
    "text": "TURISMO ",
@@ -536,12 +565,11 @@
    "font": 500,
    "size": 40,
    "track": 0.26,
-   "y": 448,
-   "in_beat": 1.6,
+   "y": 368,
+   "in": 10.55,
    "mask_delay": 0.32,
-   "out_from_end": 0.8,
-   "anim": "fade_then_mask",
-   "anchor_shot": "hero_wide_slowmo"
+   "out": 12.1,
+   "anim": "fade_then_mask"
   }
  ],
  "bookends": {
@@ -571,7 +599,8 @@
     "accent"
    ]
   ],
-  "intro": true
+  "intro": true,
+  "outro": "fade"
  },
  "output": "Audi_A8_W12_Turismo_BrandOpen_9x16"
 }
