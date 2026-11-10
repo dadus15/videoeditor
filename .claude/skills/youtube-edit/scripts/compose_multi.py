@@ -419,6 +419,21 @@ def src_offset(shot, tt):
     return float(np.sum((v[1:] + v[:-1]) * 0.5 * np.diff(ts)))
 
 
+def background_cover(win, W, H, level=0.28):
+    """Blurred, darkened duplicate scaled uniformly to COVER the canvas (no stretching), for 16:9 canvases."""
+    h, w = win.shape[:2]
+    s = max(W / w, H / h)
+    small = cv2.resize(win, (max(1, int(w * s / 16)), max(1, int(h * s / 16))), interpolation=cv2.INTER_AREA)
+    small = cv2.GaussianBlur(small, (0, 0), 1.8)
+    big = cv2.resize(small, (int(round(w * s)), int(round(h * s))), interpolation=cv2.INTER_CUBIC)
+    oy, ox = (big.shape[0] - H) // 2, (big.shape[1] - W) // 2
+    bg = big[oy:oy + H, ox:ox + W]
+    lum = bg.mean(axis=2, keepdims=True)
+    bg = (0.55 * bg + 0.45 * lum) * level
+    xx = np.linspace(-1, 1, W)[None, :, None]
+    return bg * (1 - 0.35 * xx ** 2) + 0.012
+
+
 def build_timeline(edl, bpm):
     beat = 60.0 / bpm
     t, shots = 0.0, []
@@ -511,9 +526,13 @@ def main():
                                 (int(r * 4 * core), int(r * 4 * core * ry)), 0, 0, 360, (0, 1, 1), 2)
             x0, y0, cw, ch = crop
             s4 = ww / (cw * 4)
-            M = np.float32([[s4, 0, -(x0 - rx0) * 4 * s4], [0, s4, -(y0 - ry0) * 4 * s4]])
-            win = cv2.warpAffine(hi, M, (ww, wh), flags=cv2.INTER_LANCZOS4 if s4 >= 1 else cv2.INTER_AREA,
-                                 borderMode=cv2.BORDER_REPLICATE)
+            if s4 < 1:   # downscaling from the 4x image: area filter first (no aliasing), then a sub-pixel shift
+                small = cv2.resize(hi, None, fx=s4, fy=s4, interpolation=cv2.INTER_AREA)
+                M = np.float32([[1, 0, -(x0 - rx0) * 4 * s4], [0, 1, -(y0 - ry0) * 4 * s4]])
+                win = cv2.warpAffine(small, M, (ww, wh), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
+            else:
+                M = np.float32([[s4, 0, -(x0 - rx0) * 4 * s4], [0, s4, -(y0 - ry0) * 4 * s4]])
+                win = cv2.warpAffine(hi, M, (ww, wh), flags=cv2.INTER_LANCZOS4, borderMode=cv2.BORDER_REPLICATE)
             win = np.clip(win, 0, 1)
         else:
             frame, _ = src.frame_at(src.pts[i])
@@ -543,6 +562,7 @@ def main():
         cmd = ["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{Wc}x{Hc}",
                "-r", str(fps), "-i", "-", "-vf", "scale=out_color_matrix=bt709:out_range=tv,format=yuv420p",
                "-c:v", "libx264", "-preset", "slow", "-crf", str(args.crf), "-profile:v", "high",
+               "-tune", "film", "-x264-params", "aq-mode=3:aq-strength=0.9",
                "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", "-color_range", "tv",
                "-movflags", "+faststart", "-an", str(out)]
         enc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
@@ -572,14 +592,18 @@ def main():
         if (wh, ww) not in vig:
             vig[(wh, ww)] = C.vignette(wh, ww)
         win = win * vig[(wh, ww)]
-        canvas = C.background(win, Wc, Hc)
+        canvas = background_cover(win, Wc, Hc) if edl.get("background") == "cover" else C.background(win, Wc, Hc)
         x0, y0 = int(round(Wr[0])), int(round(Wr[1]))
         canvas[y0:y0 + wh, x0:x0 + ww] = win
         C.draw_texts(canvas, events, T, Wc)
         g = rng.normal(0, 1, (Hc // 2, Wc // 2)).astype(np.float32)
         g = cv2.resize(g, (Wc, Hc), interpolation=cv2.INTER_LINEAR)[..., None]
         canvas = canvas + grain * g * (0.6 + 0.4 * (1 - canvas.mean(axis=2, keepdims=True)))
-        rgb = (np.clip(canvas, 0, 1) * 255 + 0.5).astype(np.uint8)
+        if edl.get("dither"):   # TPDF dither (+-1 code value): breaks up banding in skies and paint
+            d = rng.random(canvas.shape[:2], dtype=np.float32) - rng.random(canvas.shape[:2], dtype=np.float32)
+            rgb = np.clip(canvas * 255 + 0.5 + d[..., None], 0, 255).astype(np.uint8)
+        else:
+            rgb = (np.clip(canvas, 0, 1) * 255 + 0.5).astype(np.uint8)
         if enc:
             enc.stdin.write(rgb.tobytes())
         if (args.preview_every and f % args.preview_every == 0) or only:

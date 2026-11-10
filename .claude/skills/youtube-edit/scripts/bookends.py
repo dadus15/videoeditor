@@ -20,7 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import compose as C  # noqa: E402
 
 ROOT = C.ROOT
-W, H, FPS = 1080, 1920, 25   # FPS is replaced by the EDL's fps in main()
+W, H, FPS = 1080, 1920, 25   # size and fps are replaced by the EDL's "size" and "fps" in main()
 
 INTRO_HOLD = 1.90      # logo card before the slide starts
 SLIDE = 0.56           # push-slide into the film
@@ -85,6 +85,19 @@ def text_rgba(text, weight, size, track, color):
 
 def card_canvas():
     card = np.asarray(Image.open(CFG["card"]).convert("RGB")).astype(np.float32) / 255
+    if W > H:   # landscape: the portrait card fits the full height on white; its sides fade into the white
+        s = H / card.shape[0]
+        sc = cv2.resize(card, (round(card.shape[1] * s), H), interpolation=cv2.INTER_AREA)
+        fw = max(1, int(sc.shape[1] * 0.10))
+        ramp = np.ones(sc.shape[1], np.float32)
+        ramp[:fw] = np.linspace(0, 1, fw) ** 1.5
+        ramp[-fw:] = ramp[:fw][::-1]
+        sc = 1 - (1 - sc) * ramp[None, :, None]
+        out = np.ones((H, W, 3), np.float32)
+        ox = (W - sc.shape[1]) // 2
+        out[:, ox:ox + sc.shape[1]] = sc
+        cx, cy, r = CFG["card_wheel"]
+        return np.clip(out, 0, 1), (cx * s + ox, cy * s, r * s)
     s = max(W / card.shape[1], H / card.shape[0])
     big = cv2.resize(card, (round(card.shape[1] * s), round(card.shape[0] * s)), interpolation=cv2.INTER_LANCZOS4)
     oy, ox = (big.shape[0] - H) // 2, (big.shape[1] - W) // 2
@@ -134,13 +147,15 @@ def main():
     ap.add_argument("--audio")
     ap.add_argument("--bpm", type=float, help="must match the bpm the film was rendered at")
     ap.add_argument("--crf", type=int, default=18, help="x264 CRF of the output (12 = high-bitrate master)")
+    ap.add_argument("--hq", action="store_true", help="slower preset, film tuning, gradient-friendly adaptive quant")
     ap.add_argument("--preview-every", type=int, default=0)
     ap.add_argument("--preview-dir", default="work/preview_bookends")
     args = ap.parse_args()
 
-    global FPS
+    global FPS, W, H
     edl = json.loads(Path(args.edl).read_text())
     FPS = edl.get("fps", FPS)
+    W, H = edl.get("size", [W, H])
     if args.bpm:
         edl["bpm"] = args.bpm
     load_cfg(edl)
@@ -160,7 +175,8 @@ def main():
           f"iris {iris_start:.2f}  total {total:.2f}s  hub@({hx:.0f},{hy:.0f}) r{hr:.0f}", file=sys.stderr)
 
     logo = clean_logo()
-    lw = 640
+    land = W > H
+    lw = 520 if land else 640
     logo = cv2.resize(logo, (lw, round(logo.shape[0] * lw / logo.shape[1])), interpolation=cv2.INTER_AREA)
     ink = {"primary": NAVY, "accent": RED}
     tag_parts = [text_rgba(txt, 700, 66, 0.16, ink[col]) for txt, col in CFG["tagline"]]
@@ -173,9 +189,9 @@ def main():
         k = ease("out_cubic", (t + 0.12) / 0.62)
         s = 0.94 + 0.06 * k
         lg = cv2.resize(logo, (round(logo.shape[1] * s), round(logo.shape[0] * s)), interpolation=cv2.INTER_AREA)
-        C.blit(img, lg, W / 2 - lg.shape[1] / 2, 700 - lg.shape[0] / 2, k)
+        C.blit(img, lg, W / 2 - lg.shape[1] / 2, (0.38 * H if land else 700) - lg.shape[0] / 2, k)
         # tagline: one line rising out of a mask, each part lands ~0.27 s after the previous one
-        y = 1080
+        y = int(0.66 * H) if land else 1080
         if tag_parts:
             total_w = sum(p.shape[1] for p in tag_parts) - 8 * (len(tag_parts) - 1)
             x = W / 2 - total_w / 2
@@ -211,7 +227,10 @@ def main():
     if args.audio:
         cmd += ["-i", args.audio]
     cmd += ["-vf", "scale=out_color_matrix=bt709:out_range=tv,format=yuv420p", "-c:v", "libx264", "-preset", "slow",
-            "-crf", str(args.crf), "-profile:v", "high", "-colorspace", "bt709", "-color_primaries", "bt709",
+            "-crf", str(args.crf), "-profile:v", "high"]
+    if args.hq:   # film tuning + adaptive quantisation that protects smooth gradients (sky, paint)
+        cmd += ["-preset", "slower", "-tune", "film", "-x264-params", "aq-mode=3:aq-strength=0.9"]
+    cmd += [ "-colorspace", "bt709", "-color_primaries", "bt709",
             "-color_trc", "bt709", "-color_range", "tv", "-movflags", "+faststart"]
     cmd += (["-c:a", "aac", "-b:a", "256k", "-shortest"] if args.audio else ["-an"]) + [str(out)]
     enc = subprocess.Popen(cmd, stdin=subprocess.PIPE)

@@ -4,6 +4,31 @@ Brief: combine two short projects (daylight at the house, golden hour in a field
 
 Concept: **one set of wheels, two kinds of light.** The film runs DAYLIGHT → GOLDEN HOUR, joined by a straight match cut between the two low-side wheel shots (the wheel sits in the same place in both frames).
 
+## 16:9 1920×1080 version of the v6 brand-open film
+
+`renders/Audi_A8_W12_Turismo_BrandOpen_16x9_PICTURE-LOCK.mp4`: 1920×1080, 60 fps, 15.3 s, ~31 Mbps. EDL: `edit/edl_a8w12_brandopen_16x9.json`.
+
+The cut, speeds, slow motion and masks are identical to v6.
+- **Picture:** the portrait reel fills the full height (777×1080 panel). Full-width shots are therefore **downscaled 0.88×** from the 4× AI upscale with an area filter, instead of enlarged 1.22× as in 9:16.
+- **Sides:** a blurred cover of the same frame at 28 % brightness.
+- **Brand cards:** the logo card is laid out for 16:9; the end card fits the full height on white, with its sides feathered into the white.
+- **Dither and encode:** TPDF dither before 8-bit; x264 `slower`, `tune film`, aq-mode 3, CRF 10 (film intermediate CRF 4).
+
+Pixel analysis inside the picture (v6 9:16 → 16:9):
+
+| Shot | Sharpness (Laplacian var.) | Fine detail (energy above ¼ Nyquist) | Blockiness (8-px edge ratio) |
+|---|---|---|---|
+| golden front ¾ | 136 → 192 | 0.74 → 1.37 % | 1.38 → 0.98 |
+| carport drive-in | 174 → 287 | 2.13 → 3.98 % | 1.07 → 0.98 |
+| daylight front ¾ | 222 → 342 | 1.75 → 3.00 % | 1.05 → 1.00 |
+| daylight low side | 29 → 75 | 0.42 → 0.86 % | 1.13 → 0.97 |
+| drop, golden low side | 37 → 95 | 0.75 → 1.51 % | 1.14 → 1.02 |
+| hero | 109 → 179 | 0.66 → 1.21 % | 1.12 → 1.01 |
+
+- Sky banding, measured as staircase steps in a 40-column averaged profile, is below visibility in both versions (~0.35 code-value RMS). It comes mostly from faint source compression structure. The dither protects against new terraces when YouTube re-encodes the upload.
+- A first banding metric (local 1–2 level terraces) was misleading: dither raises it by design.
+- **QC:** 919 frames, 15.32 s; no black frames or flashes; cuts on the grid (+1.9 s intro).
+
 ## Revision 6 (client notes: "the shot at 2 s is badly framed, you only see part of the rim"; "add a slow-motion effect that fits the track")
 
 - **Whole rim in every shot:**

@@ -122,6 +122,15 @@ Still valid from revision 1:
 - **End-card fade:** finish the dip on the film's last frame. A frozen frame under the fade reads as a glitch.
 - **Safety:** model weights in `.pth` are pickles. Read them with the opcode-only parser in `upscale.py`, never with `pickle` or `torch.load` on a downloaded file.
 
+### 16:9 from portrait reels
+
+Put the reel picture on the full 1080 px height (a ~777 px panel):
+- With a 4× AI upscale, full-width shots are then **downscaled** (area filter): about 2× the fine detail per pixel of the 9:16 version.
+- Sides are a blurred cover of the same frame at ~28 % brightness (`"background": "cover"`). At 17 % they read as an empty black frame.
+- The end card fits the full height on white with feathered sides; the logo card uses a 16:9 layout (`bookends.py` reads `size`).
+- Add `"dither": true` and encode with `bookends.py --hq`.
+- To measure banding, use averaged-profile staircase steps, not local-terrace counts (dither inflates those).
+
 ## 10. Gotchas
 
 - `pgrep -f "<pattern>"` inside a wait loop matches its own shell command line and never exits. Wait on PIDs or on log files instead.
