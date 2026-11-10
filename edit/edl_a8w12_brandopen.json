@@ -1,0 +1,577 @@
+{
+ "_comment": "Audi A8 W12 on Turismo mesh wheels: two Instagram-reel screen recordings (daylight at the house, golden hour in a field) cut into one 9:16 hook. Source px are in the 368x448 capture; the reel picture is x 76-298, y 20-431 and the app's avatars/caption cover the bottom-left from y~333 (golden) / 343 (day), so 'clean' is an L-shaped union of rects. Variant: same film as edl_a8w12_hook.json, opened by the Turismo logo card (UNLOCK YOUR STYLE) and push-slide, as on the Audi S8 piece.",
+ "bpm": 120,
+ "fps": 30,
+ "size": [
+  1080,
+  1920
+ ],
+ "layout": {
+  "tall": {
+   "cx": 540,
+   "cy": 710,
+   "w": 1080,
+   "h": 1240
+  }
+ },
+ "sources": {
+  "day": {
+   "path": "source/A8_W12_day_house.mp4",
+   "clean": [
+    [
+     77,
+     26,
+     298,
+     341
+    ],
+    [
+     144,
+     26,
+     298,
+     380
+    ]
+   ],
+   "cleanup": [
+    {
+     "t": [
+      3.85,
+      5.1
+     ],
+     "box": [
+      102,
+      316,
+      128,
+      325
+     ],
+     "box_end": [
+      103,
+      316.5,
+      128.5,
+      325.5
+     ],
+     "pad": 1.5,
+     "fill_gain": 0.8
+    }
+   ]
+  },
+  "gold": {
+   "path": "source/A8_W12_golden_hour.mp4",
+   "clean": [
+    [
+     77,
+     26,
+     298,
+     333
+    ],
+    [
+     179,
+     26,
+     298,
+     381
+    ]
+   ],
+   "cleanup": [
+    {
+     "t": [
+      0.0,
+      3.06
+     ],
+     "box": [
+      146,
+      131,
+      218,
+      150
+     ],
+     "pad": 1,
+     "soften": 1.0
+    },
+    {
+     "t": [
+      7.55,
+      9.3
+     ],
+     "box": [
+      146,
+      131,
+      218,
+      150
+     ],
+     "pad": 1,
+     "soften": 1.0
+    },
+    {
+     "t": [
+      0.0,
+      1.57
+     ],
+     "box": [
+      264,
+      287,
+      277,
+      296
+     ],
+     "pad": 1.5
+    },
+    {
+     "t": [
+      7.55,
+      9.3
+     ],
+     "box": [
+      264,
+      287,
+      277,
+      296
+     ],
+     "pad": 1.5
+    },
+    {
+     "t": [
+      1.55,
+      3.06
+     ],
+     "box": [
+      250,
+      287,
+      266,
+      297
+     ],
+     "pad": 1.5
+    },
+    {
+     "t": [
+      4.63,
+      6.17
+     ],
+     "box": [
+      220,
+      302,
+      251,
+      312
+     ],
+     "pad": 1.5,
+     "fill_gain": 0.6
+    }
+   ]
+  }
+ },
+ "look": {
+  "contrast": 1.07,
+  "pivot": 0.42,
+  "split": 0.022,
+  "lift": 0.006,
+  "sat": 0.96
+ },
+ "shots": [
+  {
+   "name": "hook_golden_wheel",
+   "src": "gold",
+   "beats": 3,
+   "src_in": 3.07,
+   "frame": "tall",
+   "crop": {},
+   "hub": [
+    245,
+    380
+   ],
+   "rim": 125,
+   "push": {
+    "from": 1.0,
+    "to": 1.16,
+    "ease": "out_cubic"
+   },
+   "glint": {
+    "at": 0.25,
+    "dur": 1.0,
+    "r": 128,
+    "angle": -0.75,
+    "width": 0.2,
+    "gain": 0.85
+   },
+   "grade": {
+    "wb": [
+     0.99,
+     1.0,
+     1.02
+    ]
+   }
+  },
+  {
+   "name": "day_carport_wide",
+   "src": "day",
+   "beats": 2,
+   "src_in": 0.33,
+   "frame": "tall",
+   "crop": {},
+   "hub": [
+    193,
+    318
+   ],
+   "rim": 17,
+   "push": {
+    "from": 1.0,
+    "to": 1.04,
+    "ease": "linear"
+   },
+   "grade": {
+    "exposure": 0.94,
+    "wb": [
+     1.03,
+     1.0,
+     0.95
+    ],
+    "green_sat": 0.72
+   }
+  },
+  {
+   "name": "day_house_pan",
+   "src": "day",
+   "beats": 2,
+   "src_in": 1.53,
+   "frame": "tall",
+   "crop": {},
+   "grade": {
+    "exposure": 0.93,
+    "wb": [
+     1.03,
+     1.0,
+     0.95
+    ],
+    "green_sat": 0.72
+   }
+  },
+  {
+   "name": "day_front34_crashzoom",
+   "src": "day",
+   "beats": 2,
+   "src_in": 3.91,
+   "frame": "tall",
+   "crop": {},
+   "hub": [
+    221,
+    320
+   ],
+   "rim": 18,
+   "centre": 2.2,
+   "zoom_out": {
+    "dur": 0.42,
+    "to": 2.4,
+    "ease": "in_cubic"
+   },
+   "grade": {
+    "exposure": 0.94,
+    "wb": [
+     1.03,
+     1.0,
+     0.95
+    ],
+    "green_sat": 0.72
+   }
+  },
+  {
+   "name": "day_wheel_close",
+   "src": "day",
+   "beats": 2,
+   "src_in": 5.11,
+   "frame": "tall",
+   "crop": {},
+   "hub": [
+    [
+     148,
+     330
+    ],
+    [
+     140,
+     328
+    ]
+   ],
+   "rim": 80,
+   "zoom_in": {
+    "dur": 0.5,
+    "from": 1.7,
+    "ease": "out_cubic"
+   },
+   "grade": {
+    "exposure": 0.95,
+    "wb": [
+     1.03,
+     1.0,
+     0.95
+    ],
+    "green_sat": 0.72
+   }
+  },
+  {
+   "name": "day_low_side",
+   "src": "day",
+   "beats": 2,
+   "src_in": 6.28,
+   "frame": "tall",
+   "crop": {},
+   "hub": [
+    [
+     201,
+     320
+    ],
+    [
+     203,
+     322
+    ]
+   ],
+   "rim": 31,
+   "push": {
+    "from": 1.0,
+    "to": 1.12,
+    "ease": "in_cubic"
+   },
+   "grade": {
+    "exposure": 0.95,
+    "wb": [
+     1.03,
+     1.0,
+     0.95
+    ],
+    "green_sat": 0.72
+   },
+   "src_max": 7.4
+  },
+  {
+   "name": "golden_low_side_slowmo",
+   "src": "gold",
+   "beats": 4,
+   "src_in": 6.18,
+   "speed": 0.5,
+   "frame": "tall",
+   "crop": {},
+   "cue": "reveal",
+   "hub": [
+    [
+     189,
+     306
+    ],
+    [
+     187,
+     306
+    ]
+   ],
+   "rim": 37,
+   "iris_in": {
+    "dur": 0.62,
+    "zoom_from": 1.5,
+    "ease": "in_out_cubic"
+   },
+   "push": {
+    "from": 1.0,
+    "to": 1.06,
+    "ease": "out_cubic"
+   },
+   "grade": {
+    "wb": [
+     0.99,
+     1.0,
+     1.02
+    ]
+   }
+  },
+  {
+   "name": "golden_front34",
+   "src": "gold",
+   "beats": 2.5,
+   "src_in": 1.6,
+   "frame": "tall",
+   "crop": {},
+   "hub": [
+    131,
+    300
+   ],
+   "rim": 27,
+   "push": {
+    "from": 1.0,
+    "to": 1.09,
+    "ease": "in_out_sine"
+   },
+   "grade": {
+    "wb": [
+     0.99,
+     1.0,
+     1.02
+    ]
+   }
+  },
+  {
+   "name": "golden_head_on",
+   "src": "gold",
+   "beats": 2,
+   "src_in": 4.68,
+   "frame": "tall",
+   "crop": {},
+   "hub": [
+    236,
+    290
+   ],
+   "push": {
+    "from": 1.03,
+    "to": 1.0,
+    "ease": "out_cubic"
+   },
+   "grade": {
+    "wb": [
+     0.99,
+     1.0,
+     1.02
+    ]
+   }
+  },
+  {
+   "name": "hero_wide_slowmo",
+   "src": "gold",
+   "beats": 6,
+   "src_in": 7.61,
+   "speed": 0.5,
+   "frame": "tall",
+   "crop": {},
+   "hub": [
+    202,
+    298
+   ],
+   "rim": 13.5,
+   "centre": 1.0,
+   "push": {
+    "from": 1.0,
+    "to": 1.08,
+    "ease": "in_out_sine"
+   },
+   "zoom_out": {
+    "dur": 0.75,
+    "to": 2.0,
+    "ease": "in_cubic"
+   },
+   "blur": 0.8,
+   "grade": {
+    "wb": [
+     0.99,
+     1.0,
+     1.02
+    ]
+   }
+  }
+ ],
+ "texts": [
+  {
+   "text": "One set of wheels.",
+   "font": 500,
+   "size": 54,
+   "track": 0.01,
+   "y": 1405,
+   "in": 0.12,
+   "out": 1.25,
+   "anim": "rise"
+  },
+  {
+   "text": "DAYLIGHT",
+   "font": 500,
+   "size": 40,
+   "track": 0.34,
+   "y": 1405,
+   "in": 1.62,
+   "out": 3.3,
+   "anim": "rise"
+  },
+  {
+   "rule": true,
+   "w": 56,
+   "h": 3,
+   "color": "#0AF0F0",
+   "y": 1440,
+   "in": 1.75,
+   "out": 3.3,
+   "anim": "draw"
+  },
+  {
+   "text": "GOLDEN HOUR",
+   "font": 500,
+   "size": 40,
+   "track": 0.34,
+   "y": 1405,
+   "in": 6.9,
+   "out": 8.3,
+   "anim": "rise"
+  },
+  {
+   "rule": true,
+   "w": 56,
+   "h": 3,
+   "color": "#0AF0F0",
+   "y": 1440,
+   "in": 7.03,
+   "out": 8.3,
+   "anim": "draw"
+  },
+  {
+   "text": "AUDI A8 W12",
+   "font": 700,
+   "size": 84,
+   "track": 0.14,
+   "y": 330,
+   "stroke": 1,
+   "in_beat": 0.6,
+   "out_from_end": 0.8,
+   "anim": "rise",
+   "anchor_shot": "hero_wide_slowmo"
+  },
+  {
+   "rule": true,
+   "w": 72,
+   "h": 3,
+   "color": "#0AF0F0",
+   "y": 392,
+   "in_beat": 1.2,
+   "out_from_end": 0.8,
+   "anim": "draw",
+   "anchor_shot": "hero_wide_slowmo"
+  },
+  {
+   "text": "TURISMO ",
+   "suffix_mask": "WHEELS",
+   "font": 500,
+   "size": 40,
+   "track": 0.26,
+   "y": 448,
+   "in_beat": 1.6,
+   "mask_delay": 0.32,
+   "out_from_end": 0.8,
+   "anim": "fade_then_mask",
+   "anchor_shot": "hero_wide_slowmo"
+  }
+ ],
+ "bookends": {
+  "card": "assets/brand/turismo_end_card_gemini.jpg",
+  "logo_box": [
+   190,
+   70,
+   600,
+   312
+  ],
+  "card_wheel": [
+   383.0,
+   633.5,
+   262.0
+  ],
+  "ink": {
+   "primary": "#0A1B2B",
+   "accent": "#C7222A"
+  },
+  "tagline": [
+   [
+    "UNLOCK YOUR ",
+    "primary"
+   ],
+   [
+    "STYLE",
+    "accent"
+   ]
+  ],
+  "intro": true
+ },
+ "output": "Audi_A8_W12_Turismo_BrandOpen_9x16"
+}

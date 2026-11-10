@@ -20,7 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import compose as C  # noqa: E402
 
 ROOT = C.ROOT
-W, H, FPS = 1080, 1920, 25
+W, H, FPS = 1080, 1920, 25   # FPS is replaced by the EDL's fps in main()
 
 INTRO_HOLD = 1.90      # logo card before the slide starts
 SLIDE = 0.56           # push-slide into the film
@@ -34,6 +34,8 @@ CARD_HOLD = 2.70       # end card after the iris completes
 #   card_wheel  [cx, cy, r] of the product wheel in the card (card pixels)
 #   film_hub    [x, y] of the wheel hub in SOURCE pixels at the film's last frame (measure it on a render)
 #   film_rim    rim radius in source pixels
+#               (both unused when the film's timeline.json carries "end_hub", as compose_multi.py writes it)
+#   intro       false = no logo card: the film opens on frame 1 (hook-first), the brand lands on the end card
 #   ink         {"primary": "#0A1B2B", "accent": "#C7222A"}   sampled from the logo
 #   tagline     [["UNLOCK YOUR ", "primary"], ["STYLE", "accent"]]
 CFG = {}
@@ -48,8 +50,8 @@ def load_cfg(edl):
     global NAVY, RED
     b = edl["bookends"]
     CFG.update(card=ROOT / b["card"], logo_box=tuple(b["logo_box"]), card_wheel=tuple(b["card_wheel"]),
-               film_hub=tuple(b["film_hub"]), film_rim=float(b["film_rim"]),
-               tagline=b.get("tagline", []))
+               film_hub=tuple(b.get("film_hub", (0, 0))), film_rim=float(b.get("film_rim", 0)),
+               tagline=b.get("tagline", []), intro=b.get("intro", True))
     NAVY, RED = hex_rgb(b["ink"]["primary"]), hex_rgb(b["ink"]["accent"])
 
 
@@ -133,17 +135,24 @@ def main():
     ap.add_argument("--preview-dir", default="work/preview_bookends")
     args = ap.parse_args()
 
+    global FPS
     edl = json.loads(Path(args.edl).read_text())
+    FPS = edl.get("fps", FPS)
     if args.bpm:
         edl["bpm"] = args.bpm
     load_cfg(edl)
-    (hx, hy, hr), film_len = film_hub_on_screen(edl)
+    tl_in = json.loads(Path(args.film).with_suffix(".timeline.json").read_text())
+    if tl_in.get("end_hub"):                                 # measured by the compositor on the last frame
+        hx, hy, hr = tl_in["end_hub"]
+        film_len = tl_in["duration"]
+    else:
+        (hx, hy, hr), film_len = film_hub_on_screen(edl)
     film_n = round(film_len * FPS)
-    film_start = INTRO_HOLD                                  # film frame 0 enters with the slide
+    film_start = INTRO_HOLD if CFG["intro"] else 0.0         # film frame 0 enters with the slide
     iris_start = film_start + film_len - IRIS_LEAD
     total = iris_start + IRIS + CARD_HOLD
     nframes = round(total * FPS)
-    print(f"intro {INTRO_HOLD + SLIDE:.2f}s  film {film_start:.2f}-{film_start + film_len:.2f}  "
+    print(f"intro {(INTRO_HOLD + SLIDE) if CFG['intro'] else 0:.2f}s  film {film_start:.2f}-{film_start + film_len:.2f}  "
           f"iris {iris_start:.2f}  total {total:.2f}s  hub@({hx:.0f},{hy:.0f}) r{hr:.0f}", file=sys.stderr)
 
     logo = clean_logo()
@@ -211,7 +220,7 @@ def main():
         t = f / FPS
         if t < film_start:                                   # logo card
             img = intro_frame(t)
-        elif t < film_start + SLIDE:                         # push-slide left into the film
+        elif CFG["intro"] and t < film_start + SLIDE:        # push-slide left into the film
             k = ease("in_out_cubic", (t - film_start) / SLIDE)
             dx = int(round(k * W))
             card_img = intro_frame(t)
@@ -255,14 +264,16 @@ def main():
     for s in tl["shots"]:
         s["start"] += off
         s["end"] += off
-    tl["shots"].insert(0, {"name": "brand_logo_tagline", "start": 0.0, "end": film_start + SLIDE, "src_in": None})
+    if CFG["intro"]:
+        tl["shots"].insert(0, {"name": "brand_logo_tagline", "start": 0.0, "end": film_start + SLIDE, "src_in": None})
     tl["duration"] = total
-    tl["cue_points"] = {"open_impact": 0.0, "tagline_accent": 0.72, "slide_into_film": film_start,
+    tl["cue_points"] = {"open_impact": 0.0, "tagline_accent": 0.72 if CFG["intro"] else None,
+                        "slide_into_film": film_start if CFG["intro"] else None,
                         "riser_end_reveal": (None if tl["cue_points"]["riser_end_reveal"] is None
                                              else off + tl["cue_points"]["riser_end_reveal"]),
                         "signature": off + tl["cue_points"]["signature"],
                         "end_card_iris": iris_start, "end": total}
-    tl["shimmer_at"] = tl["shots"][min(2, len(tl["shots"]) - 1)]["start"]  # second film shot (detail texture)
+    tl["shimmer_at"] = tl["shots"][min(2 if CFG["intro"] else 0, len(tl["shots"]) - 1)]["start"]  # a detail shot
     json.dump(tl, open(out.with_suffix(".timeline.json"), "w"), indent=2)
     print(f"wrote {out}", file=sys.stderr)
 

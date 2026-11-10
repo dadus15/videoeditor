@@ -12,7 +12,8 @@ mkdir -p work renders
 for edl in edit/edl_*.json; do
   v=$(basename "$edl" .json); v=${v#edl_}
   bpm_arg=(); [ -n "$BPM" ] && bpm_arg=(--bpm "$BPM")
-  python3 "$S/compose.py" "$edl" "work/film_$v.mp4" "${bpm_arg[@]}" --crf 6
+  comp=compose.py; grep -q '"sources"' "$edl" && comp=compose_multi.py   # multi-source reels edits
+  python3 "$S/$comp" "$edl" "work/film_$v.mp4" "${bpm_arg[@]}" --crf 6
   if grep -q '"bookends"' "$edl"; then
     python3 "$S/bookends.py" "$edl" "work/film_$v.mp4" "work/pic_$v.mp4" "${bpm_arg[@]}"
   else

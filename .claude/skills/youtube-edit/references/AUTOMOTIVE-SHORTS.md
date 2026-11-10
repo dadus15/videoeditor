@@ -95,7 +95,21 @@ Then, in Python (OpenCV, 135×240 greyscale):
 
 Also review full-resolution stills of: frame 1, the reveal, the titles, the middle of each transition, and the last frame.
 
-## 9. Gotchas
+## 9. Screen-recorded reels and combining two shoots (A8 W12 hook, November 2026)
+
+Two Instagram-reel screen recordings (daylight and golden hour, same car) became one 16.8 s hook with `compose_multi.py`.
+
+- **Overlays sit on the picture, not in bars.** Map them with a per-pixel temporal standard deviation over the whole clip: static UI shows as a hole. The clean area is L-shaped (avatars bottom-left, caption lower), so give `clean` as a list of rects. Zoomed crops can then use the deeper part and centre the wheel.
+- **Plates: remove, don't blur.** Inpaint a padded box in source pixels (Telea, then light smoothing, darkened slightly) and feather it. On a black car it reads as a clean bumper and moves with every zoom. Check each plate at full resolution on a render. Drop shots where the plate fills a large part of the frame; inpainting can't hide it.
+- **Burned-in text in a smooth sky** inpaints cleanly. Put the titles there afterwards, so any residue is covered.
+- **Real slow motion** only where the source has the frames. Count new frames per shot: here the golden-hour pan was a true 60 fps, so 0.5× at 30 fps uses every frame. Locked-off shots can be slowed to fill time.
+- **Making two shoots one film:** the same window and framing on every shot; one shared look (contrast, light split-tone, greens tamed on the daylight footage); chapter labels (DAYLIGHT / GOLDEN HOUR) in the house type; and a **hub-to-hub iris** at the hand-over. The new shot appears inside the old shot's wheel and zooms through its own hub, so the light changes around the same wheel.
+- **Crash zoom into the wheel:** `zoom_out` (in-cubic, about 0.42 s, to about 2.4×, `centre` > 1 pulls the hub to the middle), then the next shot `zoom_in` lands from about 1.7×. Radial blur scaled by the zoom rate sells the speed and hides softness.
+- **Transitions read the outgoing shot past its end.** Set `src_max` on the outgoing shot, or it runs into the next shot of the original reel. This happened once: the iris showed the carport wide instead of the wheel.
+- **End zoom into the iris:** keep the final zoom anchor-preserving (`centre` 1). Re-centring pushed the crop into the overlay clamp and moved the wheel away from the iris.
+- **A hook opens on the product.** The logo card goes on the end; keep a brand-open variant for brand channels.
+
+## 10. Gotchas
 
 - `pgrep -f "<pattern>"` inside a wait loop matches its own shell command line and never exits. Wait on PIDs or on log files instead.
 - Decoding a VFR capture with `-fps_mode passthrough` to rawvideo prints harmless "non monotonically increasing dts" errors. Verify the frame count matches `ffprobe` and silence them with `-v fatal`.

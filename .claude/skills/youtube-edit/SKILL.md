@@ -27,11 +27,12 @@ These scripts are in `scripts/` and were verified on a real project. Run them fr
 | `analyze_motion.py <video> <csv>` | Per-frame brightness and median optical flow. Use it to map shots, baked fades, and motion direction. |
 | `unique_frames.py <video>` | Detects the real film frames inside a screen capture or variable-frame-rate file, and reports per-shot frame counts. |
 | `compose.py <edl.json> <out.mp4> [--bpm N] [--crf N] [--audio wav]` | The 9:16 compositor. Shot lengths are in beats; it re-times film frames 1:1 at the EDL fps, then renders windows, pushes, aperture moves and titles. It also writes `<out>.timeline.json` with cue points. |
-| `bookends.py <edl.json> <film.mp4> <out.mp4>` | Brand intro (logo, tagline, push-slide) and end card (iris from the product, light sweep). Configured by the EDL's `bookends` block. |
+| `compose_multi.py <edl.json> <out.mp4> [--crf N] [--frames 0,45,...]` | The multi-source compositor for clips cut from **phone screen-recordings of reels**: several sources, each with an L-shaped overlay-free area; plate and burned-in-text removal (inpaint in source pixels); timestamp re-timing at any fps with real slow motion (`speed`); hub-anchored push, crash zoom (`zoom_out`) and landing (`zoom_in`) with radial motion blur; a hub-to-hub iris between shots (`iris_in`); a light glint over the wheel; one shared `look`. `--frames` renders only chosen stills for fast checks. Example: `edit/edl_a8w12_hook.json`. |
+| `bookends.py <edl.json> <film.mp4> <out.mp4>` | Brand intro (logo, tagline, push-slide) and end card (iris from the product, light sweep). Configured by the EDL's `bookends` block. Set `"intro": false` for a hook-first cut. It uses the EDL's fps and reads the final hub position from the film's timeline when `compose_multi.py` wrote it. |
 | `mix_audio.py <timeline.json> <out.wav> --music-drop S` | Mixes music and SFX to the cue points, targets −14 LUFS with true peak below −1 dBTP, and reports a phone-speaker check. |
 | `finish.sh <drop_s> [bpm]` | Runs every `edit/edl_*.json` through film → bookends → mix → mux, naming each output from the EDL's `output` field. |
 
-`templates/edl_automotive_example.json` is a complete, approved EDL to copy and adapt. The original kit's cutting, transcription and HyperFrames tools are **not** included. Check whether they're installed before planning a talking-head edit around them.
+`templates/edl_automotive_example.json` is a complete, approved EDL to copy and adapt; `edit/edl_a8w12_hook.json` in the reference project is the multi-source equivalent. The original kit's cutting, transcription and HyperFrames tools are **not** included. Check whether they're installed before planning a talking-head edit around them.
 
 ## Start each edit
 

@@ -55,3 +55,8 @@ The script does four things:
 - Shapes the last 0.55 s so the loop restarts into the opening impact. The two masters are written to `renders/Audi_S8_D4_Inventa_Hero_9x16.mp4` and `renders/Audi_S8_D4_Inventa_AltOpen_9x16.mp4`.
 
 The mixer targets −14 LUFS with a true-peak ceiling below −1 dBTP. It prints loudness, true peak, a phone-speaker band reading and the level below 120 Hz, and it warns if the mix leans on sub-bass that phone speakers can't play.
+
+
+## Audi A8 W12 hook (November 2026)
+
+These are the same slot files and the same blocker. In this session the Epidemic Sound connector also needs authorising in the claude.ai connector settings. The source reels carry a copyrighted song, so they have no usable audio. Cue points are in `EDIT_NOTES_A8_W12.md` (drop on the iris into golden hour at 6.50 s in the main version, 8.40 s in the brand-open version). Edit is cut at 120 BPM in beats, so `finish.sh <drop_s> <bpm>` re-times it to the chosen track.
