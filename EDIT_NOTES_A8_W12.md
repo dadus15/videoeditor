@@ -4,6 +4,26 @@ Brief: combine two short projects (daylight at the house, golden hour in a field
 
 Concept: **one set of wheels, two kinds of light.** The film runs DAYLIGHT → GOLDEN HOUR, joined by a straight match cut between the two low-side wheel shots (the wheel sits in the same place in both frames).
 
+## Revision 4: cut to "Club Bizarre" (lene 3000)
+
+- The client asked for the edit to follow "Club Bizarre" by lene 3000 (2025, 2:05) and gave a YouTube link.
+  - YouTube is unreachable from the build environment, and ripping the audio isn't allowed (YouTube terms and the song's copyright), so **the track has not been heard or analysed**.
+  - Plan for publishing: add the song in the YouTube Shorts sound picker at upload, so YouTube licenses it.
+- **Tempo:** the published figure is 87.2 BPM (Spotify data). The cut sits on the 174.4 BPM grid (0.344 s), which fits both 87.2 and 174.4. All 9 cuts were verified on the exact grid frames.
+- **Structure (grid beats at 174.4):**
+
+  | Beats | Time | Shots |
+  |---|---|---|
+  | 0 | 0.00 s | hook |
+  | 4–16 | 1.38–5.50 s | four daylight shots (1.03 / 0.69 / 0.69 / 0.69 s), then the low side (1.03 s) |
+  | **16** | **5.505 s** | **match cut into golden hour, on a bar line: put the track's drop or strongest downbeat here** |
+  | 20 / 24 / 28 | 6.88 / 8.26 / 9.63 s | golden front ¾ / head-on / hero |
+  | 32 | 11.01 s | end of the film, dip into the end card |
+
+- **Alignment in the Shorts editor:** start the song so its drop falls at 5.5 s (main version) / 7.4 s (brand-open). If the drop is on a beat, every other cut lands on the beat too.
+- **To lock it exactly:** supply the audio file. Beat detection, any tempo correction and the drop placement are then a re-time via `finish.sh <drop_s> <bpm>`.
+- **Lengths:** main version 14.1 s, brand-open 16.0 s.
+
 ## Revision 3 (client notes: "car motion at 12–14 s not natural", "super extra quality 1080p", "delete the text", "fit to Club Bizarre")
 
 - **Unnatural motion, found and fixed.** The 3 s hero was built from the two captures of the looping reel. The car is slowly rolling and the camera follows it, and the second capture started 0.3 s *earlier* in the reel than where the first one ended. So the car jumped back and repeated its move. Frame matching shows the captures are offset by exactly 7.917 s (golden 0.00 s = 9.917 s in reel terms). The hero is now one continuous 1.5 s take, with cadence checked frame by frame (steady about −0.25 px/frame).

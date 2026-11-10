@@ -1,6 +1,6 @@
 {
  "_comment": "v2 after client notes (quality, unnatural rims, altered motion). Every shot plays at its real speed at 60 fps (the reels' native ~60 fps motion); no digital pushes, zooms, glints or composited transitions; straight cuts on the beat. v3: no overlay text; picture uses the full overlay-free height (1080x1500); the hero is one continuous move stitched frame-exactly across the two captures of the same reel. Picture is upscaled 4x with Real-ESRGAN general-x4v3 (scripts/upscale.py) EXCEPT inside the wheel masks, where a faithful Lanczos upscale is used because the AI scrambles small wheel meshes; the two big wheel close-ups keep the AI ('wheel_ai'). Source px are in the 368x448 capture; 'clean' is the overlay-free area; plates and the 'Peak Audi era' text are inpainted in source px.",
- "bpm": 120,
+ "bpm": 174.4,
  "fps": 60,
  "size": [
   1080,
@@ -185,7 +185,7 @@
   {
    "name": "hook_golden_wheel",
    "src": "gold",
-   "beats": 3,
+   "beats": 4,
    "src_in": 3.07,
    "frame": "tall",
    "crop": {},
@@ -201,7 +201,7 @@
   {
    "name": "day_carport_drive_in",
    "src": "day",
-   "beats": 2,
+   "beats": 3,
    "src_in": 0.33,
    "frame": "tall",
    "crop": {},
@@ -313,7 +313,7 @@
   {
    "name": "day_low_side",
    "src": "day",
-   "beats": 2,
+   "beats": 3,
    "src_in": 6.28,
    "frame": "tall",
    "crop": {},
@@ -343,7 +343,7 @@
   {
    "name": "golden_low_side",
    "src": "gold",
-   "beats": 2.5,
+   "beats": 4,
    "src_in": 6.18,
    "frame": "tall",
    "crop": {},
@@ -369,7 +369,7 @@
   {
    "name": "golden_front34",
    "src": "gold",
-   "beats": 2.5,
+   "beats": 4,
    "src_in": 1.6,
    "frame": "tall",
    "crop": {},
@@ -394,7 +394,7 @@
   {
    "name": "golden_head_on",
    "src": "gold",
-   "beats": 2,
+   "beats": 4,
    "src_in": 4.68,
    "frame": "tall",
    "crop": {},
@@ -427,7 +427,7 @@
   {
    "name": "hero_wide",
    "src": "gold",
-   "beats": 3,
+   "beats": 4,
    "src_in": 7.61,
    "frame": "tall",
    "crop": {},
@@ -489,5 +489,6 @@
   "intro": false,
   "outro": "fade"
  },
- "output": "Audi_A8_W12_Turismo_Hook_9x16"
+ "output": "Audi_A8_W12_Turismo_Hook_9x16",
+ "_music": "Cut to 'Club Bizarre' by lene 3000 (published tempo 87.2 BPM, cut on the 174.4 grid = half-beats). Tempo from metadata only: the track has NOT been auditioned or analysed. The hand-over to golden hour (golden_low_side) starts on grid beat 16 = 5.505 s of the film: put the track's drop / strongest downbeat there."
 }

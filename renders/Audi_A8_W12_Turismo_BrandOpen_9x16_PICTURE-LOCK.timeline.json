@@ -1,6 +1,6 @@
 {
-  "bpm": 120,
-  "duration": 16.5,
+  "bpm": 174.4,
+  "duration": 16.009174311926603,
   "fps": 60,
   "shots": [
     {
@@ -12,61 +12,61 @@
     {
       "name": "hook_golden_wheel",
       "start": 1.9,
-      "end": 3.4,
+      "end": 3.2761467889908253,
       "src_in": 3.07
     },
     {
       "name": "day_carport_drive_in",
-      "start": 3.4,
-      "end": 4.4,
+      "start": 3.2761467889908253,
+      "end": 4.3082568807339445,
       "src_in": 0.33
     },
     {
       "name": "day_house_drive",
-      "start": 4.4,
-      "end": 5.4,
+      "start": 4.3082568807339445,
+      "end": 4.996330275229358,
       "src_in": 1.53
     },
     {
       "name": "day_front34",
-      "start": 5.4,
-      "end": 6.4,
+      "start": 4.996330275229358,
+      "end": 5.684403669724771,
       "src_in": 3.91
     },
     {
       "name": "day_wheel_close",
-      "start": 6.4,
-      "end": 7.4,
+      "start": 5.684403669724771,
+      "end": 6.372477064220183,
       "src_in": 5.11
     },
     {
       "name": "day_low_side",
-      "start": 7.4,
-      "end": 8.4,
+      "start": 6.372477064220183,
+      "end": 7.404587155963302,
       "src_in": 6.28
     },
     {
       "name": "golden_low_side",
-      "start": 8.4,
-      "end": 9.65,
+      "start": 7.404587155963302,
+      "end": 8.780733944954129,
       "src_in": 6.18
     },
     {
       "name": "golden_front34",
-      "start": 9.65,
-      "end": 10.9,
+      "start": 8.780733944954129,
+      "end": 10.156880733944954,
       "src_in": 1.6
     },
     {
       "name": "golden_head_on",
-      "start": 10.9,
-      "end": 11.9,
+      "start": 10.156880733944954,
+      "end": 11.533027522935779,
       "src_in": 4.68
     },
     {
       "name": "hero_wide",
-      "start": 11.9,
-      "end": 13.4,
+      "start": 11.533027522935779,
+      "end": 12.909174311926604,
       "src_in": 7.61
     }
   ],
@@ -74,15 +74,15 @@
     "open_impact": 0.0,
     "tagline_accent": 0.72,
     "slide_into_film": 1.9,
-    "riser_end_reveal": 8.4,
-    "signature": 11.9,
-    "end_card_iris": 13.0,
-    "end": 16.5
+    "riser_end_reveal": 7.404587155963302,
+    "signature": 11.533027522935779,
+    "end_card_iris": 12.509174311926603,
+    "end": 16.009174311926603
   },
   "end_hub": [
     540.0,
     960.0000000000001,
     97.73755656108598
   ],
-  "shimmer_at": 3.4
+  "shimmer_at": 3.2761467889908253
 }
