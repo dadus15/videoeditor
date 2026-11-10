@@ -122,6 +122,14 @@ Still valid from revision 1:
 - **End-card fade:** finish the dip on the film's last frame. A frozen frame under the fade reads as a glitch.
 - **Safety:** model weights in `.pth` are pickles. Read them with the opcode-only parser in `upscale.py`, never with `pickle` or `torch.load` on a downloaded file.
 
+### TikTok framing
+
+The UI-free area on 1080×1920 is about x 60–960, y 160–1480. Above it are the top tabs; on the right, a button column (y≈700–1500); below it, the caption, sound and nav (y > 1480).
+- Measure every wheel's on-screen box against that area before rendering.
+- With reel sources, whose wheels sit low, use a smaller top-placed picture (960×1333 at (60, 100)) over a cover background rather than the 1080×1500 centred window.
+- Fit the end card into a safe box with `bookends.card_box` so contact details aren't under the caption.
+- Check with a simulated UI overlay on stills.
+
 ### 16:9 from portrait reels
 
 Put the reel picture on the full 1080 px height (a ~777 px panel):

@@ -1,0 +1,431 @@
+{
+ "_comment": "v2 after client notes (quality, unnatural rims, altered motion). Every shot plays at its real speed at 60 fps (the reels' native ~60 fps motion); no digital pushes, zooms, glints or composited transitions; straight cuts on the beat. v3: no overlay text; picture uses the full overlay-free height (1080x1500); the hero is one continuous move stitched frame-exactly across the two captures of the same reel. Picture is upscaled 4x with Real-ESRGAN general-x4v3 (scripts/upscale.py) EXCEPT inside the wheel masks, where a faithful Lanczos upscale is used because the AI scrambles small wheel meshes; the two big wheel close-ups keep the AI ('wheel_ai'). Source px are in the 368x448 capture; 'clean' is the overlay-free area; plates and the 'Peak Audi era' text are inpainted in source px.",
+ "bpm": 174.4,
+ "fps": 60,
+ "size": [
+  1080,
+  1920
+ ],
+ "grain": 0.0,
+ "upscale": {
+  "denoise": 0.5,
+  "faithful_sharpen": 0.6,
+  "models": "work/models",
+  "cache": "work/sr_cache"
+ },
+ "layout": {
+  "tall": {
+   "cx": 540,
+   "cy": 766.5,
+   "w": 960,
+   "h": 1333
+  }
+ },
+ "sources": {
+  "day": {
+   "path": "source/A8_W12_day_house.mp4",
+   "clean": [
+    [
+     77,
+     26,
+     298,
+     341
+    ],
+    [
+     144,
+     26,
+     298,
+     380
+    ]
+   ],
+   "cleanup": [
+    {
+     "t": [
+      3.85,
+      5.1
+     ],
+     "box": [
+      102,
+      316,
+      128,
+      325
+     ],
+     "box_end": [
+      103,
+      316.5,
+      128.5,
+      325.5
+     ],
+     "pad": 1.5,
+     "fill_gain": 0.8
+    }
+   ],
+   "sr_rect": [
+    76,
+    20,
+    299,
+    432
+   ]
+  },
+  "gold": {
+   "path": "source/A8_W12_golden_hour.mp4",
+   "clean": [
+    [
+     77,
+     26,
+     298,
+     333
+    ],
+    [
+     179,
+     26,
+     298,
+     381
+    ],
+    [
+     137,
+     26,
+     298,
+     344
+    ]
+   ],
+   "cleanup": [
+    {
+     "t": [
+      0.0,
+      3.06
+     ],
+     "box": [
+      146,
+      131,
+      218,
+      150
+     ],
+     "pad": 1,
+     "soften": 1.0
+    },
+    {
+     "t": [
+      7.55,
+      9.3
+     ],
+     "box": [
+      146,
+      131,
+      218,
+      150
+     ],
+     "pad": 1,
+     "soften": 1.0
+    },
+    {
+     "t": [
+      0.0,
+      1.57
+     ],
+     "box": [
+      264,
+      287,
+      277,
+      296
+     ],
+     "pad": 1.5
+    },
+    {
+     "t": [
+      7.55,
+      9.3
+     ],
+     "box": [
+      264,
+      287,
+      277,
+      296
+     ],
+     "pad": 1.5
+    },
+    {
+     "t": [
+      1.55,
+      3.06
+     ],
+     "box": [
+      250,
+      287,
+      266,
+      297
+     ],
+     "pad": 1.5
+    },
+    {
+     "t": [
+      4.63,
+      6.17
+     ],
+     "box": [
+      220,
+      302,
+      251,
+      312
+     ],
+     "pad": 1.5,
+     "fill_gain": 0.6
+    }
+   ],
+   "sr_rect": [
+    76,
+    20,
+    299,
+    432
+   ]
+  }
+ },
+ "look": {
+  "contrast": 1.05,
+  "pivot": 0.42,
+  "split": 0.015,
+  "lift": 0.004,
+  "sat": 0.97
+ },
+ "shots": [
+  {
+   "name": "golden_front34",
+   "src": "gold",
+   "beats": 4,
+   "src_in": 1.6,
+   "frame": "tall",
+   "crop": {},
+   "grade": {
+    "wb": [
+     0.99,
+     1.0,
+     1.02
+    ]
+   },
+   "wheels": [
+    {
+     "c": [
+      140,
+      303
+     ],
+     "r": 26,
+     "ry": 1.17
+    }
+   ],
+   "_note": "opening: whole rim in frame"
+  },
+  {
+   "name": "day_carport_drive_in",
+   "src": "day",
+   "beats": 4,
+   "src_in": 0.33,
+   "speed": 0.5,
+   "frame": "tall",
+   "crop": {},
+   "grade": {
+    "exposure": 0.95,
+    "wb": [
+     1.03,
+     1.0,
+     0.95
+    ],
+    "green_sat": 0.75
+   },
+   "wheels": [
+    {
+     "c": [
+      188,
+      316
+     ],
+     "r": 16.5,
+     "track": true
+    }
+   ]
+  },
+  {
+   "name": "day_front34",
+   "src": "day",
+   "beats": 3,
+   "src_in": 3.91,
+   "frame": "tall",
+   "crop": {},
+   "grade": {
+    "exposure": 0.95,
+    "wb": [
+     1.03,
+     1.0,
+     0.95
+    ],
+    "green_sat": 0.75
+   },
+   "wheels": [
+    {
+     "c": [
+      221,
+      320
+     ],
+     "r": 18,
+     "track": true
+    }
+   ]
+  },
+  {
+   "name": "day_low_side",
+   "src": "day",
+   "beats": 3,
+   "src_in": 6.28,
+   "frame": "tall",
+   "crop": {
+    "w": 154,
+    "c": [
+     221,
+     273
+    ]
+   },
+   "grade": {
+    "exposure": 0.95,
+    "wb": [
+     1.03,
+     1.0,
+     0.95
+    ],
+    "green_sat": 0.75
+   },
+   "wheels": [
+    {
+     "c": [
+      196,
+      330
+     ],
+     "r": [
+      31,
+      34
+     ],
+     "ry": 1.22,
+     "track": true
+    }
+   ],
+   "_note": "reframed into the clean area right of the avatars (x>=144, y<=380) so the whole rim is in frame"
+  },
+  {
+   "name": "golden_low_side",
+   "src": "gold",
+   "beats": 8,
+   "src_in": 6.17,
+   "frame": "tall",
+   "crop": {
+    "w": 161,
+    "c": [
+     217.5,
+     232
+    ]
+   },
+   "cue": "reveal",
+   "grade": {
+    "wb": [
+     0.99,
+     1.0,
+     1.02
+    ]
+   },
+   "wheels": [
+    {
+     "c": [
+      189.5,
+      303.5
+     ],
+     "r": 35.5,
+     "track": true
+    }
+   ],
+   "ramp": {
+    "from": 1.0,
+    "to": 0.45,
+    "dur": 0.35,
+    "ease": "in_out_sine"
+   },
+   "_note": "the drop: reframed into the clean area right of the avatars (x>=137, y<=344) so the whole rim shows; enters at real speed, eases to 0.45x within 0.35 s, holds one bar",
+   "retime": "index",
+   "native_fps": 60
+  },
+  {
+   "name": "hero_wide",
+   "src": "gold",
+   "beats": 8,
+   "src_in": 7.61,
+   "frame": "tall",
+   "crop": {},
+   "grade": {
+    "wb": [
+     0.99,
+     1.0,
+     1.02
+    ]
+   },
+   "wheels": [
+    {
+     "c": [
+      104,
+      294
+     ],
+     "r": 12,
+     "track": true
+    },
+    {
+     "c": [
+      202,
+      296
+     ],
+     "r": 15.5,
+     "track": true
+    }
+   ],
+   "speed": 0.5,
+   "_note": "0.5x for one bar",
+   "retime": "index",
+   "native_fps": 60
+  }
+ ],
+ "texts": [],
+ "bookends": {
+  "card": "assets/brand/turismo_end_card_gemini.jpg",
+  "logo_box": [
+   190,
+   70,
+   600,
+   312
+  ],
+  "card_wheel": [
+   383.0,
+   633.5,
+   262.0
+  ],
+  "ink": {
+   "primary": "#0A1B2B",
+   "accent": "#C7222A"
+  },
+  "tagline": [
+   [
+    "UNLOCK YOUR ",
+    "primary"
+   ],
+   [
+    "STYLE",
+    "accent"
+   ]
+  ],
+  "intro": false,
+  "outro": "fade",
+  "card_box": [
+   100,
+   110,
+   980,
+   1470
+  ]
+ },
+ "output": "Audi_A8_W12_Turismo_Hook_TikTok_9x16",
+ "_music": "Cut to 'Club Bizarre' by lene 3000 (published 87.2 BPM, cut on the 174.4 grid; NOT auditioned). v6: drop on grid beat 14 = 4.817 s (golden_low_side, speed ramp starts there); then two bars: ramp shot 8 beats, hero 0.5x 8 beats.",
+ "background": "cover",
+ "dither": true,
+ "_tiktok": "TikTok framing: every wheel and the car sit inside the UI-free safe area x 60-960, y 160-1480 (top bar, right button column and bottom caption/music block stay over background). Picture 960x1333 at (60,100): full-width shots are ~1:1 from the 4x AI upscale. End card fitted inside [100,110,980,1470] so phone/e-mail stay visible."
+}

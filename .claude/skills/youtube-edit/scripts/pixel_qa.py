@@ -23,7 +23,7 @@ for s in tl['shots']:
         g = cv2.cvtColor(im, cv2.COLOR_RGB2GRAY).astype(np.float32)
         lap = cv2.Laplacian(g, cv2.CV_32F).var()
         F = np.abs(np.fft.fftshift(np.fft.fft2(g - g.mean())))**2
-        h, w = g.shape; yy, xx = np.mgrid[-h//2:h-h//2, -w//2:w-w//2]
+        h, w = g.shape; yy, xx = np.mgrid[0:h, 0:w]; yy = yy - h // 2; xx = xx - w // 2
         r = np.hypot(yy/(h/2), xx/(w/2)); hf = F[(r > 0.25) & (r <= 1)].sum() / F[r <= 1].sum()
         hp = g - cv2.GaussianBlur(g, (0,0), 1.5)
         flat = cv2.GaussianBlur(np.abs(cv2.Sobel(g, cv2.CV_32F, 1, 0)) + np.abs(cv2.Sobel(g, cv2.CV_32F, 0, 1)), (0,0), 3) < 6

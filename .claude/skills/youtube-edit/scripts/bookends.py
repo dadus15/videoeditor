@@ -53,7 +53,8 @@ def load_cfg(edl):
     b = edl["bookends"]
     CFG.update(card=ROOT / b["card"], logo_box=tuple(b["logo_box"]), card_wheel=tuple(b["card_wheel"]),
                film_hub=tuple(b.get("film_hub", (0, 0))), film_rim=float(b.get("film_rim", 0)),
-               tagline=b.get("tagline", []), intro=b.get("intro", True), outro=b.get("outro", "iris"))
+               tagline=b.get("tagline", []), intro=b.get("intro", True), outro=b.get("outro", "iris"),
+               card_box=b.get("card_box"))
     NAVY, RED = hex_rgb(b["ink"]["primary"]), hex_rgb(b["ink"]["accent"])
 
 
@@ -85,19 +86,27 @@ def text_rgba(text, weight, size, track, color):
 
 def card_canvas():
     card = np.asarray(Image.open(CFG["card"]).convert("RGB")).astype(np.float32) / 255
-    if W > H:   # landscape: the portrait card fits the full height on white; its sides fade into the white
-        s = H / card.shape[0]
-        sc = cv2.resize(card, (round(card.shape[1] * s), H), interpolation=cv2.INTER_AREA)
+    box = CFG.get("card_box")   # [x0, y0, x1, y1]: fit the card inside a safe zone (e.g. clear of TikTok's UI)
+    if box or W > H:   # contain on white, sides feathered into the white
+        bx0, by0, bx1, by1 = box if box else (0, 0, W, H)
+        s = min((bx1 - bx0) / card.shape[1], (by1 - by0) / card.shape[0])
+        sc = cv2.resize(card, (round(card.shape[1] * s), round(card.shape[0] * s)), interpolation=cv2.INTER_AREA)
         fw = max(1, int(sc.shape[1] * 0.10))
         ramp = np.ones(sc.shape[1], np.float32)
         ramp[:fw] = np.linspace(0, 1, fw) ** 1.5
         ramp[-fw:] = ramp[:fw][::-1]
         sc = 1 - (1 - sc) * ramp[None, :, None]
+        fh = max(1, int(sc.shape[0] * 0.04))           # soft top/bottom edge as well
+        vr = np.ones(sc.shape[0], np.float32)
+        vr[:fh] = np.linspace(0, 1, fh) ** 1.5
+        vr[-fh:] = vr[:fh][::-1]
+        sc = 1 - (1 - sc) * vr[:, None, None]
         out = np.ones((H, W, 3), np.float32)
-        ox = (W - sc.shape[1]) // 2
-        out[:, ox:ox + sc.shape[1]] = sc
+        ox = int(round((bx0 + bx1) / 2 - sc.shape[1] / 2))
+        oy = int(round((by0 + by1) / 2 - sc.shape[0] / 2))
+        out[oy:oy + sc.shape[0], ox:ox + sc.shape[1]] = sc
         cx, cy, r = CFG["card_wheel"]
-        return np.clip(out, 0, 1), (cx * s + ox, cy * s, r * s)
+        return np.clip(out, 0, 1), (cx * s + ox, cy * s + oy, r * s)
     s = max(W / card.shape[1], H / card.shape[0])
     big = cv2.resize(card, (round(card.shape[1] * s), round(card.shape[0] * s)), interpolation=cv2.INTER_LANCZOS4)
     oy, ox = (big.shape[0] - H) // 2, (big.shape[1] - W) // 2

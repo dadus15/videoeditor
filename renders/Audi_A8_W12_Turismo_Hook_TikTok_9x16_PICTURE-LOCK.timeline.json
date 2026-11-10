@@ -1,0 +1,58 @@
+{
+  "bpm": 174.4,
+  "duration": 13.421100917431193,
+  "fps": 60,
+  "shots": [
+    {
+      "name": "golden_front34",
+      "start": 0.0,
+      "end": 1.3761467889908257,
+      "src_in": 1.6
+    },
+    {
+      "name": "day_carport_drive_in",
+      "start": 1.3761467889908257,
+      "end": 2.7522935779816513,
+      "src_in": 0.33
+    },
+    {
+      "name": "day_front34",
+      "start": 2.7522935779816513,
+      "end": 3.7844036697247705,
+      "src_in": 3.91
+    },
+    {
+      "name": "day_low_side",
+      "start": 3.7844036697247705,
+      "end": 4.81651376146789,
+      "src_in": 6.28
+    },
+    {
+      "name": "golden_low_side",
+      "start": 4.81651376146789,
+      "end": 7.568807339449542,
+      "src_in": 6.17
+    },
+    {
+      "name": "hero_wide",
+      "start": 7.568807339449542,
+      "end": 10.321100917431194,
+      "src_in": 7.61
+    }
+  ],
+  "cue_points": {
+    "open_impact": 0.0,
+    "tagline_accent": null,
+    "slide_into_film": null,
+    "riser_end_reveal": 4.81651376146789,
+    "signature": 7.568807339449542,
+    "end_card_iris": 9.921100917431193,
+    "end": 13.421100917431193
+  },
+  "end_hub": [
+    540.0,
+    766.4999999999999,
+    86.87782805429863
+  ],
+  "shimmer_at": 0.0
+}

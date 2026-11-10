@@ -4,6 +4,26 @@ Brief: combine two short projects (daylight at the house, golden hour in a field
 
 Concept: **one set of wheels, two kinds of light.** The film runs DAYLIGHT → GOLDEN HOUR, joined by a straight match cut between the two low-side wheel shots (the wheel sits in the same place in both frames).
 
+## TikTok versions (9:16, framed for TikTok's interface)
+
+| File | Length |
+|---|---|
+| `renders/Audi_A8_W12_Turismo_Hook_TikTok_9x16_PICTURE-LOCK.mp4` | 13.4 s |
+| `renders/Audi_A8_W12_Turismo_BrandOpen_TikTok_9x16_PICTURE-LOCK.mp4` | 15.3 s |
+
+Both are 1080×1920, 60 fps, ~19–22 Mbps. EDLs: `edit/edl_a8w12_*_tiktok.json`. The cut is the same as v6.
+
+- **Problem found:** in v6 9:16 every wheel sat at y≈1400–1710, under TikTok's caption and music block.
+- **Fix:**
+  - The picture is 960×1333 at (60, 100). Every wheel and the car now sit in the UI-free area x 60–960, y 160–1480. The top tabs, the right button column and the bottom caption block lie over the blurred background (cover, 28 %).
+  - The end card is fitted inside [100, 110, 980, 1470] on white, so the phone number and e-mail stay above the caption.
+  - Full-width shots come out ~1:1 from the 4× AI upscale.
+- **QC:**
+  - No black frames or flashes; cuts on the grid.
+  - TikTok UI simulated over key frames (`work/tiktok_overlay.jpg`).
+  - Pixel QA against v6 9:16: sharpness +40–50 %, fine detail +30–40 %, blockiness ~1.0.
+- **Sound:** add "Club Bizarre" (lene 3000) in TikTok's sound picker, with the drop at 4.8 s (main) / 6.7 s (brand-open).
+
 ## 16:9 1920×1080 version of the v6 brand-open film
 
 `renders/Audi_A8_W12_Turismo_BrandOpen_16x9_PICTURE-LOCK.mp4`: 1920×1080, 60 fps, 15.3 s, ~31 Mbps. EDL: `edit/edl_a8w12_brandopen_16x9.json`.
