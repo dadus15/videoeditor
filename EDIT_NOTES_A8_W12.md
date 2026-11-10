@@ -4,6 +4,14 @@ Brief: combine two short projects (daylight at the house, golden hour in a field
 
 Concept: **one set of wheels, two kinds of light.** The film runs DAYLIGHT → GOLDEN HOUR, joined by a straight match cut between the two low-side wheel shots (the wheel sits in the same place in both frames).
 
+## Revision 3 (client notes: "car motion at 12–14 s not natural", "super extra quality 1080p", "delete the text", "fit to Club Bizarre")
+
+- **Unnatural motion, found and fixed.** The 3 s hero was built from the two captures of the looping reel. The car is slowly rolling and the camera follows it, and the second capture started 0.3 s *earlier* in the reel than where the first one ended. So the car jumped back and repeated its move. Frame matching shows the captures are offset by exactly 7.917 s (golden 0.00 s = 9.917 s in reel terms). The hero is now one continuous 1.5 s take, with cadence checked frame by frame (steady about −0.25 px/frame).
+- **No freeze under the fade:** the dip to white now ends on the film's last frame.
+- **Text removed** from the film: hook line, DAYLIGHT / GOLDEN HOUR and the titles. The brand cards (logo, tagline, contact details on the end card) are unchanged.
+- **Quality:** the picture uses the full overlay-free height (1080×1500, centred), and the masters are encoded at CRF 12 (high bitrate). Multi-frame denoising was tested and rejected: the car rolls, so averaging smears the wheel spokes.
+- **Music:** waiting for the track file. The cut is in beats (currently a 120 BPM placeholder); it will be re-timed to the track's real beats and drop once the audio is supplied.
+
 ## Revision 2 (client notes: "quality very poor", "rims look unnatural", "motion altered")
 
 | Note | Cause in v1 | Fix in v2 |
@@ -16,8 +24,8 @@ Concept: **one set of wheels, two kinds of light.** The film runs DAYLIGHT → G
 
 | File | Length | What it is |
 |---|---|---|
-| `Audi_A8_W12_Turismo_Hook_9x16_PICTURE-LOCK.mp4` | 16.05 s | **Main version.** Opens on the wheel at frame 1, ends on the Turismo end card. No audio. |
-| `Audi_A8_W12_Turismo_BrandOpen_9x16_PICTURE-LOCK.mp4` | 17.95 s | Same film, opened by the Turismo logo card (UNLOCK YOUR STYLE). No audio. |
+| `Audi_A8_W12_Turismo_Hook_9x16_PICTURE-LOCK.mp4` | 14.6 s | **Main version.** Opens on the wheel at frame 1, ends on the Turismo end card. No audio. |
+| `Audi_A8_W12_Turismo_BrandOpen_9x16_PICTURE-LOCK.mp4` | 16.5 s | Same film, opened by the Turismo logo card (UNLOCK YOUR STYLE). No audio. |
 
 Both are 1080×1920, 60 fps, H.264, BT.709. The source audio was dropped: it is a copyrighted song.
 

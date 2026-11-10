@@ -1,5 +1,5 @@
 {
- "_comment": "v2 after client notes (quality, unnatural rims, altered motion). Every shot plays at its real speed at 60 fps (the reels' native ~60 fps motion); no digital pushes, zooms, glints or composited transitions; straight cuts on the beat. Picture is upscaled 4x with Real-ESRGAN general-x4v3 (scripts/upscale.py) EXCEPT inside the wheel masks, where a faithful Lanczos upscale is used because the AI scrambles small wheel meshes; the two big wheel close-ups keep the AI ('wheel_ai'). Source px are in the 368x448 capture; 'clean' is the overlay-free area; plates and the 'Peak Audi era' text are inpainted in source px.",
+ "_comment": "v2 after client notes (quality, unnatural rims, altered motion). Every shot plays at its real speed at 60 fps (the reels' native ~60 fps motion); no digital pushes, zooms, glints or composited transitions; straight cuts on the beat. v3: no overlay text; picture uses the full overlay-free height (1080x1500); the hero is one continuous move stitched frame-exactly across the two captures of the same reel. Picture is upscaled 4x with Real-ESRGAN general-x4v3 (scripts/upscale.py) EXCEPT inside the wheel masks, where a faithful Lanczos upscale is used because the AI scrambles small wheel meshes; the two big wheel close-ups keep the AI ('wheel_ai'). Source px are in the 368x448 capture; 'clean' is the overlay-free area; plates and the 'Peak Audi era' text are inpainted in source px.",
  "bpm": 120,
  "fps": 60,
  "size": [
@@ -16,9 +16,9 @@
  "layout": {
   "tall": {
    "cx": 540,
-   "cy": 750,
+   "cy": 960,
    "w": 1080,
-   "h": 1400
+   "h": 1500
   }
  },
  "sources": {
@@ -425,7 +425,7 @@
    ]
   },
   {
-   "name": "hero_wide_a",
+   "name": "hero_wide",
    "src": "gold",
    "beats": 3,
    "src_in": 7.61,
@@ -444,134 +444,21 @@
       104,
       294
      ],
-     "r": 12
+     "r": 12,
+     "track": true
     },
     {
      "c": [
       202,
       296
      ],
-     "r": 15.5
-    }
-   ]
-  },
-  {
-   "name": "hero_wide_b",
-   "src": "gold",
-   "beats": 3,
-   "src_in": 0.03,
-   "frame": "tall",
-   "crop": {},
-   "grade": {
-    "wb": [
-     0.99,
-     1.0,
-     1.02
-    ]
-   },
-   "wheels": [
-    {
-     "c": [
-      103,
-      294
-     ],
-     "r": 12
-    },
-    {
-     "c": [
-      202,
-      296
-     ],
-     "r": 15.5
+     "r": 15.5,
+     "track": true
     }
    ]
   }
  ],
- "texts": [
-  {
-   "text": "One set of wheels.",
-   "font": 500,
-   "size": 54,
-   "track": 0.01,
-   "y": 1515,
-   "in": 0.12,
-   "out": 1.25,
-   "anim": "rise"
-  },
-  {
-   "text": "DAYLIGHT",
-   "font": 500,
-   "size": 40,
-   "track": 0.34,
-   "y": 1515,
-   "in": 1.62,
-   "out": 3.3,
-   "anim": "rise"
-  },
-  {
-   "rule": true,
-   "w": 56,
-   "h": 3,
-   "color": "#0AF0F0",
-   "y": 1550,
-   "in": 1.75,
-   "out": 3.3,
-   "anim": "draw"
-  },
-  {
-   "text": "GOLDEN HOUR",
-   "font": 500,
-   "size": 40,
-   "track": 0.34,
-   "y": 1515,
-   "in": 6.62,
-   "out": 8.6,
-   "anim": "rise"
-  },
-  {
-   "rule": true,
-   "w": 56,
-   "h": 3,
-   "color": "#0AF0F0",
-   "y": 1550,
-   "in": 6.75,
-   "out": 8.6,
-   "anim": "draw"
-  },
-  {
-   "text": "AUDI A8 W12",
-   "font": 700,
-   "size": 84,
-   "track": 0.14,
-   "y": 250,
-   "stroke": 1,
-   "in": 10.05,
-   "out": 12.1,
-   "anim": "rise"
-  },
-  {
-   "rule": true,
-   "w": 72,
-   "h": 3,
-   "color": "#0AF0F0",
-   "y": 312,
-   "in": 10.35,
-   "out": 12.1,
-   "anim": "draw"
-  },
-  {
-   "text": "TURISMO ",
-   "suffix_mask": "WHEELS",
-   "font": 500,
-   "size": 40,
-   "track": 0.26,
-   "y": 368,
-   "in": 10.55,
-   "mask_delay": 0.32,
-   "out": 12.1,
-   "anim": "fade_then_mask"
-  }
- ],
+ "texts": [],
  "bookends": {
   "card": "assets/brand/turismo_end_card_gemini.jpg",
   "logo_box": [

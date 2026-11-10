@@ -117,6 +117,9 @@ Still valid from revision 1:
 - **Plates: remove, don't blur.** Inpaint in source pixels, feathered and slightly darkened; check each one at full resolution. Drop shots where the plate fills a large part of the frame.
 - **Burned-in text in a smooth sky** inpaints cleanly.
 - **Measure wheel positions on zoomed, gridded frames, and verify them on a render.** Two of the first estimates were off by 9–40 px; head-on shots show the wheels as narrow ellipses (`ry` ≈ 2.4).
+- **Looped reels: never join two captures by eye.** A screen recording of a looping reel contains the same shot twice, at an offset. Joining them by eye made the rolling car jump back and repeat its move (client: "motion not natural"). Find the offset by frame matching (mean abs diff over all frames), cut at matching frames, and confirm with per-frame phase correlation across the join. Prefer one capture with even cadence over a longer stitched shot.
+- **A "locked-off" shot may be a rolling car.** Check for wheel rotation before any multi-frame averaging; averaging smears rotating spokes.
+- **End-card fade:** finish the dip on the film's last frame. A frozen frame under the fade reads as a glitch.
 - **Safety:** model weights in `.pth` are pickles. Read them with the opcode-only parser in `upscale.py`, never with `pickle` or `torch.load` on a downloaded file.
 
 ## 10. Gotchas

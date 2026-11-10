@@ -1,6 +1,6 @@
 {
   "bpm": 120,
-  "duration": 16.05,
+  "duration": 14.600000000000001,
   "fps": 60,
   "shots": [
     {
@@ -58,16 +58,10 @@
       "src_in": 4.68
     },
     {
-      "name": "hero_wide_a",
+      "name": "hero_wide",
       "start": 10.0,
       "end": 11.5,
       "src_in": 7.61
-    },
-    {
-      "name": "hero_wide_b",
-      "start": 11.5,
-      "end": 13.0,
-      "src_in": 0.03
     }
   ],
   "cue_points": {
@@ -75,13 +69,13 @@
     "tagline_accent": null,
     "slide_into_film": null,
     "riser_end_reveal": 6.5,
-    "signature": 11.5,
-    "end_card_iris": 12.55,
-    "end": 16.05
+    "signature": 10.0,
+    "end_card_iris": 11.1,
+    "end": 14.600000000000001
   },
   "end_hub": [
     540.0,
-    750.0,
+    960.0000000000001,
     97.73755656108598
   ],
   "shimmer_at": 0.0

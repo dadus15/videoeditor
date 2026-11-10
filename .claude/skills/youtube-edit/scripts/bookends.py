@@ -133,6 +133,7 @@ def main():
     ap.add_argument("out")
     ap.add_argument("--audio")
     ap.add_argument("--bpm", type=float, help="must match the bpm the film was rendered at")
+    ap.add_argument("--crf", type=int, default=18, help="x264 CRF of the output (12 = high-bitrate master)")
     ap.add_argument("--preview-every", type=int, default=0)
     ap.add_argument("--preview-dir", default="work/preview_bookends")
     args = ap.parse_args()
@@ -151,7 +152,8 @@ def main():
         (hx, hy, hr), film_len = film_hub_on_screen(edl)
     film_n = round(film_len * FPS)
     film_start = INTRO_HOLD if CFG["intro"] else 0.0         # film frame 0 enters with the slide
-    iris_start = film_start + film_len - IRIS_LEAD
+    # fade: the dip to white finishes exactly on the film's last frame (no frozen frame under the fade)
+    iris_start = film_start + film_len - (IRIS / 2 if CFG["outro"] == "fade" else IRIS_LEAD)
     total = iris_start + IRIS + CARD_HOLD
     nframes = round(total * FPS)
     print(f"intro {(INTRO_HOLD + SLIDE) if CFG['intro'] else 0:.2f}s  film {film_start:.2f}-{film_start + film_len:.2f}  "
@@ -209,7 +211,7 @@ def main():
     if args.audio:
         cmd += ["-i", args.audio]
     cmd += ["-vf", "scale=out_color_matrix=bt709:out_range=tv,format=yuv420p", "-c:v", "libx264", "-preset", "slow",
-            "-crf", "18", "-profile:v", "high", "-colorspace", "bt709", "-color_primaries", "bt709",
+            "-crf", str(args.crf), "-profile:v", "high", "-colorspace", "bt709", "-color_primaries", "bt709",
             "-color_trc", "bt709", "-color_range", "tv", "-movflags", "+faststart"]
     cmd += (["-c:a", "aac", "-b:a", "256k", "-shortest"] if args.audio else ["-an"]) + [str(out)]
     enc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
