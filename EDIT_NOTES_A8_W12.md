@@ -4,6 +4,38 @@ Brief: combine two short projects (daylight at the house, golden hour in a field
 
 Concept: **one set of wheels, two kinds of light.** The film runs DAYLIGHT → GOLDEN HOUR, joined by a straight match cut between the two low-side wheel shots (the wheel sits in the same place in both frames).
 
+## Revision 6 (client notes: "the shot at 2 s is badly framed, you only see part of the rim"; "add a slow-motion effect that fits the track")
+
+- **Whole rim in every shot:**
+  - The house drive-by, where the wheels were cut by the bottom edge and the front wheel left frame, is replaced by the carport drive-in.
+  - The arc-only wheel close-up is replaced by the front ¾.
+  - The daylight low side is reframed into the clean area right of the avatars (x ≥ 144, y ≤ 380).
+  - The drop shot is reframed into a measured clean rect (x ≥ 137, y ≤ 344; the rim ends at y≈339).
+  - The opening is now the golden front ¾ (whole glowing rim) instead of the arc-only close-up.
+- **Slow motion fitted to the track (real frames only, no interpolation):**
+
+  | Shot | Speed | Length |
+  |---|---|---|
+  | Carport drive-in | 0.5× | |
+  | Drop shot (beat 14 = 4.82 s) | enters at 1.0× and eases to 0.45× in 0.35 s | one bar |
+  | Hero | 0.5× | one bar |
+
+  The two golden shots step evenly through the real 60 fps frames (`retime: index`); the longest hold is 2–4 frames.
+- **Structure:** 6 shots.
+
+  | Beat | Time | Shot |
+  |---|---|---|
+  | 0 | 0.00 s | golden front ¾ |
+  | 4 | 1.38 s | daylight carport drive-in (0.5×) |
+  | 8 | 2.75 s | daylight front ¾ |
+  | 11 | 3.78 s | daylight low side |
+  | **14** | **4.82 s** | **drop: golden low side, speed ramp** |
+  | 22 | 7.57 s | hero, 0.5× |
+  | 30 | 10.32 s | end card |
+
+- **Lengths:** main version 13.4 s, brand-open 15.3 s.
+- **Drop position in the Shorts editor:** 4.8 s (main) / 6.7 s (brand-open).
+
 ## Revision 5: fewer cuts (client: "too many cut scenes", in both halves)
 
 - **7 shots instead of 10**, each close to its full clean length, still at real speed and on the 174.4 grid:

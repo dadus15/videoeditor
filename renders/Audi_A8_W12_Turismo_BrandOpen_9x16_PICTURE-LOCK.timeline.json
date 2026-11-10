@@ -1,6 +1,6 @@
 {
   "bpm": 174.4,
-  "duration": 13.600917431192663,
+  "duration": 15.321100917431195,
   "fps": 60,
   "shots": [
     {
@@ -10,45 +10,39 @@
       "src_in": null
     },
     {
-      "name": "hook_golden_wheel",
+      "name": "golden_front34",
       "start": 1.9,
       "end": 3.2761467889908253,
-      "src_in": 3.07
+      "src_in": 1.6
     },
     {
-      "name": "day_house_drive",
+      "name": "day_carport_drive_in",
       "start": 3.2761467889908253,
-      "end": 4.3082568807339445,
-      "src_in": 1.53
+      "end": 4.652293577981651,
+      "src_in": 0.33
     },
     {
-      "name": "day_wheel_close",
-      "start": 4.3082568807339445,
-      "end": 5.340366972477064,
-      "src_in": 5.11
+      "name": "day_front34",
+      "start": 4.652293577981651,
+      "end": 5.68440366972477,
+      "src_in": 3.91
     },
     {
       "name": "day_low_side",
-      "start": 5.340366972477064,
-      "end": 6.372477064220183,
+      "start": 5.68440366972477,
+      "end": 6.7165137614678905,
       "src_in": 6.28
     },
     {
       "name": "golden_low_side",
-      "start": 6.372477064220183,
-      "end": 7.74862385321101,
-      "src_in": 6.18
-    },
-    {
-      "name": "golden_front34",
-      "start": 7.74862385321101,
-      "end": 9.124770642201835,
-      "src_in": 1.6
+      "start": 6.7165137614678905,
+      "end": 9.468807339449542,
+      "src_in": 6.17
     },
     {
       "name": "hero_wide",
-      "start": 9.124770642201835,
-      "end": 10.500917431192661,
+      "start": 9.468807339449542,
+      "end": 12.221100917431194,
       "src_in": 7.61
     }
   ],
@@ -56,10 +50,10 @@
     "open_impact": 0.0,
     "tagline_accent": 0.72,
     "slide_into_film": 1.9,
-    "riser_end_reveal": 6.372477064220183,
-    "signature": 9.124770642201835,
-    "end_card_iris": 10.100917431192661,
-    "end": 13.600917431192663
+    "riser_end_reveal": 6.7165137614678905,
+    "signature": 9.468807339449542,
+    "end_card_iris": 11.821100917431194,
+    "end": 15.321100917431195
   },
   "end_hub": [
     540.0,

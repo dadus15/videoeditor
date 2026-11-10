@@ -81,6 +81,12 @@
      26,
      298,
      381
+    ],
+    [
+     137,
+     26,
+     298,
+     344
     ]
    ],
    "cleanup": [
@@ -183,136 +189,6 @@
  },
  "shots": [
   {
-   "name": "hook_golden_wheel",
-   "src": "gold",
-   "beats": 4,
-   "src_in": 3.07,
-   "frame": "tall",
-   "crop": {},
-   "wheel_ai": true,
-   "grade": {
-    "wb": [
-     0.99,
-     1.0,
-     1.02
-    ]
-   }
-  },
-  {
-   "name": "day_house_drive",
-   "src": "day",
-   "beats": 3,
-   "src_in": 1.53,
-   "frame": "tall",
-   "crop": {},
-   "grade": {
-    "exposure": 0.95,
-    "wb": [
-     1.03,
-     1.0,
-     0.95
-    ],
-    "green_sat": 0.75
-   },
-   "wheels": [
-    {
-     "c": [
-      101,
-      314
-     ],
-     "r": 16.5,
-     "track": true
-    },
-    {
-     "c": [
-      [
-       260,
-       327
-      ],
-      [
-       283,
-       330
-      ]
-     ],
-     "r": 17.5
-    }
-   ]
-  },
-  {
-   "name": "day_wheel_close",
-   "src": "day",
-   "beats": 3,
-   "src_in": 5.11,
-   "frame": "tall",
-   "crop": {},
-   "wheel_ai": true,
-   "grade": {
-    "exposure": 0.95,
-    "wb": [
-     1.03,
-     1.0,
-     0.95
-    ],
-    "green_sat": 0.75
-   }
-  },
-  {
-   "name": "day_low_side",
-   "src": "day",
-   "beats": 3,
-   "src_in": 6.28,
-   "frame": "tall",
-   "crop": {},
-   "grade": {
-    "exposure": 0.95,
-    "wb": [
-     1.03,
-     1.0,
-     0.95
-    ],
-    "green_sat": 0.75
-   },
-   "wheels": [
-    {
-     "c": [
-      201,
-      320
-     ],
-     "r": [
-      31,
-      34
-     ],
-     "track": true
-    }
-   ]
-  },
-  {
-   "name": "golden_low_side",
-   "src": "gold",
-   "beats": 4,
-   "src_in": 6.18,
-   "frame": "tall",
-   "crop": {},
-   "cue": "reveal",
-   "grade": {
-    "wb": [
-     0.99,
-     1.0,
-     1.02
-    ]
-   },
-   "wheels": [
-    {
-     "c": [
-      189,
-      306
-     ],
-     "r": 38,
-     "track": true
-    }
-   ]
-  },
-  {
    "name": "golden_front34",
    "src": "gold",
    "beats": 4,
@@ -335,12 +211,147 @@
      "r": 26,
      "ry": 1.17
     }
+   ],
+   "_note": "opening: whole rim in frame"
+  },
+  {
+   "name": "day_carport_drive_in",
+   "src": "day",
+   "beats": 4,
+   "src_in": 0.33,
+   "speed": 0.5,
+   "frame": "tall",
+   "crop": {},
+   "grade": {
+    "exposure": 0.95,
+    "wb": [
+     1.03,
+     1.0,
+     0.95
+    ],
+    "green_sat": 0.75
+   },
+   "wheels": [
+    {
+     "c": [
+      188,
+      316
+     ],
+     "r": 16.5,
+     "track": true
+    }
    ]
+  },
+  {
+   "name": "day_front34",
+   "src": "day",
+   "beats": 3,
+   "src_in": 3.91,
+   "frame": "tall",
+   "crop": {},
+   "grade": {
+    "exposure": 0.95,
+    "wb": [
+     1.03,
+     1.0,
+     0.95
+    ],
+    "green_sat": 0.75
+   },
+   "wheels": [
+    {
+     "c": [
+      221,
+      320
+     ],
+     "r": 18,
+     "track": true
+    }
+   ]
+  },
+  {
+   "name": "day_low_side",
+   "src": "day",
+   "beats": 3,
+   "src_in": 6.28,
+   "frame": "tall",
+   "crop": {
+    "w": 154,
+    "c": [
+     221,
+     273
+    ]
+   },
+   "grade": {
+    "exposure": 0.95,
+    "wb": [
+     1.03,
+     1.0,
+     0.95
+    ],
+    "green_sat": 0.75
+   },
+   "wheels": [
+    {
+     "c": [
+      196,
+      330
+     ],
+     "r": [
+      31,
+      34
+     ],
+     "ry": 1.22,
+     "track": true
+    }
+   ],
+   "_note": "reframed into the clean area right of the avatars (x>=144, y<=380) so the whole rim is in frame"
+  },
+  {
+   "name": "golden_low_side",
+   "src": "gold",
+   "beats": 8,
+   "src_in": 6.17,
+   "frame": "tall",
+   "crop": {
+    "w": 161,
+    "c": [
+     217.5,
+     232
+    ]
+   },
+   "cue": "reveal",
+   "grade": {
+    "wb": [
+     0.99,
+     1.0,
+     1.02
+    ]
+   },
+   "wheels": [
+    {
+     "c": [
+      189.5,
+      303.5
+     ],
+     "r": 35.5,
+     "track": true
+    }
+   ],
+   "ramp": {
+    "from": 1.0,
+    "to": 0.45,
+    "dur": 0.35,
+    "ease": "in_out_sine"
+   },
+   "_note": "the drop: reframed into the clean area right of the avatars (x>=137, y<=344) so the whole rim shows; enters at real speed, eases to 0.45x within 0.35 s, holds one bar",
+   "retime": "index",
+   "native_fps": 60
   },
   {
    "name": "hero_wide",
    "src": "gold",
-   "beats": 4,
+   "beats": 8,
    "src_in": 7.61,
    "frame": "tall",
    "crop": {},
@@ -368,7 +379,11 @@
      "r": 15.5,
      "track": true
     }
-   ]
+   ],
+   "speed": 0.5,
+   "_note": "0.5x for one bar",
+   "retime": "index",
+   "native_fps": 60
   }
  ],
  "texts": [],
@@ -403,5 +418,5 @@
   "outro": "fade"
  },
  "output": "Audi_A8_W12_Turismo_Hook_9x16",
- "_music": "Cut to 'Club Bizarre' by lene 3000 (published tempo 87.2 BPM, cut on the 174.4 grid). Tempo from metadata only: the track has NOT been auditioned. v5 (client: too many cuts): 7 shots, each close to its full clean length. The match cut into golden hour is on grid beat 13 = 4.472 s: put the track's drop there; the hero then starts a bar later (beat 21)."
+ "_music": "Cut to 'Club Bizarre' by lene 3000 (published 87.2 BPM, cut on the 174.4 grid; NOT auditioned). v6: drop on grid beat 14 = 4.817 s (golden_low_side, speed ramp starts there); then two bars: ramp shot 8 beats, hero 0.5x 8 beats."
 }

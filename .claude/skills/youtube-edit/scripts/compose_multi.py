@@ -80,6 +80,11 @@ class Source:
     def index_at(self, t):
         return int(self.new[int(np.argmin(np.abs(self.new_pts - t)))])
 
+    def index_after(self, t0, n):
+        """The n-th new frame after time t0: even film-frame cadence regardless of capture-timing jitter."""
+        j = int(np.argmin(np.abs(self.new_pts - t0)))
+        return int(self.new[min(j + int(n), len(self.new) - 1)])
+
     def hires(self, i, up):
         """(ai, faithful) 4x images of the picture rect 'sr_rect' for capture i, AI result cached on disk.
 
@@ -331,7 +336,7 @@ def geometry(shot, T, layout, clean):
         ch = by1 - by0
         cw = ch * W[2] / W[3]
     ccx, ccy = pt_lerp(c["c"], u) if "c" in c else ((bx0 + bx1) / 2, by1 - ch / 2)
-    x0, y0 = fit(ccx - cw / 2, ccy - ch / 2, cw, ch, regions[:1])
+    x0, y0 = fit(ccx - cw / 2, ccy - ch / 2, cw, ch, regions if "c" in c else regions[:1])
     hub = pt_lerp(shot["hub"], u) if "hub" in shot else (x0 + cw / 2, y0 + ch / 2)
     z = zoom_at(shot, T)
     if z != 1.0:
@@ -403,6 +408,17 @@ def iris(prev_img, prev_hub, prev_r, cur_img, cur_hub, k_mov, k_rad, zoom_from):
 
 # ---------------------------------------------------------------- render
 
+def src_offset(shot, tt):
+    """Source seconds elapsed tt seconds into a shot. 'speed' is constant; 'ramp' {"from", "to", "dur", "ease"}
+    eases the speed from 'from' to 'to' over 'dur' seconds from the cut (real frames only, no interpolation)."""
+    r = shot.get("ramp")
+    if not r:
+        return tt * shot.get("speed", 1.0)
+    ts = np.linspace(0.0, max(tt, 0.0), max(2, int(tt * 600) + 2))
+    v = np.array([lerp(r["from"], r["to"], EASE[r.get("ease", "in_out_sine")](clamp01(t / r["dur"]))) for t in ts])
+    return float(np.sum((v[1:] + v[:-1]) * 0.5 * np.diff(ts)))
+
+
 def build_timeline(edl, bpm):
     beat = 60.0 / bpm
     t, shots = 0.0, []
@@ -434,7 +450,7 @@ def main():
     look = edl.get("look", {})
     ranges = {}
     for i, s in enumerate(shots):
-        sp = s.get("speed", 1.0)
+        sp = max(s.get("speed", 1.0), s.get("ramp", {}).get("from", 0.0))
         extra = shots[i + 1].get("iris_in", {}).get("dur", 0) if i + 1 < len(shots) else 0.5
         ranges.setdefault(s["src"], []).append((s["src_in"], s["src_in"] + (s["dur"] + extra) * sp))
     S = {k: Source(k, edl["sources"][k], ranges.get(k, [])) for k in edl["sources"] if k in ranges}
@@ -442,18 +458,27 @@ def main():
     nframes = int(round(total * fps))
     print(f"bpm {bpm}  beat {beat:.3f}s  duration {total:.3f}s  frames {nframes} @ {fps}", file=sys.stderr)
     for s in shots:
-        sp = s.get("speed", 1.0)
+        sp = "ramp %.2f->%.2f" % (s["ramp"]["from"], s["ramp"]["to"]) if "ramp" in s else "x%s" % s.get("speed", 1.0)
         print(f"  {s['start']:6.3f}-{s['end']:6.3f}  {s['name']:24s} {s['src']:7s} "
-              f"src {s['src_in']:.2f}-{s['src_in'] + s['dur'] * sp:.2f}  x{sp}", file=sys.stderr)
+              f"src {s['src_in']:.2f}-{s['src_in'] + src_offset(s, s['dur']):.2f}  {sp}", file=sys.stderr)
 
     up = edl.get("upscale")
     grain = edl.get("grain", args.grain)
 
+    _src_cache = {}
+
     def src_index(si, k):
         shot = shots[si]
-        ts = shot["src_in"] + k / fps * shot.get("speed", 1.0)
-        ts = min(ts, shot.get("src_max", 1e9))   # outgoing shots under a transition must not run into the next cut
-        return S[shot["src"]].index_at(ts)
+        key = (si, k)
+        if key not in _src_cache:
+            if shot.get("retime") == "index":     # slow motion: step through real frames at an even pace
+                n = src_offset(shot, k / fps) * shot.get("native_fps", 60) + 1e-6
+                _src_cache[key] = S[shot["src"]].index_after(shot["src_in"], n)
+            else:
+                ts = shot["src_in"] + src_offset(shot, k / fps)
+                ts = min(ts, shot.get("src_max", 1e9))   # outgoing shots under a transition must not run into the next cut
+                _src_cache[key] = S[shot["src"]].index_at(ts)
+        return _src_cache[key]
 
     # wheel positions per output frame (tracked on the source frames the shot actually shows)
     tracks = {}
