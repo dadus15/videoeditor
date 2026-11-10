@@ -4,6 +4,26 @@ Brief: combine two short projects (daylight at the house, golden hour in a field
 
 Concept: **one set of wheels, two kinds of light.** The film runs DAYLIGHT → GOLDEN HOUR, joined by a straight match cut between the two low-side wheel shots (the wheel sits in the same place in both frames).
 
+## Revision 5: fewer cuts (client: "too many cut scenes", in both halves)
+
+- **7 shots instead of 10**, each close to its full clean length, still at real speed and on the 174.4 grid:
+
+  | Beat | Time | Shot | Length |
+  |---|---|---|---|
+  | 0 | 0.00 s | golden wheel close-up | 1.38 s |
+  | 4 | 1.38 s | daylight: car driving past the house | 1.03 s |
+  | 7 | 2.41 s | daylight: wheel close-up | 1.03 s |
+  | 10 | 3.44 s | daylight: low side | 1.03 s |
+  | **13** | **4.47 s** | **golden low side: match cut, the drop goes here** | 1.38 s |
+  | 17 | 5.85 s | golden front ¾ | 1.38 s |
+  | 21 | 7.23 s | hero profile | 1.38 s |
+  | 25 | 8.60 s | dip into the end card | |
+
+- **Dropped:** the carport drive-in, the daylight front ¾ and the golden head-on shots.
+- **Lengths:** main version 11.7 s, brand-open 13.6 s.
+- **Drop position in the Shorts editor:** 4.5 s (main) / 6.4 s (brand-open).
+- **QC:** all 6 cuts verified on the grid frames; no backward motion, flashes or black frames.
+
 ## Revision 4: cut to "Club Bizarre" (lene 3000)
 
 - The client asked for the edit to follow "Club Bizarre" by lene 3000 (2025, 2:05) and gave a YouTube link.

@@ -199,36 +199,9 @@
    }
   },
   {
-   "name": "day_carport_drive_in",
-   "src": "day",
-   "beats": 3,
-   "src_in": 0.33,
-   "frame": "tall",
-   "crop": {},
-   "grade": {
-    "exposure": 0.95,
-    "wb": [
-     1.03,
-     1.0,
-     0.95
-    ],
-    "green_sat": 0.75
-   },
-   "wheels": [
-    {
-     "c": [
-      188,
-      316
-     ],
-     "r": 16.5,
-     "track": true
-    }
-   ]
-  },
-  {
    "name": "day_house_drive",
    "src": "day",
-   "beats": 2,
+   "beats": 3,
    "src_in": 1.53,
    "frame": "tall",
    "crop": {},
@@ -266,36 +239,9 @@
    ]
   },
   {
-   "name": "day_front34",
-   "src": "day",
-   "beats": 2,
-   "src_in": 3.91,
-   "frame": "tall",
-   "crop": {},
-   "grade": {
-    "exposure": 0.95,
-    "wb": [
-     1.03,
-     1.0,
-     0.95
-    ],
-    "green_sat": 0.75
-   },
-   "wheels": [
-    {
-     "c": [
-      221,
-      320
-     ],
-     "r": 18,
-     "track": true
-    }
-   ]
-  },
-  {
    "name": "day_wheel_close",
    "src": "day",
-   "beats": 2,
+   "beats": 3,
    "src_in": 5.11,
    "frame": "tall",
    "crop": {},
@@ -392,39 +338,6 @@
    ]
   },
   {
-   "name": "golden_head_on",
-   "src": "gold",
-   "beats": 4,
-   "src_in": 4.68,
-   "frame": "tall",
-   "crop": {},
-   "grade": {
-    "wb": [
-     0.99,
-     1.0,
-     1.02
-    ]
-   },
-   "wheels": [
-    {
-     "c": [
-      141.5,
-      306.5
-     ],
-     "r": 11,
-     "ry": 2.35
-    },
-    {
-     "c": [
-      96,
-      288
-     ],
-     "r": 7,
-     "ry": 2.9
-    }
-   ]
-  },
-  {
    "name": "hero_wide",
    "src": "gold",
    "beats": 4,
@@ -490,5 +403,5 @@
   "outro": "fade"
  },
  "output": "Audi_A8_W12_Turismo_Hook_9x16",
- "_music": "Cut to 'Club Bizarre' by lene 3000 (published tempo 87.2 BPM, cut on the 174.4 grid = half-beats). Tempo from metadata only: the track has NOT been auditioned or analysed. The hand-over to golden hour (golden_low_side) starts on grid beat 16 = 5.505 s of the film: put the track's drop / strongest downbeat there."
+ "_music": "Cut to 'Club Bizarre' by lene 3000 (published tempo 87.2 BPM, cut on the 174.4 grid). Tempo from metadata only: the track has NOT been auditioned. v5 (client: too many cuts): 7 shots, each close to its full clean length. The match cut into golden hour is on grid beat 13 = 4.472 s: put the track's drop there; the hero then starts a bar later (beat 21)."
 }
