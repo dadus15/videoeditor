@@ -66,7 +66,7 @@ SHOTS = [
     (389, 395, "clip", dict(src="porsche", t=15.0, focus=(0.5, 0.5), push=(1.0, 1.1), whip=True)),  # Y whip
     (395, 425, "still", dict(img="g4", zoom=(1.0, 1.08), pan=((0, 0), (0, 30)))),         # Z TR02 stack, red and green light (generated)
     (425, 447, "clip", dict(src="show", t=13.0, focus=(0.5, 0.5), push=(1.0, 1.05))),        # AA R34 rear, crowd
-    (447, 540, "gen", dict(src="final_audi.mp4", t=0.3)),                                  # AB Audi R8 + walker, final card (generated)
+    (447, 540, "gen", dict(src="final_audi.mp4", t=0.55)),                                  # AB Audi R8 + walker, final card (generated)
 ]
 
 REC_ONSETS = [3.03, 3.21, 4.04, 4.26, 4.53, 4.71, 4.90, 5.46, 5.66, 6.05, 6.21, 6.44, 6.59, 7.14, 7.35, 7.53,
