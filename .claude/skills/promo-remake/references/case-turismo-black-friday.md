@@ -144,6 +144,12 @@ It is normalised to −14 LUFS with a −1.5 dBTP ceiling.
   - `tiktok_connect` links expire in about 10 minutes, so issue one only when the client is ready.
   - Publish only after explicit approval, through `tiktok_prepare_publish`.
 
+## The missed glyph
+
+The footer "© 2026 TURISMO WHEELS" showed "□ 2026" in every version up to v6c, because Orbitron has no ©. It was
+caught only by looking at a 720p still. Fix: draw © as a ring plus a C, and run the small-print crop check from
+the QC list in SKILL.md.
+
 ## Credits
 
 | Stage | Credits |

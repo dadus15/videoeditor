@@ -259,6 +259,9 @@ Run these in the sandbox:
 - A full-film fps-2 tile sheet: look at every tile for any trace of the stand-in design.
 - The last seconds at fps 10: the whip should land on the end card.
 
+- Crop the small print (the © footer, dates and labels) at 3× and read it, character by character. Orbitron
+  has no `©`, `®` or `·` glyph: PIL silently draws an empty box (□). That box sat in every Black Friday version
+  until the 720p export. `bf_draft.py` `text_img` now draws `©` as a ring plus a C, at 4× and downsampled.
 - In the Higgsfield sandbox, check the IEND trailer of every PNG before encoding. Never copy frame folders
   while a render writes to them.
 
