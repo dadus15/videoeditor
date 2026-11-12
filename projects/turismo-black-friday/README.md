@@ -208,3 +208,19 @@ The client sent the reference trimmed to its real start and end: 18.79 s, 563 fr
 - Date card: **NOV 27** / outline **2026**, two balanced lines. The client gave one date, so there is no "THRU".
   The title card's small date reads NOV.27.2026.
 - WORLDWIDE SALE and ON ALL FORGED WHEELS stay as they are, pending the client's confirmation.
+
+## Production (approved by the client: "Jest sztos", 12 Nov 2026)
+- **Final shot:** the Seedance draft finalised at **1080p** (same take, 64 credits). The walker matte is computed
+  at half resolution from the temporal-median plate.
+- **Opening title background:** the screen-recorded Porsche is replaced by a generated **Audi R8 drifting in a
+  sand-dust cloud**.
+  - Cost: keyframe g13 2.75 credits, then a Seedance 480p draft (12), finalised at 1080p (64).
+  - Clip 0.40–2.60 s is used. The end card shows 0.40–1.23 s, which runs straight into frame 0, so the loop is
+    seamless.
+- The wheel scenes stay as 2K generated stills with 2D moves. Score: our licence-free synthesised track.
+- **Deliverable:** `Turismo_BlackFriday_2026_TikTok_FINAL_v2.mp4`, media `ad7f44bb…`.
+  - Format: 1080×1920, 30 fps, 18.77 s, H.264 High CRF 16, AAC 256k, faststart.
+  - QC: −13.4 LUFS, 0 black frames.
+- **Credits:** 521.5 → 378.75 (142.75 spent in production).
+- **TikTok:** no account was connected; a connect link was issued (connector `3237250c…`). Publishing goes through
+  `tiktok_prepare_publish` and the client's own review form.

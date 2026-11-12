@@ -109,5 +109,31 @@
   "draft_v8_vs_ref": {
     "media_id": "5283d39d-3d26-4690-ab56-f30dbf725cad",
     "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/5283d39d-3d26-4690-ab56-f30dbf725cad.mp4"
+  },
+  "production": {
+    "final_audi_1080": {
+      "job_id": "ac336a62-96e9-43cb-8468-3a28d81c4b66",
+      "note": "draft d5d05d63 finalized at 1080p, 64 credits"
+    },
+    "title_keyframe_g13": {
+      "job_id": "8b1589bd-cd4d-48b5-ad24-74cd9947661c",
+      "note": "Audi R8 drifting in dust, 2.75 credits"
+    },
+    "title_draft": {
+      "job_id": "83ff2918-b312-4550-95ab-3f9e8ccf8634",
+      "note": "480p draft, 12 credits"
+    },
+    "title_1080": {
+      "job_id": "1f4a433c-7b3c-4155-ac64-dfaa1fcc74d7",
+      "note": "finalized 1080p, 64 credits; film uses clip 0.40-2.60 s, end card 0.40-1.23 runs into frame 0"
+    },
+    "FINAL": {
+      "media_id": "ad7f44bb-96ed-420b-97c4-028839a0537f",
+      "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/ad7f44bb-96ed-420b-97c4-028839a0537f.mp4",
+      "spec": "1080x1920, 30 fps, 563 frames, 18.77 s, H.264 High CRF 16, AAC 256k 48 kHz, faststart, -13.4 LUFS / -1.5 dBTP, 0 black frames"
+    },
+    "superseded": "47c2d0cf-5bb3-40b4-80c9-c29b2b8387e7 (FINAL v1 had the old title background: wrong file path, do not use)",
+    "tiktok_connector": "3237250c-b48d-4fc2-b5ff-475557b9449c (connect link issued 12 Nov 14:50, expires 15:00 UTC)",
+    "credits_after": 378.75
   }
 }
