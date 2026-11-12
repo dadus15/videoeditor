@@ -46,7 +46,7 @@ SHOTS = [
     (111, 122, "photo_split", dict(img="r34.jpg", box=(100, 380, 1760, 1854))),             # E blue R34 GT-R (client photo), split + mirror
     (122, 123, "white", dict()),                                                             # F 1-frame white flash
     (123, 135, "spin", dict(img="TR09F", zoom=2.3, c=(0.62, 0.38), rot=(0, -9))),            # G silver closeup
-    (135, 155, "still", dict(img="g21", zoom=(1.0, 1.06), pan=((0, 0), (0, -20)))),        # H R34 front wheel (regenerated hi-res)
+    (135, 155, "clip2", dict(src="H_r34_wheel", focus=(0.22, 0.55), push=(1.0, 1.05))),     # H R34 front wheel (client footage, Poznań)
     (155, 167, "img_mirror", dict(img="g11.png", band=(0.0, 0.5))),                       # I Audi R8 side-on at the columns, mirrored
     (167, 178, "still", dict(img="g12", zoom=(1.0, 1.12), pan=((60, 0), (-90, 10)))),      # J Audi R8 rolling shot (generated)
     (178, 203, "collage", dict()),                                                           # K wheels on white
@@ -54,18 +54,18 @@ SHOTS = [
     (213, 225, "bmw", dict(c=(0.745, 0.64), zoom=(1.12, 1.2))),                              # M car, ON ALL in
     (225, 231, "myst", dict(wheels=[("TR09F", 1150, 520, 980, 1.2, 1.0)], side=(0.15, 0.9, 0.45), rim=(0.3, 1.0, 0.5), haze=(0.05, 0.25, 0.1), embers=False, push=(1.0, 1.04))),  # N wheel in green side light
     (231, 240, "still", dict(img="g8", zoom=(1.0, 1.05), pan=((0, 0), (0, 0)))),           # O TR09 on a pedestal, sky (generated)
-    (240, 248, "still", dict(img="g22", zoom=(1.0, 1.04), pan=((0, 440), (0, 440)))),          # P Turismo sign (regenerated hi-res)
+    (240, 248, "clip2", dict(src="P_sign", fit=True, band_y=1400)),                        # P Turismo sign, full width (client footage)
     (248, 257, "still", dict(img="g7", zoom=(1.0, 1.06), pan=((0, 0), (0, 0)))),           # Q X03 on a machine, dark workshop (generated)
     (257, 270, "still", dict(img="g3", zoom=(1.0, 1.08), pan=((0, 0), (0, 0)), embers=True)),  # R exploded wheel, embers (generated)
     (270, 299, "still", dict(img="g6", zoom=(1.0, 1.1), pan=((0, 0), (0, -40)))),         # S TR09 in a CNC (generated)
-    (299, 312, "still", dict(img="g23", zoom=(1.05, 1.14), pan=((0, 0), (0, 0)))),         # T flames (regenerated hi-res)
-    (312, 329, "still", dict(img="g24", zoom=(1.35, 1.35), pan=((-90, -560), (90, -560)))),      # U Ferrari SF90 side pass (regenerated hi-res)
+    (299, 312, "clip2", dict(src="T_wing", focus=(0.6, 0.5), push=(1.0, 1.05))),           # T Porsche rear wing at sunset (client footage)
+    (312, 329, "clip2", dict(src="U_porsche_front", focus=(0.52, 0.6), push=(1.0, 1.06))), # U Porsche front at sunset (client footage)
     (329, 346, "still", dict(img="g5", zoom=(1.0, 1.05), pan=((30, 0), (-30, 0)))),        # V three TR02 on a wet floor (generated)
     (346, 375, "swap", dict()),                                                              # W product swaps, box
-    (375, 389, "still", dict(img="g25", zoom=(1.0, 1.06), pan=((0, 0), (0, 0)))),          # X dark car (regenerated hi-res)
-    (389, 395, "still", dict(img="g25", zoom=(1.06, 1.12), pan=((0, 0), (-160, 0)), whip=True)),  # Y whip
+    (375, 389, "clip2", dict(src="X_dark_car", focus=(0.5, 0.5), push=(1.0, 1.05))),       # X dark car (client footage)
+    (389, 395, "clip2", dict(src="X_dark_car", start=14, focus=(0.5, 0.5), push=(1.05, 1.1), whip=True)),  # Y whip
     (395, 425, "still", dict(img="g4", zoom=(1.0, 1.08), pan=((0, 0), (0, 30)))),         # Z TR02 stack, red and green light (generated)
-    (425, 447, "still", dict(img="g26", zoom=(1.0, 1.05), pan=((0, 0), (0, 0)))),          # AA R34 rear, crowd (regenerated hi-res)
+    (425, 447, "clip2", dict(src="AA_r34_rear", focus=(0.38, 0.55), push=(1.0, 1.04), cover=dict(tpl=(352, 328, 444, 388), box=(359, 333, 435, 379)))),  # AA R34 rear, TENZI plate covered
     (447, 540, "gen", dict(src="final_audi_1080.mp4", t=0.55, matte=True)),                                  # AB Audi R8 + walker, final card (generated)
 ]
 
@@ -283,6 +283,8 @@ def shot_frame(kind, a, i, n):
         return mystery(a, i, n)
     if kind == "still":
         return still(a, i, n)
+    if kind == "clip2":
+        return clip2(a, i, n)
     if kind in ("photo_split", "img_mirror"):
         if not os.path.exists(f"{ROOT}/gen/{a['img']}"):          # client photo not uploaded yet: show footage
             return shot_frame("split", dict(a=("show", 0.1), b=("show", 12.6)), i, n)
@@ -371,6 +373,56 @@ def photo_shot(kind, a, i, n):
     M = cv2.getRotationMatrix2D((W / 2, H / 4), 0, z)
     band = cv2.warpAffine(band, M, (W, H // 2), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
     return np.concatenate([band, band[::-1] * np.linspace(0.85, 0.55, H // 2)[:, None, None]])
+
+
+_clip2 = {}
+
+
+def clip2(a, i, n):
+    """Client footage cut from the clean 848-px edits (src_clips/<src>.mp4, 30 fps): cover-fit or full-width band,
+    optional plate cover (template-tracked) and whip blur."""
+    k = a["src"]
+    if k not in _clip2:
+        p = f"{ROOT}/src2/{k}.mp4"
+        w, h = [int(v) for v in subprocess.run(["ffprobe", "-v", "error", "-show_entries", "stream=width,height", "-of",
+                                                "csv=p=0", p], capture_output=True, text=True).stdout.split(",")[:2]]
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-i", p, "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
+                             capture_output=True, check=True).stdout
+        _clip2[k] = np.frombuffer(raw, np.uint8).reshape(-1, h, w, 3).copy()
+    v = _clip2[k]
+    fr = v[min(a.get("start", 0) + i, len(v) - 1)].copy()
+    if "cover" in a:                                       # hide third-party branding on the number plate
+        x0, y0, x1, y1 = a["cover"]["tpl"]
+        tpl = v[0][y0:y1, x0:x1]
+        r = cv2.matchTemplate(fr, tpl, cv2.TM_CCOEFF_NORMED)
+        _, _, _, (mx, my) = cv2.minMaxLoc(r)
+        dx, dy = mx - x0, my - y0
+        bx0, by0, bx1, by1 = a["cover"]["box"]
+        m = np.zeros(fr.shape[:2], np.float32)
+        cv2.rectangle(m, (bx0 + dx, by0 + dy), (bx1 + dx, by1 + dy), 1.0, -1)
+        m = cv2.GaussianBlur(m, (0, 0), 1.5)[..., None]
+        fr = (fr * (1 - m) + np.array((24, 24, 28)) * m).astype(np.uint8)
+    u = i / max(n - 1, 1)
+    if a.get("fit"):                                       # full-width band over a blurred, darkened copy
+        bgc = cover(fr, (0.5, 0.5), 1.0).astype(np.float32) / 255
+        bgc = cv2.GaussianBlur(bgc, (0, 0), 30) * 0.35
+        bw = W
+        bh = int(fr.shape[0] * W / fr.shape[1])
+        z = lerp(1.0, 1.04, u)
+        band = cv2.resize(fr, (int(bw * z), int(bh * z)), interpolation=cv2.INTER_CUBIC).astype(np.float32) / 255
+        y0 = int(a.get("band_y", H // 2) - band.shape[0] / 2)
+        x0 = (W - band.shape[1]) // 2
+        ys, ye = max(y0, 0), min(y0 + band.shape[0], H)
+        xs, xe = max(x0, 0), min(x0 + band.shape[1], W)
+        bgc[ys:ye, xs:xe] = band[ys - y0:ye - y0, xs - x0:xe - x0]
+        return bgc
+    z = lerp(*a.get("push", (1, 1)), u)
+    img = cover(fr, a.get("focus", (0.5, 0.5)), z).astype(np.float32) / 255
+    if a.get("whip"):
+        ker = np.zeros((1, 81), np.float32)
+        ker[0] = 1 / 81
+        img = cv2.filter2D(img, -1, ker)
+    return img
 
 
 _gen = {}
