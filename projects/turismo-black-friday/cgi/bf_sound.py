@@ -65,7 +65,10 @@ def noise(length, lo, hi, d):
 
 
 def clap():
-    x = sum(np.pad(noise(0.25, 900, 6000, 0.06), (int(o * SR), 0))[: int(0.3 * SR)] for o in (0, 0.011, 0.022))
+    x = np.zeros(int(0.3 * SR))
+    for o in (0, 0.011, 0.022):
+        b = noise(0.25, 900, 6000, 0.06)
+        x[int(o * SR):int(o * SR) + len(b)] += b
     return x * 0.35
 
 
