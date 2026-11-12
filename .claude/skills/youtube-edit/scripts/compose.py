@@ -20,6 +20,9 @@ from PIL import Image, ImageDraw, ImageFont
 SKILL_DIR = Path(__file__).resolve().parent.parent   # fonts ship with the skill
 ROOT = Path.cwd()                                     # project files (source, edit/, renders/) come from the cwd
 FONTS = {w: SKILL_DIR / f"assets/fonts/DMSans-{w}.ttf" for w in (400, 500, 700)}
+# Latin Extended subset of the same DM Sans (Fontsource, OFL): Polish and other accented glyphs
+# (ą ć ę ł ń ś ź ż ...) that the base files lack. Used per character as a fallback.
+FONTS_EXT = {w: SKILL_DIR / f"assets/fonts/DMSans-{w}-latin-ext.ttf" for w in (400, 500, 700)}
 SRC_W, SRC_H = 448, 368
 # Rows that contain picture (everything else is player letterbox or player UI).
 LETTERBOX_ROWS = (50, 318)
@@ -134,15 +137,24 @@ def vignette(h, w, strength=0.16):
 # ---------------------------------------------------------------- text
 
 def render_text(text, weight, size, track, color=(255, 255, 255), stroke=0):
-    font = ImageFont.truetype(str(FONTS[weight]), size)
-    adv = [font.getlength(c) + track * size for c in text]
+    base = ImageFont.truetype(str(FONTS[weight]), size)
+    ext = ImageFont.truetype(str(FONTS_EXT[weight]), size) if FONTS_EXT[weight].exists() else None
+    notdef = bytes(base.getmask("\U000F0000"))      # what the base font draws for a missing glyph
+
+    def pick(c):
+        if ext is not None and not c.isspace() and bytes(base.getmask(c)) == notdef:
+            return ext
+        return base
+    fonts = [pick(c) for c in text]
+    font = base
+    adv = [f.getlength(c) + track * size for c, f in zip(text, fonts)]
     width = int(math.ceil(sum(adv) - track * size)) + 8 + 2 * stroke
     asc, desc = font.getmetrics()
     img = Image.new("RGBA", (width, asc + desc + 8 + 2 * stroke), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
     x = 4 + stroke
-    for c, a in zip(text, adv):
-        d.text((x, 4 + stroke), c, font=font, fill=color + (255,), stroke_width=stroke, stroke_fill=color + (255,))
+    for c, a, f in zip(text, adv, fonts):
+        d.text((x, 4 + stroke), c, font=f, fill=color + (255,), stroke_width=stroke, stroke_fill=color + (255,))
         x += a
     arr = np.asarray(img).astype(np.float32) / 255
     return arr  # RGBA, premultiplied later

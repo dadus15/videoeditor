@@ -20,16 +20,17 @@ Use the bundled files in `references/` when relevant:
 
 ## Tools in this skill
 
-These scripts are in `scripts/` and were verified on a real project. Run them from the **project root**: paths in an EDL are relative to the root, and fonts come from this skill's `assets/fonts/` (DM Sans 400/500/700, OFL). Requirements: `ffmpeg`, and Python with `numpy`, `opencv-python-headless` and `pillow`.
+These scripts are in `scripts/` and were verified on a real project. Run them from the **project root**: paths in an EDL are relative to the root, and fonts come from this skill's `assets/fonts/` (DM Sans 400/500/700 plus the Latin Extended subset for Polish ą ć ę ł ń ś ź ż, OFL; missing glyphs fall back per character). Requirements: `ffmpeg`, and Python with `numpy`, `opencv-python-headless` and `pillow`.
 
 | Script | What it does |
 |---|---|
 | `analyze_motion.py <video> <csv>` | Per-frame brightness and median optical flow. Use it to map shots, baked fades, and motion direction. |
 | `unique_frames.py <video>` | Detects the real film frames inside a screen capture or variable-frame-rate file, and reports per-shot frame counts. |
 | `compose.py <edl.json> <out.mp4> [--bpm N] [--crf N] [--audio wav]` | The 9:16 compositor. Shot lengths are in beats; it re-times film frames 1:1 at the EDL fps, then renders windows, pushes, aperture moves and titles. It also writes `<out>.timeline.json` with cue points. |
+| `compose_stills.py <edl.json> <out.mp4> [--bpm N] [--frames a,b,c]` | The same 9:16 house style for **still images** (campaign renders, product photos): a virtual camera per shot (keyframed centre + zoom, geometric zoom easing), detail→full pull-back reveals, a static logo cut from a still, and an iris from the last shot's centre cap into the end card. `--frames` renders only those frames as PNGs for checks. Example: `edit/stills_turismo_bf.json`. |
 | `bookends.py <edl.json> <film.mp4> <out.mp4>` | Brand intro (logo, tagline, push-slide) and end card (iris from the product, light sweep). Configured by the EDL's `bookends` block. |
 | `mix_audio.py <timeline.json> <out.wav> --music-drop S` | Mixes music and SFX to the cue points, targets −14 LUFS with true peak below −1 dBTP, and reports a phone-speaker check. |
-| `finish.sh <drop_s> [bpm]` | Runs every `edit/edl_*.json` through film → bookends → mix → mux, naming each output from the EDL's `output` field. |
+| `finish.sh <drop_s> [bpm]` | `EDLS=...` limits it to given EDLs; stills EDLs go through `compose_stills.py`. Runs every `edit/edl_*.json` through film → bookends → mix → mux, naming each output from the EDL's `output` field. |
 
 `templates/edl_automotive_example.json` is a complete, approved EDL to copy and adapt. The original kit's cutting, transcription and HyperFrames tools are **not** included. Check whether they're installed before planning a talking-head edit around them.
 

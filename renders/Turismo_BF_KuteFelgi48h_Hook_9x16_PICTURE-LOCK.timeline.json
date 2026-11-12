@@ -1,0 +1,69 @@
+{
+  "bpm": 120,
+  "duration": 14.56,
+  "fps": 25,
+  "shots": [
+    {
+      "name": "hook_brushed_spokes",
+      "start": 0.0,
+      "end": 1.52,
+      "src_in": null
+    },
+    {
+      "name": "forged_lettering",
+      "start": 1.52,
+      "end": 2.52,
+      "src_in": null
+    },
+    {
+      "name": "ysplit_spokes",
+      "start": 2.52,
+      "end": 3.52,
+      "src_in": null
+    },
+    {
+      "name": "matte_hub_build",
+      "start": 3.52,
+      "end": 4.52,
+      "src_in": null
+    },
+    {
+      "name": "reveal_brushed_full",
+      "start": 4.52,
+      "end": 6.52,
+      "src_in": null
+    },
+    {
+      "name": "ysplit_full",
+      "start": 6.52,
+      "end": 7.52,
+      "src_in": null
+    },
+    {
+      "name": "matte_full",
+      "start": 7.52,
+      "end": 8.52,
+      "src_in": null
+    },
+    {
+      "name": "signature_forged",
+      "start": 8.52,
+      "end": 11.52,
+      "src_in": null
+    },
+    {
+      "name": "end_card",
+      "start": 11.05,
+      "end": 14.56,
+      "src_in": null
+    }
+  ],
+  "cue_points": {
+    "open_impact": 0.0,
+    "riser_end_reveal": 4.52,
+    "signature": 8.52,
+    "end": 14.56,
+    "end_card_iris": 11.05
+  },
+  "shimmer_at": 1.52
+}

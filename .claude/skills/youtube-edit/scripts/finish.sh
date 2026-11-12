@@ -5,15 +5,23 @@
 # music_drop_seconds: where the drop/bass entrance sits inside assets/audio/music.wav
 # bpm: the track's tempo; re-times every cut to the beat grid (default: the EDL's bpm)
 # Output name: the EDL's "output" field (else <prefix>_<variant>_9x16). Renders every edit/edl_*.json: film -> brand bookends (if the EDL has a "bookends" block) -> mix -> mux.
+# EDLS="edit/stills_x.json" limits the run to the given EDL(s). Stills EDLs (with a "window" block) render with
+# compose_stills.py, which already includes the logo and the end-card iris.
 set -euo pipefail
 S="$(cd "$(dirname "$0")" && pwd)"
 DROP=${1:?music drop time in seconds}; BPM=${2:-}; PREFIX=${3:-Final}
 mkdir -p work renders
-for edl in edit/edl_*.json; do
+for edl in ${EDLS:-edit/edl_*.json}; do
   v=$(basename "$edl" .json); v=${v#edl_}
   bpm_arg=(); [ -n "$BPM" ] && bpm_arg=(--bpm "$BPM")
-  python3 "$S/compose.py" "$edl" "work/film_$v.mp4" "${bpm_arg[@]}" --crf 6
-  if grep -q '"bookends"' "$edl"; then
+  if grep -q '"window"' "$edl"; then
+    python3 "$S/compose_stills.py" "$edl" "work/pic_$v.mp4" "${bpm_arg[@]}" --crf 16
+  else
+    python3 "$S/compose.py" "$edl" "work/film_$v.mp4" "${bpm_arg[@]}" --crf 6
+  fi
+  if grep -q '"window"' "$edl"; then
+    :
+  elif grep -q '"bookends"' "$edl"; then
     python3 "$S/bookends.py" "$edl" "work/film_$v.mp4" "work/pic_$v.mp4" "${bpm_arg[@]}"
   else
     cp "work/film_$v.mp4" "work/pic_$v.mp4"; cp "work/film_$v.timeline.json" "work/pic_$v.timeline.json"
