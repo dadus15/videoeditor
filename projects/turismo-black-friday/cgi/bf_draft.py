@@ -460,6 +460,17 @@ def gen_clip(a, i, n):
                 m = cv2.morphologyEx(m, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8))
                 m = cv2.resize(m.astype(np.float32), (W, H), interpolation=cv2.INTER_LINEAR)
                 ms.append(cv2.GaussianBlur(m, (0, 0), 2.5))
+            # The plate difference misses the black T-shirt over the dark car and steps, so the card showed through
+            # the body. A person segmentation (rembg u2net_human_seg, walk/seg_all.py, band y 300-1500) gives a
+            # solid silhouette; the plate difference is kept only right next to it (the towel).
+            hp = f"{ROOT}/gen/final_audi_walker_alpha.npy"
+            if os.path.exists(hp):
+                band = np.load(hp)
+                for k in range(len(ms)):
+                    hm = np.zeros((H, W), np.float32)
+                    hm[300:1500] = band[min(k, len(band) - 1)].astype(np.float32) / 255
+                    near = cv2.dilate((hm > 0.5).astype(np.uint8), np.ones((41, 41), np.uint8)).astype(np.float32)
+                    ms[k] = cv2.GaussianBlur(np.maximum(hm, ms[k] * near), (0, 0), 1.0)
             _gen[key + ":matte"] = ms
     return _gen[key][min(i, len(_gen[key]) - 1)].astype(np.float32) / 255
 
