@@ -15,6 +15,16 @@ The session's egress proxy blocks `upload.higgsfield.ai`, `d2ol7oe51mr4n9.cloudf
 
   The widget limits: images in batches; **one video per widget**; one video plus one audio together is fine
   (`type: auto`). `media_upload` + curl PUT from this container fails with 403.
+- **Inputs without the user (Black Friday, verified):** the Higgsfield sandbox can reach GitHub, YouTube and
+  `upload.higgsfield.ai`.
+  1. Commit and push the file, only if it may be public.
+  2. `curl` the raw file at the commit SHA in `sandbox_exec`.
+  3. `media_upload`, then PUT from the sandbox with `-H "If-None-Match: *"`. A slot takes one upload only.
+  4. `media_confirm` with `type` (`image`/`video`/`audio`/`file`) and `media_ids`.
+
+  Never relay media bytes through base64 in commands.
+- **Seeing sandbox pixels:** pass `image_paths` (up to 4 JPEG/PNG files, ≤512 KiB in total) to `sandbox_exec`.
+  The images come back to you after the command.
 - **Results** cannot be downloaded here. Do all downloading, inspection and assembly in `sandbox_exec`: the
   Higgsfield sandbox has internet, ffmpeg, numpy and Pillow. It has 1 CPU and 8 GB RAM, foreground commands time
   out at 120 s, and background jobs at 15 min.

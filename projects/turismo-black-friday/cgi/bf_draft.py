@@ -555,6 +555,14 @@ def text_img(txt, path, size, fill=WHITE, stroke=0, outline=False, sx=1.0, skew=
     d = ImageDraw.Draw(tmp)
     x = pad
     for ch in txt:
+        if ch == "\u00a9":                                  # Orbitron has no (c) glyph: draw a ring and a C
+            bx0, by0, bx1, by1 = d.textbbox((x, pad), "0", font=f)
+            r = (by1 - by0) * 0.6
+            cx, cy = x + r, (by0 + by1) / 2
+            d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=fill + (255,), width=max(1, round(size / 12)))
+            d.text((cx, cy), "C", font=font(path, int(size * 0.62)), fill=fill + (255,), anchor="mm")
+            x += 2 * r + track + size * 0.25
+            continue
         if outline:
             d.text((x, pad), ch, font=f, fill=(0, 0, 0, 0), stroke_width=stroke, stroke_fill=fill + (255,))
         else:
@@ -728,7 +736,10 @@ def nov_block(bg, f):
 def footer(bg, f):
     if f == 122:
         return bg
-    return put(bg, T("cp", COPY["copyright"], F_TITLE, 15, track=1), 540, 1858, "cm", alpha=0.7)
+    if "cp" not in _T:                                      # drawn at 4x, then downsampled: a clean (c) ring
+        big = text_img(COPY["copyright"], F_TITLE, 60, track=4)
+        _T["cp"] = cv2.resize(big, (round(big.shape[1] / 4), round(big.shape[0] / 4)), interpolation=cv2.INTER_AREA)
+    return put(bg, T("cp"), 540, 1858, "cm", alpha=0.7)
 
 
 _logo = None

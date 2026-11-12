@@ -1,6 +1,6 @@
 ---
 name: promo-remake
-description: "Reverse-engineer a reference product commercial (a competitor's wheel, car-part or product promo, often a phone recording of a screen) and rebuild it 1:1 for our own brand and product. Same cut, timing, camera moves, transitions, typography layout and sound map, with our product, logo, font, copy and music. The product footage is AI video (Higgsfield Seedance) driven by a CGI motion guide made in Blender. Use this skill whenever the user sends a promo, ad, teaser or product video and asks to recreate, remake, copy the style of, \"zrób 1:1\", \"reverse engineering\", \"taki sam film tylko z naszą felgą/produktem\", or wants a product launch video in the style of an existing brand (Vossen, HRE, BBS, ...), even if they don't mention AI, Higgsfield or Blender. Also use it for follow-ups on such a project: swapping the product, fixing frames where the old design shows, changing the title or end card, and re-assembling."
+description: "Reverse-engineer a reference product commercial (a competitor's wheel, car-part or product promo, often a phone recording of a screen) and rebuild it 1:1 for our own brand and product. Same cut, timing, camera moves, transitions, typography layout and sound map, with our product, logo, font, copy and music. The product footage is AI video (Higgsfield Seedance) driven by a CGI motion guide made in Blender. Use this skill whenever the user sends a promo, ad, teaser or product video and asks to recreate, remake, copy the style of, \"zrób 1:1\", \"reverse engineering\", \"taki sam film tylko z naszą felgą/produktem\", or wants a product launch video in the style of an existing brand (Vossen, HRE, BBS, ...), even if they don't mention AI, Higgsfield or Blender. Also use it for follow-ups on such a project: swapping the product, fixing frames where the old design shows, changing the title or end card, re-assembling, sharper inserts, Black Friday or sale promos with offer typography, and 720p/1080p deliverables."
 ---
 
 # Promo remake: reference ad → our product, 1:1
@@ -9,7 +9,15 @@ The Turismo Forged C19R promo (Nov 2026) was made this way. The client's verdict
 playbook below is that project generalised. `references/case-turismo-c19r.md` holds every number, prompt and ID from
 it; read it when you need a worked example.
 
-The pipeline has four layers. Each one can be redone without touching the others:
+Two patterns exist; pick by the reference:
+
+- **Guide pattern** (C19R, `references/case-turismo-c19r.md`): a few long product shots with camera moves. Use a
+  Blender guide, then Seedance `video_edit`.
+- **Compositor pattern** (Black Friday, `references/case-turismo-black-friday.md`): a fast montage of many short
+  shots with heavy typography. Use a Python frame compositor with real footage at master quality, generated 2K
+  stills with 2D moves, a few Seedance clips and 2D type. See section 6.
+
+The guide pattern has four layers. Each one can be redone without touching the others:
 
 1. **Reverse engineering** gives a frame-accurate shot map, the typography and the sound map of the reference.
 2. **CGI motion guide**: a Blender film with the reference's exact cut, camera moves and timing, using a simple stand-in
@@ -29,6 +37,11 @@ Ask only for what blocks the work. Usually that is:
 - **Brand assets.** Logo (the largest copy available), brand colours, and a contact or end card if they have one.
 - **Copy.** Ask for the title and tagline. Claims such as "6 EXCLUSIVE FINISHES", "ALL-NEW" or "FORGED" are product
   claims: mirror the reference's layout, but list the claim as *to confirm* in the report.
+- **Every product model to show.** If the reference shows several products at once (a row, a stack), ask
+  which models go where. One model repeated three times reads as lazy.
+- **Original footage.** For screen-recorded clips, find the masters (the client's YouTube channel or site)
+  before generating anything. Real footage beats AI re-creations, and the client will reject a blurry insert.
+- **The exact cut of the reference.** Ask for its true start and end. References are often caught mid-loop.
 - **Budget and resolution.** Check `balance`. 720p costs about 7.6 credits per second of `video_edit`; 1080p is about 2.3× that.
 
 ## 1. Reverse engineering (about 20 min)
@@ -64,8 +77,11 @@ Read `references/cgi-motion-guide.md`. Bootstrap a project with `scripts/new_pro
 
 Read `references/higgsfield-pipeline.md` before the first call. Key facts:
 
-- **Getting files in.** This cloud environment blocks `upload.higgsfield.ai` and the Higgsfield CDN. Use
-  `media_upload_widget`, as the only tool in its turn. It takes images in batches but **only one video per
+- **Getting files in.** This cloud environment blocks `upload.higgsfield.ai` and the Higgsfield CDN, but
+  the Higgsfield sandbox reaches both, and GitHub too.
+  - Files that may be public: commit and push, `curl` the raw file at the commit SHA in `sandbox_exec`, then
+    `media_upload` → PUT from the sandbox with `If-None-Match: *` → `media_confirm` (`type` plus `media_ids`).
+  - Private files: use `media_upload_widget`, as the only tool in its turn. It takes images in batches but **only one video per
   widget**; one video plus one audio file together is allowed. Send the user the files to upload with
   `SendUserFile` first. Record every media_id in `cgi/higgsfield_media.json`.
 - **Segments.** Cut the guide into segments of about 6–8.5 s at natural breaks (white fades). Run Seedance 2.5 in
@@ -196,6 +212,43 @@ Read `references/higgsfield-pipeline.md` before the first call. Key facts:
      roll: [r0, r1], ease}`.
   4. Apply one filmic grade across all clips.
 
+## 6. Compositor remakes (montage references: sales, launches, "Shorts")
+
+Read `references/case-turismo-black-friday.md`. Copy `scripts/compositor/bf_draft.py` and `bf_sound.py` into
+the project and edit them:
+
+- `SHOTS` holds `(g_start, g_end, kind, params)`. The kinds are clip, clip2 (master footage with focus, push,
+  whip, fit band and plate cover), still, gen (Seedance clip), photo_split, img_mirror, myst (lit 2D wheel
+  scene), collage, swap and white.
+- The typography blocks follow the reference layout. Beat effects key off the measured kick onsets.
+
+Rules learned the hard way:
+
+1. **Draft at 0 credits first** (screen-recorded footage and renders). Get the cut and the type approved, then
+   spend.
+2. **Inserts of real cars and places must be real footage at master quality.**
+   - Download the original with yt-dlp in the sandbox; the flags for embed-only videos are in the case file.
+   - Find each moment with `scripts/compositor/frame_match.py`.
+   - Cut with `-ss`/`-t` *before* `-i`.
+   - Never AI-sharpen or re-imagine real footage: it moves geometry, for example a wheel no longer sits on its
+     car.
+3. **Generated product stills.**
+   - Use gpt_image_2_6 at 2k, with the reference frame first and the product renders after it.
+   - State the pose ("lying flat", "standing on the lip, turned 30° so the barrel shows, not flat discs").
+   - Use different models per position, and describe the floor and light from the reference.
+   - Make two variants.
+4. **Motion that cannot be faked in 2D** (a person walking past, a drift): make a gpt keyframe, a Seedance
+   **draft** at 480p (12 credits), then `draft_job_id` at 1080p (64), so it is the same take. For a locked-off
+   shot, take the person's matte from a temporal-median plate, so text can sit behind them.
+5. **Third-party adverts in footage** (plate frames, sponsor boards): ask the client, then cover them with a
+   template-tracked, feathered fill.
+6. **Feedback by second.** Map second → film frame → shot. Make a strip of ours against the reference at the
+   same frames *before* changing anything.
+7. **Every final ships with a side-by-side against the reference.** Answer "does every frame match?" with
+   timing and cuts (1:1) plus a table of every content deviation and why it exists.
+8. **Deliverables.** A 1080×1920 CRF 16 master plus a 720×1280 version encoded from the same PNG frames
+   (Lanczos, CRF 17). Publish to TikTok only after explicit approval.
+
 ## QC before reporting
 
 Run these in the sandbox:
@@ -205,6 +258,9 @@ Run these in the sandbox:
 - `ebur128` should read about −14 LUFS with true peak at or below −1 dBTP.
 - A full-film fps-2 tile sheet: look at every tile for any trace of the stand-in design.
 - The last seconds at fps 10: the whip should land on the end card.
+
+- In the Higgsfield sandbox, check the IEND trailer of every PNG before encoding. Never copy frame folders
+  while a render writes to them.
 
 Report the credits spent from `balance` before and after.
 
@@ -228,6 +284,8 @@ Keep jargon out. The client cares about the product looking right and the cut ma
 | `references/cgi-motion-guide.md` | Blender guide: modelling a stand-in, studio, shots, render budget, gotchas |
 | `references/higgsfield-pipeline.md` | Uploads, prompts, costs, leak patching, sandbox assembly, gotchas |
 | `references/case-turismo-c19r.md` | The complete C19R project: timeline, prompts, leak map, IDs, costs |
+| `references/case-turismo-black-friday.md` | The Black Friday compositor remake: client rounds, master footage, wheel-row prompts, sandbox gotchas |
+| `scripts/compositor/` | `bf_draft.py` (frame compositor and typography), `bf_sound.py` (score on onsets), `frame_match.py` |
 | `scripts/ref_sheets.sh`, `scripts/audio_map.py` | Reference forensics |
 | `scripts/new_project.sh` | Copy the CGI and 2D toolkit and fonts into a new project |
 | `scripts/cgi/` | scene, shots, post, sound, bookends, qc, compare, progress, render_sheet, build |
