@@ -70,14 +70,14 @@ SHOTS = [
 ]
 
 # usable source areas (x0, y0, x1, y1): the Instagram UI covers the bottom of the Ferrari reel
-AREA = {"ferrari": (0, 0, 232, 318), "porsche": (0, 0, 368, 207), "show": (0, 0, 368, 207)}
+AREA = {"ferrari": (0, 0, 232, 318), "porsche": (0, 0, 368, 206), "show": (0, 0, 368, 206)}
 _cache = {}
 
 
 def clip_frames(src, t, n):
     key = (src, t, n)
     if key not in _cache:
-        w, h = {"ferrari": (232, 410)}.get(src, (368, 207))
+        w, h = {"ferrari": (232, 410)}.get(src, (368, 206))
         raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{t:.3f}", "-i", f"{ROOT}/clips/{src}.mp4",
                               "-frames:v", str(n), "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
                              capture_output=True, check=True).stdout
