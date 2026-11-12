@@ -27,12 +27,12 @@ F_COND = f"{ROOT}/fonts/Anton.ttf"
 COPY = dict(
     label="TURISMO",
     title=("BLACK", "FRIDAY"),
-    date_small="NOV.23-NOV.30",
+    date_small="NOV.27.2026",
     sale="WORLDWIDE SALE",
     side="TURISMO WHEELS",
-    save=("SAVE UP TO", "€7", "PER SET"),          # + two spinning-wheel zeros
-    onall=("ON ALL", "FORGED SERIES WHEELS"),
-    nov=("NOV 23", "THRU", "NOV 30"),
+    save=("SAVE UP TO", "2500", "PLN", "PER SET"),   # client copy, 12 Nov 2026
+    onall=("15% OFF", "ON ALL FORGED WHEELS"),
+    nov=("NOV 27", "2026", ""),                      # Black Friday 27 Nov 2026 (one date: two lines)
     copyright="© 2026 TURISMO WHEELS",
 )
 
@@ -587,7 +587,7 @@ def circ(bg, c, r):
 
 
 def save_block(bg, f):
-    """SAVE UP TO / €700 / PER SET, revealed out of a red line at frames 71-77."""
+    """SAVE UP TO / 2500 PLN PER SET, revealed behind the wheel blade (frames 65-78)."""
     s1 = T("s1", COPY["save"][0], F_COND, 150, fill=RED, sx=0.9, skew=0.2)
     s2 = T("s2", COPY["save"][1], F_COND, 236, sx=0.9, skew=0.2)
     s3 = T("s3", COPY["save"][2], F_COND, 92, sx=0.9, skew=0.2)
@@ -595,23 +595,13 @@ def save_block(bg, f):
         return put(bg, s1, 548, 872, "cm")
     lay = np.zeros((H, W, 4), np.float32)
     put(lay, s1, 548, 872, "cm")
-    d = int(s2.shape[0] * 1.02)                           # the two zeros: spinning Turismo wheels
-    x = 548 - (s2.shape[1] - 6 + 2 * (d + 4) + 22 + s3.shape[1]) / 2
+    s4 = T("s4", COPY["save"][3], F_COND, 92, sx=0.9, skew=0.2)
+    col = max(s3.shape[1], s4.shape[1])
+    x = 548 - (s2.shape[1] + 20 + col) / 2
     put(lay, s2, x + s2.shape[1] / 2, 1060, "cm")
-    x += s2.shape[1] - 6
-    k = since_kick(f, KICK_F)
-    ang = -f * 14 - (0 if k is None else (8 - k) * 6)
-    for j in range(2):
-        wz = rot_scale(rend("TR09F", d), ang + j * 23, 1.0).copy()
-        hh, ww = wz.shape[:2]
-        ring = np.zeros((hh, ww), np.uint8)
-        cv2.circle(ring, (ww // 2, hh // 2), int(d * 0.49), 255, 7, cv2.LINE_AA)
-        rg = ring.astype(np.float32)[..., None] / 255
-        wz[..., :3] = wz[..., :3] * (1 - rg) + rg
-        wz[..., 3:4] = np.maximum(wz[..., 3:4], rg)
-        paste(lay, wz, x + d / 2 + 4, 1060 + 6)
-        x += d + 4
-    put(lay, s3, x + 22, 1128, "lb")
+    x += s2.shape[1] + 20
+    put(lay, s3, x, 1030, "lb")                           # PLN above PER SET, to the right of the amount
+    put(lay, s4, x, 1138, "lb")
     if f < 78:                                            # revealed behind the rolling wheel blade
         lay[:, max(0, int(blade_x(f)) - 40):, 3] = 0
     if 168 <= f <= 172:                                   # small glitch on shot J
@@ -638,7 +628,7 @@ def onall_block(bg, f):
 
 
 def nov_block(bg, f):
-    """Red box + NOV 23 / THRU / NOV 30 typing in (375-419) and out (512-539)."""
+    """Red box + date lines typing in (375-419) and out (512-539)."""
     cx, cy, half = 544, 964, 255
     if f < 366:
         return bg
@@ -658,7 +648,10 @@ def nov_block(bg, f):
     t1 = typed(a, 378, 2, 528)
     t2 = b if 392 <= f < 522 else ""
     t3 = typed(c, 404, 3, 512)
-    for txt, y, sz, outl, key in [(t1, 812, 160, False, "n1"), (t2, 964, 118, True, "n2"), (t3, 1110, 160, False, "n3")]:
+    rows = [(t1, 812, 160, False, "n1"), (t2, 964, 118, True, "n2"), (t3, 1110, 160, False, "n3")]
+    if not c:                                             # a single date: two balanced lines
+        rows = [(t1, 880, 175, False, "n1"), (t2, 1060, 150, True, "n2")]
+    for txt, y, sz, outl, key in rows:
         if txt.strip():
             im = T(key + txt, txt, F_COND, sz, sx=0.9, skew=0.2, outline=outl, stroke=3 if outl else 0)
             put(bg, im, cx + (8 if not outl else 0), y, "cm")
