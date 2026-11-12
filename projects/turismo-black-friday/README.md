@@ -242,3 +242,24 @@ The client sent the reference trimmed to its real start and end: 18.79 s, 563 fr
   | AA | R34 rear with the show crowd |
 
 - **Final:** `Turismo_BlackFriday_2026_TikTok_FINAL_v4.mp4`, media `24d7be6c…`. Credits left: 362.25.
+
+## Final v5: real footage from the client's clean edits (12 Nov 2026)
+- **Client notes on v4:**
+  - The AI-sharpened inserts look unnatural: the R34 wheel seems to sit beside the car or on another car, the
+    Porsche interior at 9 s has an odd layout, and the Ferrari is weak.
+  - The R34 rear shot shows a TENZI advert on the plate frame.
+- **New inputs:** two WhatsApp videos, clean 848 px edits without the YouTube UI: the Porsche 9FF film (15.7 s)
+  and the Poznań Motor Show film (46.5 s). The excerpts used are in `src_clips/`.
+- **Choices confirmed by the client (asked):**
+
+  | Film frames | Shot |
+  |---|---|
+  | 111–130 | R34 front wheel, show 10.72–11.42 s. Cut so it ends before a pole crosses the frame. |
+  | 216–223 | Turismo sign, show 28.40 s, as a full-width band (y 1400) over a blurred copy, so the wordmark is whole. |
+  | 275–287 | Porsche rear wing at sunset, 9.30 s. Replaces the interior. |
+  | 288–304 | Porsche front at sunset, 13.45 s. Replaces the Ferrari. |
+  | 351–370 | Dark car at the show, 26.60 s, with the whip on frames 14+. |
+  | 401–422 | R34 rear, show 12.60 s. The **TENZI plate frame is covered**: template-tracked per frame, filled with the plate-recess colour. |
+
+- Client footage gets a gentle unsharp mask (0.45, σ 2.2) after the upscale.
+- **Final:** `Turismo_BlackFriday_2026_TikTok_FINAL_v5.mp4`, media `abe48f48…`.
