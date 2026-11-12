@@ -147,7 +147,14 @@ def paste(bg, rgba, cx, cy, alpha=1.0):
         return bg
     s = rgba[ya - y0:yb - y0, xa - x0:xb - x0]
     a = s[..., 3:4] * alpha
-    bg[ya:yb, xa:xb] = bg[ya:yb, xa:xb] * (1 - a) + s[..., :3] * a
+    d = bg[ya:yb, xa:xb]
+    if bg.shape[2] == 4:                                  # "over" onto a transparent layer
+        da = d[..., 3:4]
+        oa = a + da * (1 - a)
+        rgb = (s[..., :3] * a + d[..., :3] * da * (1 - a)) / np.maximum(oa, 1e-6)
+        bg[ya:yb, xa:xb] = np.concatenate([rgb, oa], -1)
+    else:
+        bg[ya:yb, xa:xb] = d * (1 - a) + s[..., :3] * a
     return bg
 
 
