@@ -1,0 +1,224 @@
+{
+  "_comment": "Turismo Wheels BF 'wheel roulette' hook short (9:16). Four stills; each wheel face spins about its hub (ellipse fit in source px: face=[cx,cy,a,b] of the outer lip, rear=[cx,cy,a,b] of the back lip for the silhouette), stops on the beat on a whole turn, and the next design swaps in at peak blur. Words rise from behind the wheel: KUTE / FELGI / W 48H / OD RĘKI (client's own promo copy). Finale: 2x2 grid, comment prompt, spins up into the loop. Render with scripts/spin_roulette.py.",
+  "output": "Turismo_BF_WheelRoulette_9x16",
+  "bpm": 120,
+  "fps": 25,
+  "size": [
+    1080,
+    1920
+  ],
+  "hub_xy": [
+    540,
+    1010
+  ],
+  "feather": 170,
+  "bg_darken": 0.55,
+  "segment_beats": 5,
+  "spin": {
+    "dec_beats": 1,
+    "acc_beats": 1,
+    "peak_deg_per_s": 1800,
+    "shutter": 0.75
+  },
+  "logo": {
+    "image": "source/turismo_bf_stills/05_wheel_6y_matte.jpg",
+    "box": [
+      425,
+      8,
+      620,
+      135
+    ],
+    "y": 104,
+    "scale": 0.82
+  },
+  "labels": {
+    "campaign": {
+      "text": "BLACK FRIDAY W TURISMO",
+      "font": 500,
+      "size": 34,
+      "track": 0.28,
+      "y": 222,
+      "alpha": 0.9,
+      "hide_in_grid": true
+    }
+  },
+  "word": {
+    "max_w": 1010,
+    "max_size": 360,
+    "tuck": 14,
+    "opacity": 0.97
+  },
+  "vortex": {
+    "gain": 0.92,
+    "r_peak": 560,
+    "r_width": 0.5,
+    "base_speed": 0.55,
+    "coupling": 0.11
+  },
+  "designs": [
+    {
+      "image": "source/turismo_bf_stills/04_wheel_6y_brushed.jpg",
+      "valid": [
+        8,
+        150,
+        1128,
+        1202
+      ],
+      "hub": [
+        603,
+        605
+      ],
+      "face": [
+        610,
+        606,
+        352,
+        394
+      ],
+      "rear": [
+        515,
+        600,
+        340,
+        385
+      ],
+      "z": 1.06,
+      "word": "KUTE"
+    },
+    {
+      "image": "source/turismo_bf_stills/02_wheel_10spoke_forged.jpg",
+      "valid": [
+        0,
+        185,
+        1093,
+        1241
+      ],
+      "hub": [
+        586,
+        637
+      ],
+      "face": [
+        585,
+        636,
+        360,
+        405
+      ],
+      "rear": [
+        485,
+        630,
+        345,
+        395
+      ],
+      "z": 1.03,
+      "word": "FELGI"
+    },
+    {
+      "image": "source/turismo_bf_stills/03_wheel_ysplit_multispoke.jpg",
+      "valid": [
+        0,
+        165,
+        1084,
+        1230
+      ],
+      "hub": [
+        575,
+        612
+      ],
+      "face": [
+        585,
+        615,
+        360,
+        410
+      ],
+      "rear": [
+        480,
+        610,
+        345,
+        400
+      ],
+      "z": 1.02,
+      "word": "W 48H"
+    },
+    {
+      "image": "source/turismo_bf_stills/05_wheel_6y_matte.jpg",
+      "valid": [
+        0,
+        150,
+        1075,
+        1188
+      ],
+      "hub": [
+        570,
+        612
+      ],
+      "face": [
+        578,
+        610,
+        368,
+        410
+      ],
+      "rear": [
+        478,
+        605,
+        350,
+        400
+      ],
+      "z": 1.02,
+      "word": "OD RĘKI"
+    }
+  ],
+  "grid": {
+    "beats": 7,
+    "center": [
+      540,
+      965
+    ],
+    "r_peak": 700,
+    "tile": 520,
+    "fill": 0.44,
+    "pos": [
+      [
+        275,
+        735
+      ],
+      [
+        805,
+        735
+      ],
+      [
+        275,
+        1265
+      ],
+      [
+        805,
+        1265
+      ]
+    ],
+    "texts": {
+      "sub": {
+        "text": "BLACK FRIDAY  ·  KUTE FELGI W 48H",
+        "font": 500,
+        "size": 34,
+        "track": 0.22,
+        "y": 230,
+        "in": 0.45
+      },
+      "q": {
+        "text": "KTÓRĄ WYBIERASZ?",
+        "font": 700,
+        "size": 88,
+        "track": 0.02,
+        "stroke": 1,
+        "y": 330,
+        "in": 0.5,
+        "anim": "mask"
+      },
+      "cta": {
+        "text": "Wpisz numer w komentarzu",
+        "font": 500,
+        "size": 44,
+        "track": 0.01,
+        "y": 1585,
+        "in": 0.9
+      }
+    }
+  }
+}

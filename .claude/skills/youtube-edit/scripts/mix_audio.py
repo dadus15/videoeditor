@@ -7,6 +7,7 @@ Expects files in assets/audio/ (names are slots, see AUDIO_REQUEST.md):
   sfx_riser.wav      short build that ENDS on the reveal cut
   sfx_subdrop.wav    deep sub accent on the reveal cut
   sfx_shimmer.wav    quiet metallic/glass texture under the TURISMO lettering (optional)
+  sfx_stop.wav       short mechanical hit on every wheel stop after the first (spin edits; optional)
 
 Usage:
   python3 .claude/skills/youtube-edit/scripts/mix_audio.py renders/X.timeline.json out.wav --music-drop 12.34 [--music-start 0]
@@ -70,6 +71,10 @@ def main():
     if (A / "sfx_subdrop.wav").exists():
         add(A / "sfx_subdrop.wav", f"aformat=sample_rates=48000:channel_layouts=stereo,highpass=f=28,volume=-8dB,"
                                    f"adelay={int(reveal * 1000)}|{int(reveal * 1000)}", "sub")
+    if (A / "sfx_stop.wav").exists():  # spin edits: a short mechanical hit on every wheel stop (timeline "stops")
+        for j, st_ in enumerate(tl.get("stops", [])[1:]):  # the first stop is covered by the opening impact/drop
+            add(A / "sfx_stop.wav", f"aformat=sample_rates=48000:channel_layouts=stereo,volume=-10dB,afade=t=in:d=0.003,"
+                                    f"adelay={int(st_ * 1000)}|{int(st_ * 1000)}", f"stp{j}")
     if (A / "sfx_shimmer.wav").exists():
         add(A / "sfx_shimmer.wav", f"aformat=sample_rates=48000:channel_layouts=stereo,atrim=duration=2.2,volume=-22dB,"
                                    f"afade=t=in:d=0.25,afade=t=out:st=1.4:d=0.8,"

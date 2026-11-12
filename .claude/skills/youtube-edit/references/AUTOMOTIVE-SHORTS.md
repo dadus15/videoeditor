@@ -102,3 +102,19 @@ Also review full-resolution stills of: frame 1, the reveal, the titles, the midd
 - Untagged versus tagged colour: decode with `scale=in_color_matrix=bt709:in_range=tv` and encode with `out_color_matrix=bt709` plus the matching tags.
 - Chat file-send limit is about 30 MB. CRF 18 at 1080×1920, 25 fps, for 23 s is about 34 MB, so send a CRF 22 review copy (about 13 MB).
 - Render a near-lossless film intermediate (`--crf 6`) before adding bookends, so the film isn't compressed twice at delivery quality.
+
+## 10. Stills only: the "wheel roulette" (Turismo BF, November 2026)
+
+When the client sends only renders or photos, a pan-and-push slideshow reads as traditional. The concept that gave the wow (`spin_roulette.py`, `edit/spin_turismo_bf.json`):
+
+- **Spin, stop, swap.** Make the wheel itself move.
+  - Fit the face ellipse `[cx, cy, a, b]` on the outer lip and the rear-lip ellipse, then check both on a grid overlay at 1:1 on all four sides.
+  - Rotate inside 0.965 of the lip, about the hub. The lip stays static; it is rotationally uniform, so no seam shows.
+  - Each stop lands on a whole turn, on the beat. The deceleration is cubic over 1 beat with no bounce.
+  - Swap designs at peak blur; speed is continuous across the cut, so the swap is invisible.
+  - Peak speed is 1800°/s with a 0.75 shutter and up to 56 samples (at half resolution when the blur is long).
+- **Light vortex.** Use a procedural swirl in the stills' own colours (red left, blue right, magenta top), screened over the darkened photo background but not over the wheel. Its speed is integrated from the wheel speed, and it swells on each stop.
+- **Text behind the wheel.** Fit one huge word per design to the width. It rises from behind the rim after the stop and sinks back before the spin-up.
+  - At rest, hide only ~14 px. At 44 px or more the middle letters lose their feet: FELGI read as "FEI GI".
+- **Window feather.** Shrink the valid rect by the feather width *before* blurring. Otherwise the blur drags back the logo you cropped off.
+- **Ending.** For comment bait, end on a 2×2 grid of all designs stopping together, with numbers and "Którą wybierasz?". The grid spins up into frame 1, which also spins, so the loop has no cut-to-card.

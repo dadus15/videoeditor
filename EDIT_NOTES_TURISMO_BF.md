@@ -1,3 +1,19 @@
+# Turismo BF: version 2 "Wheel Roulette" (creative, recommended)
+
+13.52 s, 9:16, 1080×1920, 25 fps, 120 BPM, loops. EDL: `edit/spin_turismo_bf.json`. Renderer: `spin_roulette.py`.
+
+| Time | What happens |
+|---|---|
+| 0.00 | Frame 1: brushed 6Y spinning at full speed (motion blur), red/blue light vortex, **KUTE** huge behind the wheel, "01 / 04" top-left, BLACK FRIDAY W TURISMO under the logo |
+| 0.50 | Hard stop on the beat (whole turn, so the frame is the untouched still); the vortex swells |
+| 2.0–2.5 | The word sinks behind the rim; the wheel spins up; the camera rushes in |
+| 2.50 | Swap at peak blur to FORGED 10-spoke → stops at 3.0 → **FELGI** rises from behind the wheel |
+| 5.0 / 7.5 | Split-Y → **W 48H**; matte 6Y → **OD RĘKI** |
+| 10.0 | 2×2 grid of all four spins down and stops together at 10.5: numbers 1–4, **KTÓRĄ WYBIERASZ?**, "Wpisz numer w komentarzu" |
+| 13.0–13.52 | The grid spins up → loops into frame 1 (also spinning) |
+
+The end card was dropped in favour of the loop and the comment prompt. It can come back as a final hold if contact details on screen matter more than replays.
+
 # Turismo Wheels: Black Friday "Kute felgi w 48h" hook short
 
 14.56 s, 9:16, 1080×1920, 25 fps. EDL: `edit/stills_turismo_bf.json`. Renderer: `.claude/skills/youtube-edit/scripts/compose_stills.py`.

@@ -1,5 +1,25 @@
 # Turismo BF "Kute felgi w 48h": audio needed
 
+## Version 2: Wheel Roulette (`renders/Turismo_BF_WheelRoulette_9x16_PICTURE-LOCK.mp4`, 13.52 s)
+
+Cue points at 120 BPM, all on the beat:
+
+- **Wheel stops:** 0.5, 3.0, 5.5, 8.0 and 10.5 s (the last is the 2×2 grid).
+- **Design swaps,** at peak blur: 2.5, 5.0, 7.5 and 10.0 s.
+- **Loop:** the end runs back into frame 1.
+
+What it needs:
+
+- **Music:** energy from frame 1, with the **drop on the first stop (0.5 s)**. So the track starts about 0.5 s before its drop, and the hook lands on that drop.
+- **Rhythm:** a clear beat, at least 120 BPM, so every stop sits on a downbeat.
+- **SFX slots:** as below, plus an optional `sfx_stop.wav`, a short, dry mechanical hit or "clunk" that `mix_audio.py` places on every stop after the first. Suggested search: "mechanical lock click heavy short", "metal clunk impact short". No whoosh on the spins.
+
+```bash
+EDLS=edit/spin_turismo_bf.json .claude/skills/youtube-edit/scripts/finish.sh <drop_seconds_in_music.wav> <track_bpm>
+```
+
+## Version 1: classic cut
+
 The picture is locked: `renders/Turismo_BF_KuteFelgi48h_Hook_9x16_PICTURE-LOCK.mp4` (14.56 s, **no audio**).
 
 ## Why there's no music yet

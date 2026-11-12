@@ -1,0 +1,57 @@
+{
+  "bpm": 120,
+  "duration": 13.52,
+  "fps": 25,
+  "shots": [
+    {
+      "name": "design_1",
+      "start": 0.0,
+      "end": 2.52,
+      "src_in": null
+    },
+    {
+      "name": "design_2",
+      "start": 2.52,
+      "end": 5.0,
+      "src_in": null
+    },
+    {
+      "name": "design_3",
+      "start": 5.0,
+      "end": 7.52,
+      "src_in": null
+    },
+    {
+      "name": "design_4",
+      "start": 7.52,
+      "end": 10.0,
+      "src_in": null
+    },
+    {
+      "name": "grid_pick_one",
+      "start": 10.0,
+      "end": 13.52,
+      "src_in": null
+    }
+  ],
+  "cue_points": {
+    "open_impact": 0.0,
+    "riser_end_reveal": 0.52,
+    "signature": 10.52,
+    "end": 13.52
+  },
+  "stops": [
+    0.52,
+    3.0,
+    5.52,
+    8.0,
+    10.52
+  ],
+  "swaps": [
+    2.52,
+    5.0,
+    7.52,
+    10.0
+  ],
+  "shimmer_at": 3.0
+}
