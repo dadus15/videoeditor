@@ -40,7 +40,7 @@ COPY = dict(
 # (start, end, kind, args)
 SHOTS = [
     (0, 23, "clip", dict(src="show", t=40.0, focus=(0.55, 0.5), push=(1.0, 1.06))),          # A dark wheel, title
-    (23, 65, "clip", dict(src="porsche", t=19.1, focus=(0.5, 0.55), push=(1.0, 1.05))),      # B car in smoke, title
+    (23, 65, "clip", dict(src="porsche", t=19.3, focus=(0.5, 0.55), push=(1.0, 1.05))),      # B car in smoke, title
     (65, 89, "clip", dict(src="ferrari", t=16.5, focus=(0.5, 0.45), push=(1.05, 1.12))),     # C wheel macro, red line
     (89, 111, "stack", dict()),                                                              # D drop: wheel, red neon
     (111, 122, "split", dict(a=("ferrari", 5.0), b=("ferrari", 19.6))),                      # E two shots split
@@ -57,7 +57,7 @@ SHOTS = [
     (240, 248, "clip", dict(src="show", t=40.8, focus=(0.5, 0.5), push=(1.1, 1.14))),        # P spoke macro
     (248, 257, "clip", dict(src="show", t=21.0, focus=(0.45, 0.5), push=(1.0, 1.03))),       # Q dark wheel
     (257, 270, "clip", dict(src="porsche", t=13.6, focus=(0.5, 0.5), push=(1.0, 1.04))),     # R embers, flames
-    (270, 299, "clip", dict(src="porsche", t=8.2, focus=(0.5, 0.55), push=(1.0, 1.06))),     # S engine, machine
+    (270, 299, "clip", dict(src="porsche", t=8.2, focus=(0.5, 0.3), push=(1.15, 1.2))),     # S engine, machine
     (299, 312, "clip", dict(src="porsche", t=14.1, focus=(0.5, 0.5), push=(1.0, 1.04))),     # T dark motion
     (312, 329, "clip", dict(src="porsche", t=5.6, focus=(0.55, 0.45), push=(1.0, 1.03))),    # U car on airfield
     (329, 346, "row", dict()),                                                               # V three wheels, mirror
@@ -66,7 +66,7 @@ SHOTS = [
     (389, 395, "clip", dict(src="porsche", t=15.0, focus=(0.5, 0.5), push=(1.0, 1.1), whip=True)),  # Y whip
     (395, 425, "clip", dict(src="show", t=37.0, focus=(0.5, 0.5), push=(1.0, 1.05))),        # Z wheel display
     (425, 447, "clip", dict(src="ferrari", t=13.2, focus=(0.5, 0.45), push=(1.0, 1.04))),    # AA car, sunset
-    (447, 540, "clip", dict(src="show", t=14.0, focus=(0.5, 0.5), push=(1.0, 1.04))),        # AB people, final card
+    (447, 540, "clip", dict(src="ferrari", t=9.7, focus=(0.5, 0.5), push=(1.0, 1.05), speed=0.75)),  # AB car approaching, final card
 ]
 
 # usable source areas (x0, y0, x1, y1): the Instagram UI covers the bottom of the Ferrari reel
@@ -186,7 +186,8 @@ def bmw():
 def shot_frame(kind, a, i, n):
     u = i / max(n - 1, 1)
     if kind == "clip":
-        fr = clip_frames(a["src"], a["t"], n)[i]
+        sp = a.get("speed", 1.0)
+        fr = clip_frames(a["src"], a["t"], int(n * sp) + 1)[int(i * sp)]
         z = lerp(*a.get("push", (1, 1)), u)
         img = cover(fr, a["focus"], z, AREA[a["src"]]).astype(np.float32) / 255
         if a.get("whip"):
@@ -257,19 +258,20 @@ def shot_frame(kind, a, i, n):
     if kind == "sky":                                     # wheel on a pole against a teal sky
         rng = np.random.default_rng(3)
         if "sky" not in _rend:
-            nz = cv2.resize(rng.random((24, 14)).astype(np.float32), (W, H), interpolation=cv2.INTER_CUBIC)
-            nz = cv2.GaussianBlur(nz, (0, 0), 40)
-            nz = np.clip((nz - 0.45) * 3, 0, 1)[..., None]
+            nz = cv2.resize(rng.random((7, 4)).astype(np.float32), (W, H), interpolation=cv2.INTER_CUBIC)
+            nz = cv2.GaussianBlur(nz, (0, 0), 90)
+            nz = np.clip((nz - 0.5) * 1.6 + 0.35, 0, 0.9)[..., None]
             sky = vgrad((0.20, 0.55, 0.60), (0.55, 0.78, 0.80))
             _rend["sky"] = sky * (1 - nz) + nz * 0.97
         bg = _rend["sky"].copy()
         bg[1150:, 515:565] = (0.25, 0.25, 0.27)
         return paste(bg, rend("TR02A", int(lerp(900, 940, u))), 540, 820)
     if kind == "row":                                     # three wheels on a black mirror floor
-        bg = vgrad((0.02, 0.02, 0.02), (0.06, 0.06, 0.07))
+        bg = vgrad((0.10, 0.10, 0.11), (0.03, 0.03, 0.03))
         pan = lerp(30, -30, u)
         for k, s, cx, cy in [("TR02A", 420, 230, 900), ("TR02A", 560, 520, 940), ("TR02A", 760, 860, 1000)]:
-            r = rend(k, s)
+            r = rend(k, s).copy()
+            r[..., :3] = np.clip(r[..., :3] * 1.6 + 0.04, 0, 1)
             paste(bg, r, cx + pan, cy)
             ref = r[::-1].copy()
             ref[..., 3] *= np.linspace(0.35, 0, ref.shape[0])[:, None]
@@ -279,7 +281,7 @@ def shot_frame(kind, a, i, n):
         bg = np.ones((H, W, 3), np.float32)
         seq = ["TR09F", "TR02F", "X03", "TR02A", "TR09F", "TR02F", "X03", "TR02S", "TR09F", "TR02F"]
         k = seq[min(i // 3, len(seq) - 1)]
-        return paste(bg, rend(k, int(lerp(880, 940, u))), 540, 900)
+        return paste(bg, rend(k, int(lerp(1000, 1040, u))), 540, 900)
     raise ValueError(kind)
 
 
