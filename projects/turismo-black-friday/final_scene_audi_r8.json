@@ -1,0 +1,41 @@
+{
+  "scene": "AB - final shot (film frames 423-515, 3.1 s), music stopped, NOV/THRU/NOV text card in the centre",
+  "source_analysis": "Vossen Black Friday Short, recording frames 451-543; only the car changes",
+  "camera": {
+    "position": "static, locked off on a tripod, eye level about 1.1 m, square to the car side (90 degrees)",
+    "lens": "about 50 mm full-frame equivalent, moderate depth of field: car sharp, building slightly soft",
+    "framing_9x16": "vertical; top 50 % is the building (columns and steps), car body spans y 40-78 %, rear wheel centred at x 50-55 %, y 70 %; the car's front leaves frame left and its tail is near the right edge; asphalt and a yellow road line at the very bottom",
+    "motion": "none"
+  },
+  "environment": {
+    "location": "a neoclassical civic building: tall fluted grey stone columns, a wide flight of stone steps across the whole frame behind the car, two plain grey metal doors with small vents between the columns",
+    "street": "grey asphalt curb lane, a granite kerb, a faded yellow line along the bottom edge",
+    "time_weather": "overcast daylight, soft shadowless light, no sun",
+    "grade": "muted, desaturated, slightly cool greys, crisp detail, light film grain"
+  },
+  "car": {
+    "model": "Audi R8 (second generation, facelift) in the client render AUDI-R8-W5Y-B-CO-03",
+    "colour": "solid matte-satin nardo grey body, black carbon side blade, black front splitter and rear wing",
+    "wheels": "Turismo forged multi-spoke wheels in bronze/gold with red brake calipers, exactly as in the render",
+    "orientation": "pure side profile, parked at the kerb, nose pointing frame left, tail pointing frame right",
+    "state": "stationary, parked"
+  },
+  "subject": {
+    "person": "one athletic adult man, short dark beard",
+    "wardrobe": "black baseball cap, oversized black T-shirt with a small light graphic, black shorts, white crew socks, white sneakers",
+    "prop": "a green microfibre towel in his right hand",
+    "action": "walks at a relaxed, confident pace from the left edge to the right edge, passing between the camera and the car, crossing the frame in about 3 seconds, looking ahead, natural arm swing",
+    "depth": "about 1.5 m in front of the car, his full body visible from cap to sneakers"
+  },
+  "constraints": [
+    "no text, no logos, no watermarks, no UI",
+    "keep the Audi R8 design, colour and wheels exactly as in the reference render",
+    "only one person, no other cars or people",
+    "photorealistic commercial footage"
+  ],
+  "generation": {
+    "step_1_keyframe": "gpt_image_2_6, 9:16, image references: the reference final frame (composition) and the Audi R8 render (car identity)",
+    "step_2_video": "image-to-video from the keyframe, 5 s, 9:16, the man walks left to right; trimmed to 3.1 s in the edit",
+    "post": "the NOV/THRU/NOV card sits behind the man (roto matte from the generated clip), TURISMO logo and LINK IN BIO on top"
+  }
+}

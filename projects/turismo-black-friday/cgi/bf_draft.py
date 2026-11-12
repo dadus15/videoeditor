@@ -41,9 +41,8 @@ COPY = dict(
 SHOTS = [
     (0, 23, "clip", dict(src="show", t=40.0, focus=(0.55, 0.5), push=(1.0, 1.06))),          # A dark wheel, title
     (23, 65, "clip", dict(src="porsche", t=19.3, focus=(0.5, 0.55), push=(1.0, 1.05))),      # B car in smoke, title
-    (65, 89, "myst", dict(wheels=[("TR02A", 1500, 600, 1050, 0.4, 1.0)], beams=[(560, (1.0, 0.97, 0.92), 160)], rim=(0.9, 0.9, 1.0), push=(1.0, 1.06))),  # C dark wheel in a spotlight
-    (89, 111, "myst", dict(wheels=[("X03", 1050, 560, 1500, 0, 0.36), ("X03", 1050, 560, 1270, 0, 0.36), ("X03", 1050, 560, 1040, 0, 0.36)],
-                           neons=[(330, 380, 980, (1.0, 0.12, 0.15))], rim=(1.0, 0.2, 0.2), haze=(0.5, 0.06, 0.07), push=(1.0, 1.05))),  # D drop: stack, red neon
+    (65, 89, "still", dict(img="g1", zoom=(1.0, 1.08), pan=((0, 0), (0, -30)))),          # C TR02 lying flat, top light (generated)
+    (89, 111, "still", dict(img="g2", zoom=(1.04, 1.1), pan=((0, 0), (0, 20)))),         # D drop: X03 stack, red neon (generated)
     (111, 122, "split", dict(a=("show", 8.0), b=("show", 12.6))),                             # E Lamborghini / R34 split
     (122, 123, "white", dict()),                                                             # F 1-frame white flash
     (123, 135, "spin", dict(img="TR09F", zoom=2.3, c=(0.62, 0.38), rot=(0, -9))),            # G silver closeup
@@ -54,21 +53,20 @@ SHOTS = [
     (203, 213, "bmw", dict(c=(0.258, 0.66), zoom=(1.0, 1.03))),                              # L car side, red line
     (213, 225, "bmw", dict(c=(0.745, 0.64), zoom=(1.12, 1.2))),                              # M car, ON ALL in
     (225, 231, "myst", dict(wheels=[("TR09F", 1150, 520, 980, 1.2, 1.0)], side=(0.15, 0.9, 0.45), rim=(0.3, 1.0, 0.5), haze=(0.05, 0.25, 0.1), embers=False, push=(1.0, 1.04))),  # N wheel in green side light
-    (231, 240, "sky", dict()),                                                               # O wheel, sky
+    (231, 240, "still", dict(img="g8", zoom=(1.0, 1.05), pan=((0, 0), (0, 0)))),           # O TR09 on a pedestal, sky (generated)
     (240, 248, "clip", dict(src="show", t=28.3, focus=(0.5, 0.45), push=(1.0, 1.04))),       # P Turismo sign
-    (248, 257, "myst", dict(wheels=[("X03", 1250, 560, 960, 2.5, 1.0)], bars=True, beams=[(540, (0.7, 0.85, 1.0), 220)], rim=(0.6, 0.8, 1.0), push=(1.0, 1.05))),  # Q wheel in a machine, cold light
-    (257, 270, "myst", dict(wheels=[("TR02S", 1250, 470, 1010, 0, 1.0), ("TR02F", 1100, 640, 900, 0.8, 1.0)], rim=(1.0, 0.45, 0.1), haze=(0.35, 0.12, 0.02), embers=True, push=(1.0, 1.08))),  # R exploded wheel, embers
-    (270, 299, "clip", dict(src="show", t=22.0, focus=(0.5, 0.5), push=(1.0, 1.06))),        # S Turismo wheels on display, dark
+    (248, 257, "still", dict(img="g7", zoom=(1.0, 1.06), pan=((0, 0), (0, 0)))),           # Q X03 on a machine, dark workshop (generated)
+    (257, 270, "still", dict(img="g3", zoom=(1.0, 1.08), pan=((0, 0), (0, 0)), embers=True)),  # R exploded wheel, embers (generated)
+    (270, 299, "still", dict(img="g6", zoom=(1.0, 1.1), pan=((0, 0), (0, -40)))),         # S TR09 in a CNC (generated)
     (299, 312, "clip", dict(src="porsche", t=14.1, focus=(0.5, 0.5), push=(1.0, 1.04))),     # T dark motion
     (312, 329, "clip", dict(src="show", t=9.2, focus=(0.5, 0.5), push=(1.0, 1.04))),         # U Lamborghini side
-    (329, 346, "row", dict()),                                                               # V three wheels, mirror
+    (329, 346, "still", dict(img="g5", zoom=(1.0, 1.05), pan=((30, 0), (-30, 0)))),        # V three TR02 on a wet floor (generated)
     (346, 375, "swap", dict()),                                                              # W product swaps, box
     (375, 389, "clip", dict(src="show", t=26.6, focus=(0.5, 0.5), push=(1.0, 1.05))),        # X dark car, NOV types
     (389, 395, "clip", dict(src="porsche", t=15.0, focus=(0.5, 0.5), push=(1.0, 1.1), whip=True)),  # Y whip
-    (395, 425, "myst", dict(wheels=[("TR02F", 1000, 540, 1520, 0, 0.36), ("TR02F", 1000, 540, 1290, 0, 0.36), ("TR02F", 1000, 540, 1060, 0, 0.36)],
-                           neons=[(200, 300, 1000, (1.0, 0.15, 0.15)), (880, 300, 1000, (0.15, 1.0, 0.45))], rim=(0.9, 0.6, 0.5), push=(1.0, 1.05))),  # Z stack, red and green light
+    (395, 425, "still", dict(img="g4", zoom=(1.0, 1.08), pan=((0, 0), (0, 30)))),         # Z TR02 stack, red and green light (generated)
     (425, 447, "clip", dict(src="show", t=13.0, focus=(0.5, 0.5), push=(1.0, 1.05))),        # AA R34 rear, crowd
-    (447, 540, "clip", dict(src="ferrari", t=9.7, focus=(0.5, 0.5), push=(1.0, 1.05), speed=0.75)),  # AB car approaching, final card
+    (447, 540, "gen", dict(src="final_audi.mp4", t=0.3)),                                  # AB Audi R8 + walker, final card (generated)
 ]
 
 REC_ONSETS = [3.03, 3.21, 4.04, 4.26, 4.53, 4.71, 4.90, 5.46, 5.66, 6.05, 6.21, 6.44, 6.59, 7.14, 7.35, 7.53,
@@ -283,6 +281,10 @@ def shot_frame(kind, a, i, n):
         return paste(bg, rend("TR02A", int(lerp(900, 940, u))), 540, 820)
     if kind == "myst":
         return mystery(a, i, n)
+    if kind == "still":
+        return still(a, i, n)
+    if kind == "gen":
+        return gen_clip(a, i, n)
     if kind == "row":                                     # three wheels on a black mirror floor
         bg = vgrad((0.10, 0.10, 0.11), (0.03, 0.03, 0.03))
         x = np.arange(W)[None, :]
@@ -308,6 +310,62 @@ def shot_frame(kind, a, i, n):
 
 
 _haze = None
+_stills = {}
+
+
+def still(a, i, n):
+    """A generated keyframe (gen/<img>.png, 9:16) with a slow push/pan; optional rising embers."""
+    k = a["img"]
+    if k not in _stills:
+        im = cv2.cvtColor(cv2.imread(f"{ROOT}/gen/{k}.png"), cv2.COLOR_BGR2RGB)
+        _stills[k] = cv2.resize(im, (W, H), interpolation=cv2.INTER_AREA).astype(np.float32) / 255
+    u = i / max(n - 1, 1)
+    e = u * u * (3 - 2 * u)
+    z = lerp(*a.get("zoom", (1, 1)), e)
+    (x0, y0), (x1, y1) = a.get("pan", ((0, 0), (0, 0)))
+    M = cv2.getRotationMatrix2D((W / 2, H / 2), 0, z)
+    M[0, 2] += lerp(x0, x1, e)
+    M[1, 2] += lerp(y0, y1, e)
+    bg = cv2.warpAffine(_stills[k], M, (W, H), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REFLECT)
+    if a.get("embers"):
+        img = (np.clip(bg, 0, 1) * 255).astype(np.uint8)
+        rng = np.random.default_rng(5)
+        for _ in range(60):
+            x0_, y0_, sp, ph = rng.uniform(0, W), rng.uniform(300, H), rng.uniform(6, 18), rng.uniform(0, 6.28)
+            x = x0_ + np.sin(ph + i * 0.2) * 20
+            y = (y0_ - sp * i) % H
+            fl = 0.6 + 0.4 * np.sin(ph + i * 0.9)
+            cv2.circle(img, (int(x), int(y)), int(rng.integers(2, 4)), (255, int(150 * fl), int(40 * fl)), -1, cv2.LINE_AA)
+        bg = img.astype(np.float32) / 255
+    return np.clip(bg, 0, 1)
+
+
+_gen = {}
+
+
+def gen_clip(a, i, n):
+    """A generated video (gen/<src>) conformed to 30 fps, cover-fit to 9:16."""
+    key = a["src"]
+    if key not in _gen:
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", str(a.get("t", 0)), "-i", f"{ROOT}/gen/{key}",
+                              "-vf", f"fps=30,scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}",
+                              "-frames:v", str(n), "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
+                             capture_output=True, check=True).stdout
+        v = np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)
+        if len(v) < n:
+            v = np.concatenate([v, np.repeat(v[-1:], n - len(v), 0)])
+        _gen[key] = v
+        # locked-off shot: the empty plate is the temporal median; the walker is what differs from it
+        plate = np.median(v[::2].astype(np.float32), axis=0)
+        ms = []
+        for fr in v:
+            d = np.abs(fr.astype(np.float32) - plate).max(-1)
+            m = (cv2.GaussianBlur(d, (0, 0), 3) > 28).astype(np.uint8)
+            m = cv2.morphologyEx(m, cv2.MORPH_CLOSE, np.ones((25, 25), np.uint8))
+            m = cv2.morphologyEx(m, cv2.MORPH_OPEN, np.ones((9, 9), np.uint8))
+            ms.append(cv2.GaussianBlur(m.astype(np.float32), (0, 0), 2.5))
+        _gen[key + ":matte"] = ms
+    return _gen[key][min(i, len(_gen[key]) - 1)].astype(np.float32) / 255
 
 
 def mystery(a, i, n):
@@ -695,7 +753,7 @@ def red_lines(bg, f):
     return bg
 
 
-OUTRO_A = dict(wheels=[("TR02A", 1500, 600, 1050, 0.4, 1.0)], beams=[(560, (1.0, 0.97, 0.92), 160)], rim=(0.9, 0.9, 1.0), push=(1.0, 1.04))
+OUTRO_A = dict(img="g9", zoom=(1.0, 1.05), pan=((0, 0), (0, 0)))
 
 
 def frame(f):
@@ -704,7 +762,7 @@ def frame(f):
     if f <= 515:
         return frame_g(f + 24)
     if f <= 537:
-        bg = mystery(OUTRO_A, f - 516, 22)
+        bg = still(OUTRO_A, f - 516, 22)
     else:
         fr = clip_frames("porsche", 19.5, 25)[f - 538]
         bg = cover(fr, (0.5, 0.55), 1.0, AREA["porsche"]).astype(np.float32) / 255
@@ -731,6 +789,12 @@ def frame_g(f):
     if 214 <= f < 325:
         bg = onall_block(bg, f)
     bg = nov_block(bg, f)
+    if f >= 447 and "final_audi.mp4:matte" in _gen:      # the walker passes in front of the date card
+        k = min(f - 447, len(_gen["final_audi.mp4"]) - 1)
+        m = _gen["final_audi.mp4:matte"][k][..., None]
+        orig = _gen["final_audi.mp4"][k].astype(np.float32) / 255
+        ys, xs = slice(690, 1240), slice(270, 820)
+        bg[ys, xs] = bg[ys, xs] * (1 - m[ys, xs]) + orig[ys, xs] * m[ys, xs]
     if f >= 447:
         bg = logo_card(bg, f)
     if f >= 470:
