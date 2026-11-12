@@ -52,7 +52,7 @@ SHOTS = [
     (178, 203, "collage", dict()),                                                           # K wheels on white
     (203, 213, "bmw", dict(c=(0.258, 0.66), zoom=(1.0, 1.03))),                              # L car side, red line
     (213, 225, "bmw", dict(c=(0.745, 0.64), zoom=(1.12, 1.2))),                              # M car, ON ALL in
-    (225, 231, "myst", dict(wheels=[("TR09F", 1150, 520, 980, 1.2, 1.0)], side=(0.15, 0.9, 0.45), rim=(0.3, 1.0, 0.5), haze=(0.05, 0.25, 0.1), embers=False, push=(1.0, 1.04))),  # N wheel in green side light
+    (225, 231, "still", dict(img="g28", zoom=(1.03, 1.06), pan=((0, 0), (0, 0)))),           # N TR09 on a slate slab by a pool, garden and fire (generated)
     (231, 240, "still", dict(img="g8", zoom=(1.0, 1.05), pan=((0, 0), (0, 0)))),           # O TR09 on a pedestal, sky (generated)
     (240, 248, "clip2", dict(src="P_sign", fit=True, band_y=1400)),                        # P Turismo sign, full width (client footage)
     (248, 257, "still", dict(img="g7", zoom=(1.0, 1.06), pan=((0, 0), (0, 0)))),           # Q X03 on a machine, dark workshop (generated)
