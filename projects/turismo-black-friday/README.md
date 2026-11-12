@@ -126,3 +126,27 @@ graphic, and nobody uses a motorsport ritual as the hook.
 5. **Beat energy** between the drop and the stop: a 5 % zoom punch on every kick, an RGB split on the first hit of
    each group, and a shake on the drop. The calm, silent ending stays, for contrast and the loop.
 6. **CTA:** TURISMO logo plus LINK IN BIO, placed above the TikTok caption zone.
+
+## v4: the client-trimmed reference (12 Nov 2026)
+The client sent the reference trimmed to its real start and end: 18.79 s, 563 frames at 30 fps. It equals frames
+28–590 of the first recording.
+- **Structure:** the film **opens on the BLACK FRIDAY card over the car** (frames 0–40) and **closes on the card over
+  a dark wheel** (516–537), then over the car again (538–562), so it loops.
+- **Timing:** frames 0–515 of v4 are v3's frames 24–539. The F1 lights now come on at film frames 4/12/20/28/36 and
+  go out at 41. The drop is at 2.10 s and the stop at 14.10 s. The intro bed returns at 17.2 s for the loop.
+- **Mysterious lit scenes:** the reference shows wheels in dark, theatrical light. These are now built in 2D from the
+  client's renders (`mystery()` in `bf_draft.py`: a beam through drifting haze, neon tubes, rim light, dust motes or
+  embers, vignette):
+
+  | Film frames | Reference | v4 |
+  |---|---|---|
+  | 41–64 | Dark wheel in a spotlight, red line | TR02 in a top spotlight with haze, plus the wheel-blade reveal |
+  | 65–87 | Wheel stack, red neon (drop) | 3 × X03 stacked flat, red neon tube |
+  | 201–206 | Wheel in green-lit greenery | TR09 in green side light |
+  | 224–232 | Wheel in a machine | X03 behind dark machine bars, cold beam |
+  | 233–245 | Exploded wheel, embers | TR02 barrel and face offset, orange rim light, rising embers |
+  | 246–274 | Wheel in a CNC | Turismo wheels on the show stand, dark (show 22.0) |
+  | 305–321 | Three wheels on a mirror floor | TR02 ×3 with reflections and a spotlight over each |
+  | 371–400 | Stack in red and green light | 3 × TR02 stacked, red and green neon |
+  | 516–537 | Card over a dark wheel | TR02 in a spotlight under the card |
+- Production (Higgsfield) should turn exactly these scenes into real camera moves, from the renders.

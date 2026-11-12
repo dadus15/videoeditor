@@ -14,5 +14,15 @@
     "media_id": "d8879d06-8c6c-4e40-af42-6d0492b465c6",
     "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/d8879d06-8c6c-4e40-af42-6d0492b465c6.mp4",
     "note": "v3: F1 start-lights hook, wheel-blade reveal with sparks, spinning-wheel zeros in the price, car-show footage (R34, Lamborghini, crowd, Turismo sign), beat punches; 18.0 s, 540 frames, -13.0 LUFS; 0 credits"
+  },
+  "draft_v4": {
+    "media_id": "bf24e108-ad42-481d-b39e-075f90f34ceb",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/bf24e108-ad42-481d-b39e-075f90f34ceb.mp4",
+    "note": "v4: timeline of the client-trimmed reference (18.77 s, 563 frames); mysterious lit render scenes; -13.4 LUFS; 0 credits"
+  },
+  "draft_v4_vs_ref": {
+    "media_id": "afe8cd2e-c7ae-46d9-b04c-b732e8808c55",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/afe8cd2e-c7ae-46d9-b04c-b732e8808c55.mp4",
+    "note": "side by side, Vossen (left, recording frames 28-590 = the client's trimmed cut) vs v4"
   }
 }
