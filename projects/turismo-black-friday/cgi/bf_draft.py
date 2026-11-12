@@ -40,7 +40,7 @@ COPY = dict(
 # (start, end, kind, args)
 SHOTS = [
     (0, 23, "clip", dict(src="show", t=40.0, focus=(0.55, 0.5), push=(1.0, 1.06))),          # A dark wheel, title
-    (23, 65, "clip", dict(src="porsche", t=19.3, focus=(0.5, 0.55), push=(1.0, 1.05))),      # B car in smoke, title
+    (23, 65, "gen", dict(src="title_audi.mp4", t=0.4 + 25 / 30)),                                 # B Audi R8 drifting in dust, title (generated)
     (65, 89, "still", dict(img="g1", zoom=(1.0, 1.08), pan=((0, 0), (0, -30)))),          # C TR02 lying flat, top light (generated)
     (89, 111, "still", dict(img="g2", zoom=(1.04, 1.1), pan=((0, 0), (0, 20)))),         # D drop: X03 stack, red neon (generated)
     (111, 122, "photo_split", dict(img="r34.jpg", box=(100, 380, 1760, 1854))),             # E blue R34 GT-R (client photo), split + mirror
@@ -66,7 +66,7 @@ SHOTS = [
     (389, 395, "clip", dict(src="porsche", t=15.0, focus=(0.5, 0.5), push=(1.0, 1.1), whip=True)),  # Y whip
     (395, 425, "still", dict(img="g4", zoom=(1.0, 1.08), pan=((0, 0), (0, 30)))),         # Z TR02 stack, red and green light (generated)
     (425, 447, "clip", dict(src="show", t=13.0, focus=(0.5, 0.5), push=(1.0, 1.05))),        # AA R34 rear, crowd
-    (447, 540, "gen", dict(src="final_audi.mp4", t=0.55)),                                  # AB Audi R8 + walker, final card (generated)
+    (447, 540, "gen", dict(src="final_audi_1080.mp4", t=0.55, matte=True)),                                  # AB Audi R8 + walker, final card (generated)
 ]
 
 REC_ONSETS = [3.03, 3.21, 4.04, 4.26, 4.53, 4.71, 4.90, 5.46, 5.66, 6.05, 6.21, 6.44, 6.59, 7.14, 7.35, 7.53,
@@ -374,7 +374,7 @@ _gen = {}
 
 def gen_clip(a, i, n):
     """A generated video (gen/<src>) conformed to 30 fps, cover-fit to 9:16."""
-    key = a["src"]
+    key = a["src"] + ("" if a.get("matte") else f"@{a.get('t', 0)}")
     if key not in _gen:
         raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", str(a.get("t", 0)), "-i", f"{ROOT}/gen/{key}",
                               "-vf", f"fps=30,scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}",
@@ -384,16 +384,19 @@ def gen_clip(a, i, n):
         if len(v) < n:
             v = np.concatenate([v, np.repeat(v[-1:], n - len(v), 0)])
         _gen[key] = v
-        # locked-off shot: the empty plate is the temporal median; the walker is what differs from it
-        plate = np.median(v[::2].astype(np.float32), axis=0)
-        ms = []
-        for fr in v:
-            d = np.abs(fr.astype(np.float32) - plate).max(-1)
-            m = (cv2.GaussianBlur(d, (0, 0), 3) > 28).astype(np.uint8)
-            m = cv2.morphologyEx(m, cv2.MORPH_CLOSE, np.ones((25, 25), np.uint8))
-            m = cv2.morphologyEx(m, cv2.MORPH_OPEN, np.ones((9, 9), np.uint8))
-            ms.append(cv2.GaussianBlur(m.astype(np.float32), (0, 0), 2.5))
-        _gen[key + ":matte"] = ms
+        if a.get("matte"):
+            # locked-off shot: the empty plate is the temporal median; the walker is what differs from it
+            small = v[:, ::2, ::2]
+            plate = np.median(small[::2], axis=0).astype(np.float32)
+            ms = []
+            for fr in small:
+                d = np.abs(fr.astype(np.float32) - plate).max(-1)
+                m = (cv2.GaussianBlur(d, (0, 0), 1.5) > 28).astype(np.uint8)
+                m = cv2.morphologyEx(m, cv2.MORPH_CLOSE, np.ones((13, 13), np.uint8))
+                m = cv2.morphologyEx(m, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8))
+                m = cv2.resize(m.astype(np.float32), (W, H), interpolation=cv2.INTER_LINEAR)
+                ms.append(cv2.GaussianBlur(m, (0, 0), 2.5))
+            _gen[key + ":matte"] = ms
     return _gen[key][min(i, len(_gen[key]) - 1)].astype(np.float32) / 255
 
 
@@ -786,8 +789,7 @@ def frame(f):
     if f <= 537:
         bg = still(OUTRO_A, f - 516, 22)
     else:
-        fr = clip_frames("porsche", 19.5, 25)[f - 538]
-        bg = cover(fr, (0.5, 0.55), 1.0, AREA["porsche"]).astype(np.float32) / 255
+        bg = gen_clip(dict(src="title_audi.mp4", t=0.4), f - 538, 25)  # runs straight into frame 0 (loop)
     bg = np.ascontiguousarray(bg, np.float32)
     bg = hud(bg, 0)
     bg = footer(bg, 0)
@@ -811,10 +813,10 @@ def frame_g(f):
     if 214 <= f < 325:
         bg = onall_block(bg, f)
     bg = nov_block(bg, f)
-    if f >= 447 and "final_audi.mp4:matte" in _gen:      # the walker passes in front of the date card
-        k = min(f - 447, len(_gen["final_audi.mp4"]) - 1)
-        m = _gen["final_audi.mp4:matte"][k][..., None]
-        orig = _gen["final_audi.mp4"][k].astype(np.float32) / 255
+    if f >= 447 and "final_audi_1080.mp4:matte" in _gen:  # the walker passes in front of the date card
+        k = min(f - 447, len(_gen["final_audi_1080.mp4"]) - 1)
+        m = _gen["final_audi_1080.mp4:matte"][k][..., None]
+        orig = _gen["final_audi_1080.mp4"][k].astype(np.float32) / 255
         ys, xs = slice(690, 1240), slice(270, 820)
         bg[ys, xs] = bg[ys, xs] * (1 - m[ys, xs]) + orig[ys, xs] * m[ys, xs]
     if f >= 447:
