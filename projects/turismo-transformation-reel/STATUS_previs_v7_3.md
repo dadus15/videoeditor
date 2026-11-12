@@ -1,4 +1,9 @@
-# Status: v8 photoreal production DELIVERED (6 Nov 2026); only the licensed music WAV is pending
+# Status: PROJECT CLOSED (12 Nov 2026). The user accepted v9 as final ("wszystko wyszło perfekcyjnie").
+
+- Final: `final_v9` in `higgsfield_media.json` (media `edeca487-96d5-4d1f-aeb6-993f3592a449`).
+- Only open item: licence Montagem Samba, re-cut the full-quality WAV with `cgi/cutmusic.py` (rate 0.92) and remux.
+
+## History: v8 photoreal production delivered (6 Nov 2026)
 
 ## Approved by the user
 - **v7.2 = "idealnie"** (perfect): the camera through the metamorphosis.
