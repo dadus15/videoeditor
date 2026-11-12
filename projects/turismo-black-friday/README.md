@@ -197,3 +197,14 @@ The client sent the reference trimmed to its real start and end: 18.79 s, 563 fr
 - **Credits:** 2 keyframes at 2.75 each.
 - **v7:** the client's R34 photo arrived through the Higgsfield upload widget (`820c728f…`). It is now in the
   3-second split: the photo on top and its mirror below, as the reference's two-shot.
+
+## v8: final copy from the client (12 Nov 2026)
+- Black Friday is **27 November 2026**. The offer is **15% OFF** and **SAVE UP TO 2500 PLN PER SET**.
+- The price uses plain digits as in the reference; the spinning-wheel zeros are gone. The layout is:
+  - SAVE UP TO (red);
+  - **2500** (big);
+  - PLN above PER SET, set to the right of the amount.
+- Block 2: **15% OFF** (red) / **ON ALL FORGED WHEELS** (white). The client gave the discount, not the range wording.
+- Date card: **NOV 27** / outline **2026**, two balanced lines. The client gave one date, so there is no "THRU".
+  The title card's small date reads NOV.27.2026.
+- WORLDWIDE SALE and ON ALL FORGED WHEELS stay as they are, pending the client's confirmation.
