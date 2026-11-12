@@ -306,3 +306,13 @@ The client sent the reference trimmed to its real start and end: 18.79 s, 563 fr
   - Variant 0 (`b8858b6c…`) swaps the front and middle wheels. Changing to it is only a re-render.
 - **Final:** `Turismo_BlackFriday_2026_TikTok_FINAL_v6c.mp4`, media `276982d2…`. The side by side with Vossen
   is `cd9292b7…`.
+
+## Final v6d: publication master and 720p (12 Nov 2026)
+- **Client:** "Wszystko jest genialne. Wersja ostatnia jest gotowa do publikacji." The client asked for a 720p
+  version.
+- **Fix found in the 720p check:** the footer showed "□ 2026 TURISMO WHEELS", because Orbitron has no © glyph.
+  `text_img` now draws © as a ring plus a C (4× supersampled). The whole film was re-rendered to `out/f13`.
+- **1080p master:** `Turismo_BlackFriday_2026_TikTok_FINAL_v6d_1080p.mp4`, media `9136bd12…`.
+- **720p:** `Turismo_BlackFriday_2026_TikTok_FINAL_v6d_720p.mp4`, media `cb3a398b…`. It is 720×1280, encoded from the
+  same PNG frames (Lanczos, CRF 17).
+- **Superseded:** v6c (`276982d2…`) and the first 720p (`93fdc29c…`, never confirmed) both have the empty box.
