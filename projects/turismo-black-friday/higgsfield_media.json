@@ -128,8 +128,8 @@
       "note": "finalized 1080p, 64 credits; film uses clip 0.40-2.60 s, end card 0.40-1.23 runs into frame 0"
     },
     "FINAL": {
-      "media_id": "27c5c449-766b-474a-a691-a7efbec96ce2",
-      "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/27c5c449-766b-474a-a691-a7efbec96ce2.mp4",
+      "media_id": "d16eb4d5-be97-466e-883e-009630ac25dc",
+      "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/d16eb4d5-be97-466e-883e-009630ac25dc.mp4",
       "spec": "1080x1920, 30 fps, 563 frames, 18.77 s, H.264 High CRF 16, AAC 256k, faststart"
     },
     "superseded": "47c2d0cf-5bb3-40b4-80c9-c29b2b8387e7 (FINAL v1 had the old title background: wrong file path, do not use)",
@@ -139,18 +139,18 @@
     "superseded_v4": "24d7be6c… (AI-regenerated inserts looked unnatural)",
     "superseded_v5": "abe48f48-9b0b-4c9c-92bc-213c431c83af (client 848-px footage, not sharp enough)",
     "FINAL_vs_ref": {
-      "media_id": "fef68d29-2050-4761-9487-5587e98b1247",
-      "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/fef68d29-2050-4761-9487-5587e98b1247.mp4"
+      "media_id": "4dffe44b-9351-421f-9190-29e0830f86d4",
+      "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/4dffe44b-9351-421f-9190-29e0830f86d4.mp4"
     },
     "unconfirmed_slots": "d6cd09f6…, 47ad2ed2… (v6 with a 16-frame wheel hold, never confirmed)",
     "superseded_v6b": "0df52b34-22d1-4b7b-a79d-95bffdcc6cf9 (10 s row: one model, flat wheels, wrong floor)",
     "superseded_v6c": "276982d2-633f-4d86-9891-bc9abe4c3d7c (footer © drawn as an empty box); 93fdc29c… 720p of v6c, never confirmed",
     "FINAL_720p": {
-      "media_id": "d0c0e787-65ad-4745-a3fa-5ab7921fe7fd",
-      "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/d0c0e787-65ad-4745-a3fa-5ab7921fe7fd.mp4",
-      "spec": "720x1280, CRF 17 from the same PNG frames"
+      "media_id": "c5c2e72c-2847-442a-8327-5a1274dcb501",
+      "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/c5c2e72c-2847-442a-8327-5a1274dcb501.mp4"
     },
-    "superseded_v6d": "9136bd12… (1080p), cb3a398b… (720p): walker matte had holes, card showed through the body"
+    "superseded_v6d": "9136bd12… (1080p), cb3a398b… (720p): walker matte had holes, card showed through the body",
+    "superseded_v6e": "27c5c449… (1080p), d0c0e787… (720p), fef68d29… (sbs): 6.7 s wheel on a flat green background"
   },
   "hires_inserts": {
     "g21_R34_wheel": "24b70630-dd7d-45ad-83e0-4b0bd0bf39cc",
@@ -188,6 +188,12 @@
     "ref_frame": "33ef50f2-590c-4533-bf36-3a98967b6f48",
     "g27_used_violet_front": "51e7adf8-0e6f-432b-8ad6-58174d719a2f",
     "alt_brushed_front": "b8858b6c-6463-4f09-9867-316aae349bf6",
+    "credits": 5.5
+  },
+  "pool_shot_v6f": {
+    "ref_frame": "4613cdcf-5ba2-44c7-8827-dd876e5f09a2",
+    "g28_TR09_used": "3c630b30-dfac-488d-8cd5-c5d85492b423",
+    "alt_brushed_gt": "d2c2f424-b919-4a2b-bae4-d1857bf82443",
     "credits": 5.5
   }
 }

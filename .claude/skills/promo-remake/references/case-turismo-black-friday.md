@@ -157,6 +157,16 @@ black T-shirt over the dark car and steps, so the card showed through the body.
   2. `PYTHONPATH=/pkg/ /home/user/venv/bin/pip install "rembg[cpu]"`
   3. Run it with `PYTHONPATH= /home/user/venv/bin/python …`.
 
+## No 2D "mood" scenes (v6f)
+
+The client called our 2D lit scene (a render composited over a green glow, `myst`) a "green screen". The
+reference had a real location: a wheel on a stand by a pool, with a garden and fire.
+
+- **Rule:** every reference shot set in a real place gets a generated photographic keyframe of that place
+  (reference frame + product render), never a render pasted on a coloured backdrop.
+- **Prompt core:** "a real location photo, not a studio", with the stand, surface, background, water reflection
+  and foreground bokeh described from the reference.
+
 ## The missed glyph
 
 The footer "© 2026 TURISMO WHEELS" showed "□ 2026" in every version up to v6c, because Orbitron has no ©. It was

@@ -237,6 +237,8 @@ Rules learned the hard way:
    - State the pose ("lying flat", "standing on the lip, turned 30° so the barrel shows, not flat discs").
    - Use different models per position, and describe the floor and light from the reference.
    - Make two variants.
+   - Never put a product render on a flat coloured or glowing backdrop where the reference shows a real place:
+     the client sees a "green screen". Generate the place.
 4. **Motion that cannot be faked in 2D** (a person walking past, a drift): make a gpt keyframe, a Seedance
    **draft** at 480p (12 credits), then `draft_job_id` at 1080p (64), so it is the same take.
    - For text behind a person, use a **person segmentation**: rembg `u2net_human_seg`, about 0.15 s a frame,

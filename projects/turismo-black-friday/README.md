@@ -337,3 +337,21 @@ The client sent the reference trimmed to its real start and end: 18.79 s, 563 fr
   | Side by side with Vossen | `fef68d29…` |
 
   v6d (`9136bd12…`, `cb3a398b…`) is superseded.
+
+## Final v6f: the 6.7 s wheel by the pool (12 Nov 2026)
+- **Client note:** at the sixth second, our wheel sits on a flat green background that looks like a green
+  screen. Vossen's sits in a realistic setting.
+- **The reference** (film frames 201–206): one wheel on a low black stand on a slate slab at the edge of a pool.
+  A fire feature burns along the far edge, there is a dark garden with bokeh behind, the water carries a
+  reflection, and warm flames sit out of focus in the foreground.
+- **Fix:** the 2D "myst" scene is replaced by keyframe **g28**.
+  - gpt_image_2_6, 2k, 2 variants (5.5 credits), from the reference frame (`4613cdcf…`) and the TR09 render.
+  - Used: TR09, job `3c630b30…`. Its directional spokes are closest to Vossen's wheel.
+  - Alternative: the brushed GT, `d2c2f424…`.
+- **Deliverables:**
+
+  | File | Media |
+  |---|---|
+  | `…FINAL_v6f_1080p.mp4` | `d16eb4d5…` |
+  | `…FINAL_v6f_720p.mp4` | `c5c2e72c…` |
+  | Side by side with Vossen | `4dffe44b…` |
