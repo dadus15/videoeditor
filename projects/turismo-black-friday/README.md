@@ -224,3 +224,21 @@ The client sent the reference trimmed to its real start and end: 18.79 s, 563 fr
 - **Credits:** 521.5 → 378.75 (142.75 spent in production).
 - **TikTok:** no account was connected; a connect link was issued (connector `3237250c…`). Publishing goes through
   `tiktok_prepare_publish` and the client's own review form.
+
+## Final v4: no screen-recorded footage left (12 Nov 2026)
+- **Client note:** the Ferrari scenes and the inserts from the pack were blurry, grainy and pixelated (screen
+  recordings at 230–370 px).
+- **Fix:** each insert is re-created as a sharp 2K still with gpt_image_2_6, using the source frame as the
+  reference (6 × 2.75 credits), then animated with the same 2D moves as the wheel scenes:
+
+  | Insert | Replacement |
+  |---|---|
+  | H | R34 front wheel |
+  | P | Turismo booth sign, placed below the 15% OFF line |
+  | T | Flames seen through the car interior |
+  | U | Ferrari SF90 side pass at the stadium; tight framing and a pan |
+  | X | Dark red car close-up |
+  | Y | Whip, a horizontal blur of X |
+  | AA | R34 rear with the show crowd |
+
+- **Final:** `Turismo_BlackFriday_2026_TikTok_FINAL_v4.mp4`, media `24d7be6c…`. Credits left: 362.25.
