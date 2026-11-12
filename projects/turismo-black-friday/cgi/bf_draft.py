@@ -376,7 +376,7 @@ def gen_clip(a, i, n):
     """A generated video (gen/<src>) conformed to 30 fps, cover-fit to 9:16."""
     key = a["src"] + ("" if a.get("matte") else f"@{a.get('t', 0)}")
     if key not in _gen:
-        raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", str(a.get("t", 0)), "-i", f"{ROOT}/gen/{key}",
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", str(a.get("t", 0)), "-i", f"{ROOT}/gen/{a['src']}",
                               "-vf", f"fps=30,scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}",
                               "-frames:v", str(n), "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
                              capture_output=True, check=True).stdout
