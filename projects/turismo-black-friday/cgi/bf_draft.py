@@ -417,14 +417,20 @@ def save_block(bg, f):
         return put(bg, s1, 548, 872, "cm")
     lay = np.zeros((H, W, 4), np.float32)
     put(lay, s1, 548, 872, "cm")
-    d = int(s2.shape[0] * 0.93)                           # the two zeros: spinning Turismo wheels
+    d = int(s2.shape[0] * 1.02)                           # the two zeros: spinning Turismo wheels
     x = 548 - (s2.shape[1] - 6 + 2 * (d + 4) + 22 + s3.shape[1]) / 2
     put(lay, s2, x + s2.shape[1] / 2, 1060, "cm")
     x += s2.shape[1] - 6
     k = since_kick(f, KICK_F)
     ang = -f * 14 - (0 if k is None else (8 - k) * 6)
     for j in range(2):
-        wz = rot_scale(rend("TR09F", d), ang + j * 23, 1.0)
+        wz = rot_scale(rend("TR09F", d), ang + j * 23, 1.0).copy()
+        hh, ww = wz.shape[:2]
+        ring = np.zeros((hh, ww), np.uint8)
+        cv2.circle(ring, (ww // 2, hh // 2), int(d * 0.49), 255, 7, cv2.LINE_AA)
+        rg = ring.astype(np.float32)[..., None] / 255
+        wz[..., :3] = wz[..., :3] * (1 - rg) + rg
+        wz[..., 3:4] = np.maximum(wz[..., 3:4], rg)
         paste(lay, wz, x + d / 2 + 4, 1060 + 6)
         x += d + 4
     put(lay, s3, x + 22, 1128, "lb")
@@ -518,26 +524,28 @@ def blade(bg, f):
         return bg
     x, y, d = blade_x(f), 960, 420
     bg = line(bg, (0, y), (int(x), y), RED, 7)
-    for j, a in enumerate((0, 9, 18)):                    # cheap rotational blur
-        w = rot_scale(rend("X03", d), -f * 47 - a, 1.0)
-        paste(bg, w, x, y, alpha=0.55 if j == 0 else 0.3)
+    for j, a in enumerate((14, 7, 0)):                    # cheap rotational blur, sharp copy on top
+        w = rot_scale(rend("TR09F", d), -f * 47 - a, 1.0)
+        paste(bg, w, x, y, alpha=1.0 if a == 0 else 0.35)
     img = (bg * 255).astype(np.uint8)
     rng = np.random.default_rng(f)
     for b in range(65, f + 1):                            # sparks born at the cutting edge
         bx = blade_x(b) - d * 0.42
         rb = np.random.default_rng(b)
-        for _ in range(26):
+        for _ in range(48):
             ang = rb.uniform(np.pi * 0.85, np.pi * 1.25)
-            sp = rb.uniform(25, 70)
+            sp = rb.uniform(30, 95)
             age = f - b
             if age > 5:
                 continue
             px = bx + np.cos(ang) * sp * age
             py = y + np.sin(ang) * sp * age + 9 * age * age
-            tail = (px - np.cos(ang) * sp * 0.6, py - np.sin(ang) * sp * 0.6)
-            c = (255, int(220 - age * 30), int(120 - age * 20))
-            cv2.line(img, (int(tail[0]), int(tail[1])), (int(px), int(py)), c, 3 if age < 2 else 2, cv2.LINE_AA)
-    return img.astype(np.float32) / 255
+            tail = (px - np.cos(ang) * sp * 0.9, py - np.sin(ang) * sp * 0.9)
+            c = (255, int(230 - age * 28), int(140 - age * 22))
+            cv2.line(img, (int(tail[0]), int(tail[1])), (int(px), int(py)), c, 4 if age < 2 else 2, cv2.LINE_AA)
+    base = bg * 255
+    glow = cv2.GaussianBlur(np.clip(img.astype(np.float32) - base, 0, 255), (0, 0), 9)
+    return np.clip(img.astype(np.float32) + glow * 1.5, 0, 255) / 255
 
 
 def lights(bg, f):
