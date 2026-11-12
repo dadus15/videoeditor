@@ -150,3 +150,35 @@ The client sent the reference trimmed to its real start and end: 18.79 s, 563 fr
   | 371–400 | Stack in red and green light | 3 × TR02 stacked, red and green neon |
   | 516–537 | Card over a dark wheel | TR02 in a spotlight under the card |
 - Production (Higgsfield) should turn exactly these scenes into real camera moves, from the renders.
+
+## v5: wheel scenes generated to match the reference, Audi R8 final shot (12 Nov 2026)
+**Client notes on v4:**
+- The wheel shots still differ from the reference; in the reference the wheels lie flat.
+- Keep the final shot (a car side-on with a man walking past behind the date card), but with the Audi R8 from the
+  client render (`AUDI-R8-W5Y-B-CO-03.png`, WeTransfer).
+
+**What was generated:**
+- **Keyframes:** gpt_image_2_6 (high, 2k, 2.75 credits each). Each takes a reference frame for composition and the
+  Turismo renders for the wheel design. All 10 came out on-model:
+
+  | Film frames | Keyframe |
+  |---|---|
+  | 41–64 | TR02 lying flat, low camera, top light |
+  | 65–87 | X03 ×3 stacked flat, red neon |
+  | 207–215 | TR09 on a pedestal, teal sky |
+  | 224–232 | X03 in a dark workshop machine |
+  | 233–245 | TR02 exploded, parts lying flat, embers |
+  | 246–274 | TR09 in a CNC |
+  | 305–321 | TR02 ×3 on a wet floor |
+  | 371–400 | TR02 stack, red and green neon |
+  | 516–537 | TR02 in a dark garage under the outro card |
+
+- **Final shot:** the analysis is in `final_scene_audi_r8.json` (camera, building, car, walker, constraints).
+  - The keyframe g0 combines the reference composition with the Audi R8 render.
+  - The motion is Seedance 2.5 omni_reference **draft** (480p, 4 s, 12 credits), started from g0. The walker
+    crosses left to right; the edit uses 0.55–3.65 s.
+  - The walker's matte comes from the difference against a temporal-median plate (the camera is locked off), so he
+    passes in front of the date card as in the reference.
+- **Credits:** 566.5 before, 527 after (≈40 spent).
+- **Production:** finalise the Seedance draft at 720p/1080p (`draft_job_id`) and animate the keyframes
+  (i2v, 4 s each) if the client wants real camera moves instead of 2D pushes.

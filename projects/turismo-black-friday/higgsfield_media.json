@@ -24,5 +24,53 @@
     "media_id": "afe8cd2e-c7ae-46d9-b04c-b732e8808c55",
     "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/afe8cd2e-c7ae-46d9-b04c-b732e8808c55.mp4",
     "note": "side by side, Vossen (left, recording frames 28-590 = the client's trimmed cut) vs v4"
-  }
+  },
+  "inputs_v5": {
+    "audi_r8_render": "25d90517-9cfa-4ebf-a4c0-69533f318d16",
+    "wheel_renders": {
+      "TR02A": "0fbe944b-87c0-46fd-a575-7ef69ee0a48b",
+      "TR02F": "43dcf8c7-7c85-4b21-98d5-5f5514ed3062",
+      "TR02S": "a854d27b-4956-42e5-bab0-6dcf750658f0",
+      "TR09F": "d5a55777-2312-45ab-9509-870f814dcd9b",
+      "X03": "6bb56d79-afb1-4511-a820-acd863a2bd74"
+    },
+    "ref_frames": {
+      "45": "bddee295-af6d-4079-b704-bd46eeb63c58",
+      "75": "f0776b45-1cf7-40ca-9c9f-a7ed57d62ff4",
+      "195": "c567c500-a07c-4953-9cb4-11991e3416e3",
+      "228": "c874701d-d0c4-47c8-be54-1aba74930e69",
+      "240": "83032040-15f1-4634-a127-0f3e567e94e3",
+      "255": "071595e4-c2c6-47dd-9012-9899a38ecac5",
+      "315": "33ef50f2-590c-4533-bf36-3a98967b6f48",
+      "390": "e33c2e6a-9f31-4630-9881-21e12aa3aab3",
+      "470": "7f6d6d17-6152-4520-8f1b-6dae5a701142",
+      "525": "fe0627c6-f090-49ea-a4ee-fde4c72e2e73"
+    }
+  },
+  "keyframes_v5": {
+    "g0_final_audi": "3e6870be-cd5d-4bd0-bd25-0c7f84c9a7ae",
+    "g1_lying_TR02": "5b33e25b-f349-402d-9a35-377cafde8001",
+    "g2_stack_X03_red_neon": "4f9fe2db-77c9-40e1-be01-ea7cc873b03e",
+    "g3_exploded_TR02": "9f8fbe2d-7e69-491b-a518-f04be8e58785",
+    "g4_stack_red_green": "d2dc4915-4b21-4a0c-85af-19ca8de8e265",
+    "g5_row_wet_floor": "6d45e1ce-ced3-4b55-a09b-1268e78f84e8",
+    "g6_cnc_TR09": "d08614a2-5489-4626-a4ba-12e6baf42631",
+    "g7_machine_X03": "2f5c5797-62d9-4ec2-bfd5-699e118e2866",
+    "g8_pedestal_sky_TR09": "9ce5d09e-a0a7-4a66-b986-3c5619b17bbd",
+    "g9_outro_garage": "d32a4387-f721-482f-b337-46d757f71529",
+    "note": "gpt_image_2_6 high 2k, 2.75 credits each"
+  },
+  "final_audi_video_draft": {
+    "job_id": "d5d05d63-08f7-4774-af0f-218038b4f8a5",
+    "note": "seedance_2_5 omni_reference DRAFT 480p 4 s (12 credits); finalize with draft_job_id at 720p/1080p after approval; used 0.55-3.65 s"
+  },
+  "draft_v5": {
+    "media_id": "d7dd5ae7-9604-4c26-83b2-e5f8b47445f9",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/d7dd5ae7-9604-4c26-83b2-e5f8b47445f9.mp4"
+  },
+  "draft_v5_vs_ref": {
+    "media_id": "277d2cd1-f300-48a1-952d-55a571359d71",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/277d2cd1-f300-48a1-952d-55a571359d71.mp4"
+  },
+  "balance_after_v5": 527
 }
