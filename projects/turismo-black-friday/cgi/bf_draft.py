@@ -43,12 +43,12 @@ SHOTS = [
     (23, 65, "clip", dict(src="porsche", t=19.3, focus=(0.5, 0.55), push=(1.0, 1.05))),      # B car in smoke, title
     (65, 89, "still", dict(img="g1", zoom=(1.0, 1.08), pan=((0, 0), (0, -30)))),          # C TR02 lying flat, top light (generated)
     (89, 111, "still", dict(img="g2", zoom=(1.04, 1.1), pan=((0, 0), (0, 20)))),         # D drop: X03 stack, red neon (generated)
-    (111, 122, "split", dict(a=("show", 8.0), b=("show", 12.6))),                             # E Lamborghini / R34 split
+    (111, 122, "photo_split", dict(img="r34.jpg", box=(100, 380, 1760, 1854))),             # E blue R34 GT-R (client photo), split + mirror
     (122, 123, "white", dict()),                                                             # F 1-frame white flash
     (123, 135, "spin", dict(img="TR09F", zoom=2.3, c=(0.62, 0.38), rot=(0, -9))),            # G silver closeup
     (135, 155, "clip", dict(src="show", t=11.1, focus=(0.45, 0.5), push=(1.0, 1.05))),       # H R34 wheel closeup
-    (155, 167, "mirror", dict(src="show", t=8.6, focus=(0.5, 0.5))),                        # I Lamborghini, mirrored
-    (167, 178, "clip", dict(src="show", t=10.72, focus=(0.45, 0.5), push=(1.0, 1.06))),     # J R34 headlight
+    (155, 167, "img_mirror", dict(img="g11.png", band=(0.20, 0.52))),                       # I Audi R8 side-on at the columns, mirrored
+    (167, 178, "still", dict(img="g12", zoom=(1.0, 1.12), pan=((60, 0), (-90, 10)))),      # J Audi R8 rolling shot (generated)
     (178, 203, "collage", dict()),                                                           # K wheels on white
     (203, 213, "bmw", dict(c=(0.258, 0.66), zoom=(1.0, 1.03))),                              # L car side, red line
     (213, 225, "bmw", dict(c=(0.745, 0.64), zoom=(1.12, 1.2))),                              # M car, ON ALL in
@@ -59,7 +59,7 @@ SHOTS = [
     (257, 270, "still", dict(img="g3", zoom=(1.0, 1.08), pan=((0, 0), (0, 0)), embers=True)),  # R exploded wheel, embers (generated)
     (270, 299, "still", dict(img="g6", zoom=(1.0, 1.1), pan=((0, 0), (0, -40)))),         # S TR09 in a CNC (generated)
     (299, 312, "clip", dict(src="porsche", t=14.1, focus=(0.5, 0.5), push=(1.0, 1.04))),     # T dark motion
-    (312, 329, "clip", dict(src="show", t=9.2, focus=(0.5, 0.5), push=(1.0, 1.04))),         # U Lamborghini side
+    (312, 329, "clip", dict(src="ferrari", t=18.0, focus=(0.45, 0.6), push=(1.0, 1.03))),    # U Ferrari SF90 driving side-on (pickup in the reference)
     (329, 346, "still", dict(img="g5", zoom=(1.0, 1.05), pan=((30, 0), (-30, 0)))),        # V three TR02 on a wet floor (generated)
     (346, 375, "swap", dict()),                                                              # W product swaps, box
     (375, 389, "clip", dict(src="show", t=26.6, focus=(0.5, 0.5), push=(1.0, 1.05))),        # X dark car, NOV types
@@ -283,6 +283,8 @@ def shot_frame(kind, a, i, n):
         return mystery(a, i, n)
     if kind == "still":
         return still(a, i, n)
+    if kind in ("photo_split", "img_mirror"):
+        return photo_shot(kind, a, i, n)
     if kind == "gen":
         return gen_clip(a, i, n)
     if kind == "row":                                     # three wheels on a black mirror floor
@@ -338,6 +340,31 @@ def still(a, i, n):
             cv2.circle(img, (int(x), int(y)), int(rng.integers(2, 4)), (255, int(150 * fl), int(40 * fl)), -1, cv2.LINE_AA)
         bg = img.astype(np.float32) / 255
     return np.clip(bg, 0, 1)
+
+
+def photo_shot(kind, a, i, n):
+    """photo_split: a still photo in the top half and its horizontal mirror in the bottom half (two angles, as the
+    reference's two-shot split). img_mirror: the band of a still in the top half, flipped upside down below."""
+    k = "ph:" + a["img"]
+    if k not in _stills:
+        _stills[k] = cv2.cvtColor(cv2.imread(f"{ROOT}/gen/{a['img']}"), cv2.COLOR_BGR2RGB).astype(np.float32) / 255
+    im = _stills[k]
+    u = i / max(n - 1, 1)
+    z = 1 + 0.04 * u
+    if kind == "photo_split":
+        x0, y0, x1, y1 = a["box"]
+        cw, ch = (x1 - x0) / z, (y1 - y0) / z
+        cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+        crop = im[int(cy - ch / 2):int(cy + ch / 2), int(cx - cw / 2):int(cx + cw / 2)]
+        top = cv2.resize(crop, (W, H // 2), interpolation=cv2.INTER_AREA)
+        return np.concatenate([top, top[:, ::-1] * 0.92])
+    hh, ww = im.shape[:2]
+    b0, b1 = a["band"]
+    band = im[int(b0 * hh):int(b1 * hh)]
+    band = cv2.resize(band, (W, H // 2), interpolation=cv2.INTER_AREA)
+    M = cv2.getRotationMatrix2D((W / 2, H / 4), 0, z)
+    band = cv2.warpAffine(band, M, (W, H // 2), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+    return np.concatenate([band, band[::-1] * np.linspace(0.85, 0.55, H // 2)[:, None, None]])
 
 
 _gen = {}
