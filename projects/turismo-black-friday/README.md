@@ -195,3 +195,5 @@ The client sent the reference trimmed to its real start and end: 18.79 s, 563 fr
 - **About 10 s (288–304):** the reference's pickup driving side-on. It becomes the **Ferrari SF90 driving side-on
   past the stadium** (ferrari reel 18.0 s).
 - **Credits:** 2 keyframes at 2.75 each.
+- **v7:** the client's R34 photo arrived through the Higgsfield upload widget (`820c728f…`). It is now in the
+  3-second split: the photo on top and its mirror below, as the reference's two-shot.
