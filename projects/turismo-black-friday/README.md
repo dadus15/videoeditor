@@ -316,3 +316,24 @@ The client sent the reference trimmed to its real start and end: 18.79 s, 563 fr
 - **720p:** `Turismo_BlackFriday_2026_TikTok_FINAL_v6d_720p.mp4`, media `cb3a398b…`. It is 720×1280, encoded from the
   same PNG frames (Lanczos, CRF 17).
 - **Superseded:** v6c (`276982d2…`) and the first 720p (`93fdc29c…`, never confirmed) both have the empty box.
+
+## Final v6e: the walker passes in front of the card (12 Nov 2026)
+- **Client note:** in the final shot the man looks as if he passes *through* the date card.
+- **Cause:** the matte came from the difference against a temporal-median plate. It missed the black T-shirt
+  and shorts over the dark car and steps, so the red card showed through the body.
+- **Fix:** a person segmentation, `cgi/walker_seg.py`.
+  - It uses rembg `u2net_human_seg` in a venv in the sandbox, about 0.15 s a frame. It segments only people,
+    not the car.
+  - The output is `gen/final_audi_walker_alpha.npy`, covering rows 200–1720.
+  - The plate difference is kept only within 20 px of the silhouette, for the towel.
+- **Logo:** the walker now also passes in front of the TURISMO logo and LINK IN BIO. In the reference the logo
+  never overlaps him; ours sits higher (above the TikTok caption zone), so he must occlude it.
+- **Deliverables:**
+
+  | File | Media |
+  |---|---|
+  | `…FINAL_v6e_1080p.mp4` | `27c5c449…` |
+  | `…FINAL_v6e_720p.mp4` | `d0c0e787…` |
+  | Side by side with Vossen | `fef68d29…` |
+
+  v6d (`9136bd12…`, `cb3a398b…`) is superseded.

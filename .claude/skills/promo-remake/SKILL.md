@@ -238,8 +238,12 @@ Rules learned the hard way:
    - Use different models per position, and describe the floor and light from the reference.
    - Make two variants.
 4. **Motion that cannot be faked in 2D** (a person walking past, a drift): make a gpt keyframe, a Seedance
-   **draft** at 480p (12 credits), then `draft_job_id` at 1080p (64), so it is the same take. For a locked-off
-   shot, take the person's matte from a temporal-median plate, so text can sit behind them.
+   **draft** at 480p (12 credits), then `draft_job_id` at 1080p (64), so it is the same take.
+   - For text behind a person, use a **person segmentation**: rembg `u2net_human_seg`, about 0.15 s a frame,
+     in a venv in the sandbox (`cgi/walker_seg.py`). A plate-difference matte alone leaves holes wherever
+     clothes match the background (a black T-shirt over a dark car), and the type shows through the body.
+     Keep the plate difference only next to the silhouette, for props.
+   - Composite the person over *all* graphics they cross (card, logo, CTA).
 5. **Third-party adverts in footage** (plate frames, sponsor boards): ask the client, then cover them with a
    template-tracked, feathered fill.
 6. **Feedback by second.** Map second → film frame → shot. Make a strip of ours against the reference at the

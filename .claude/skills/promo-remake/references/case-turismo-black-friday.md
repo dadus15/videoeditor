@@ -144,6 +144,19 @@ It is normalised to −14 LUFS with a −1.5 dBTP ceiling.
   - `tiktok_connect` links expire in about 10 minutes, so issue one only when the client is ready.
   - Publish only after explicit approval, through `tiktok_prepare_publish`.
 
+## Walker matte holes (v6e)
+
+The client said the walker "passes through the text". The temporal-median plate-difference matte missed his
+black T-shirt over the dark car and steps, so the card showed through the body.
+
+- **Fix:** rembg `u2net_human_seg` per frame (`projects/turismo-black-friday/cgi/walker_seg.py`), plus the plate
+  difference only within 20 px of the silhouette (the green towel). Then composite him over the card **and** the
+  logo and CTA.
+- **Installing in the sandbox:** pip fails because `PYTHONPATH` includes the unreadable `/root`.
+  1. `python3 -m venv /home/user/venv`
+  2. `PYTHONPATH=/pkg/ /home/user/venv/bin/pip install "rembg[cpu]"`
+  3. Run it with `PYTHONPATH= /home/user/venv/bin/python …`.
+
 ## The missed glyph
 
 The footer "© 2026 TURISMO WHEELS" showed "□ 2026" in every version up to v6c, because Orbitron has no ©. It was
