@@ -59,7 +59,7 @@ SHOTS = [
     (257, 270, "still", dict(img="g3", zoom=(1.0, 1.08), pan=((0, 0), (0, 0)), embers=True)),  # R exploded wheel, embers (generated)
     (270, 299, "still", dict(img="g6", zoom=(1.0, 1.1), pan=((0, 0), (0, -40)))),         # S TR09 in a CNC (generated)
     (299, 312, "still", dict(img="g23", zoom=(1.05, 1.14), pan=((0, 0), (0, 0)))),         # T flames (regenerated hi-res)
-    (312, 329, "still", dict(img="g24", zoom=(1.08, 1.08), pan=((-70, 0), (70, 0)))),      # U Ferrari SF90 side pass (regenerated hi-res)
+    (312, 329, "still", dict(img="g24", zoom=(1.35, 1.35), pan=((-90, -560), (90, -560)))),      # U Ferrari SF90 side pass (regenerated hi-res)
     (329, 346, "still", dict(img="g5", zoom=(1.0, 1.05), pan=((30, 0), (-30, 0)))),        # V three TR02 on a wet floor (generated)
     (346, 375, "swap", dict()),                                                              # W product swaps, box
     (375, 389, "still", dict(img="g25", zoom=(1.0, 1.06), pan=((0, 0), (0, 0)))),          # X dark car (regenerated hi-res)
