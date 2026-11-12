@@ -117,7 +117,9 @@ for k_t, nxt in zip(KICKS, KICKS[1:] + [STOP]):            # hats between hits
         add(noise(0.05, 7000, 14000, 0.015), m, 0.22, pan=0.3)
 add(verb(noise(0.6, 3000, 12000, 0.4), 1.5, 0.6, 0.4) * 0.5, DROP - 0.02, 0.6)   # crash on the drop
 # hard stop with an impact, then room tone
-add(verb(kick(1.2, 90, 32, 0.6) + noise(0.4, 200, 5000, 0.1) * 0.4, 2.2, 0.7, 0.45), STOP, 1.0)
+imp = kick(1.2, 90, 32, 0.6)
+imp[:int(0.4 * SR)] += noise(0.4, 200, 5000, 0.1) * 0.4
+add(verb(imp, 2.2, 0.7, 0.45), STOP, 1.0)
 room = signal.sosfilt(signal.butter(2, [80, 900], "band", fs=SR, output="sos"), rng.normal(0, 1, n)) * 0.012
 room *= np.clip((t - STOP) / 0.6, 0, 1)
 mix[:, 0] += room
