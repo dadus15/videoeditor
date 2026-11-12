@@ -60,7 +60,7 @@ SHOTS = [
     (270, 299, "still", dict(img="g6", zoom=(1.0, 1.1), pan=((0, 0), (0, -40)))),         # S TR09 in a CNC (generated)
     (299, 312, "clip2", dict(src="T_wing", focus=(0.6, 0.5), push=(1.0, 1.05))),           # T Porsche rear wing at sunset (client footage)
     (312, 329, "clip2", dict(src="U_porsche_front", focus=(0.52, 0.6), push=(1.0, 1.06))), # U Porsche front at sunset (client footage)
-    (329, 346, "still", dict(img="g5", zoom=(1.0, 1.05), pan=((30, 0), (-30, 0)))),        # V three TR02 on a wet floor (generated)
+    (329, 346, "still", dict(img="g27", zoom=(1.04, 1.08), pan=((20, 0), (-20, 0)))),      # V three client wheels (violet, brushed GT, black 5-spoke) on wet concrete (generated)
     (346, 375, "swap", dict()),                                                              # W product swaps, box
     (375, 389, "clip2", dict(src="X_dark_car", focus=(0.5, 0.5), push=(1.0, 1.05))),       # X dark car (client footage)
     (389, 395, "clip2", dict(src="X_dark_car", start=14, focus=(0.5, 0.5), push=(1.05, 1.1), whip=True)),  # Y whip
