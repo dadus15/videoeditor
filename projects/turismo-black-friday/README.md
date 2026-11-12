@@ -93,3 +93,36 @@ the BMW M8 image. Keep the timing, graphics and score from the draft. Then:
 2. Roto the final shot.
 3. Export 1080×1920.
 4. Publish to TikTok through the Higgsfield TikTok connection, after the client signs off.
+
+## v3: client notes and competitor analysis (12 Nov 2026)
+**Client notes on v2:**
+- "Almost perfect."
+- Use the car-show footage (blue R34 GT-R, Lamborghini, …).
+- Add our own WOW elements, informed by competitors' Black Friday promos, so the film is unique and full of energy.
+
+**Competitors watched** (YouTube, first 60 s, 1 fps sheets in the sandbox at `/home/user/bf/comp`):
+
+| Brand | What they do |
+|---|---|
+| Vorsteiner | Split-screen panels, colour washes, white-flash wipes, boxed "20% OFF" labels, particle logo |
+| Ferrada | Presenter in the warehouse, tiered discounts per wheel size, big "NOVEMBER 22ND–27TH" over cinematic car shots |
+| Kansei | Story skit: a sale notification on a phone, map pins, skate park, boxes |
+| LGND | Giveaway, word-by-word captions, all-black cars, a deadline card |
+| ARK Performance | Huge "40% OFF", text set behind the car, category list (BODY KITS / WHEELS / EXHAUST), date range |
+| fifteen52 | Minimal dusk shots and a black type card |
+
+Everyone uses the same three blocks: a big discount, dates and a logo. Nobody makes the product itself the
+graphic, and nobody uses a motorsport ritual as the hook.
+
+**What v3 adds (unique to Turismo):**
+1. **F1 start lights** over the BLACK FRIDAY card. Five lights come on one by one with a thump (frames 9/21/33/45/57),
+   and all go out at 65 ("lights out").
+2. **Wheel-blade reveal:** a silver TR09 wheel rolls across the red line like a cutting disc and throws sparks with a
+   grinding sound. SAVE UP TO appears behind it (frames 65–78).
+3. **Spinning-wheel zeros:** the price reads €7 + two spinning Turismo wheels (with a white ring so they read as
+   "00"), and they accelerate on each kick. This also works for a percentage (the 0 in 20 %).
+4. **Car-show footage:** Lamborghini / R34 split, R34 wheel, mirrored Lamborghini, R34 headlight, R34 in the hall,
+   Turismo sign, matte car, 911 with the crowd, Lamborghini side, R34 rear with the crowd.
+5. **Beat energy** between the drop and the stop: a 5 % zoom punch on every kick, an RGB split on the first hit of
+   each group, and a shake on the drop. The calm, silent ending stays, for contrast and the loop.
+6. **CTA:** TURISMO logo plus LINK IN BIO, placed above the TikTok caption zone.

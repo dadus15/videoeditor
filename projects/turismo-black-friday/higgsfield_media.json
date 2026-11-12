@@ -1,5 +1,18 @@
 {
-  "draft_v2": {"media_id": "282e54ea-97ce-4851-a69c-3ad894d4430d", "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/282e54ea-97ce-4851-a69c-3ad894d4430d.mp4", "note": "draft (animatic) 1080x1920 30 fps 18.0 s, 540 frames, from the client pack; synthesised score; 0 credits"},
-  "draft_v2_vs_ref": {"media_id": "e674ecb3-8f1b-4d59-ba38-f95ff984cc63", "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/e674ecb3-8f1b-4d59-ba38-f95ff984cc63.mp4", "note": "side by side: Vossen reference (left, loop-aligned) vs draft v2 (right)"},
-  "balance_after_draft": 566.5
+  "draft_v2": {
+    "media_id": "282e54ea-97ce-4851-a69c-3ad894d4430d",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/282e54ea-97ce-4851-a69c-3ad894d4430d.mp4",
+    "note": "draft (animatic) 1080x1920 30 fps 18.0 s, 540 frames, from the client pack; synthesised score; 0 credits"
+  },
+  "draft_v2_vs_ref": {
+    "media_id": "e674ecb3-8f1b-4d59-ba38-f95ff984cc63",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/e674ecb3-8f1b-4d59-ba38-f95ff984cc63.mp4",
+    "note": "side by side: Vossen reference (left, loop-aligned) vs draft v2 (right)"
+  },
+  "balance_after_draft": 566.5,
+  "draft_v3": {
+    "media_id": "d8879d06-8c6c-4e40-af42-6d0492b465c6",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/d8879d06-8c6c-4e40-af42-6d0492b465c6.mp4",
+    "note": "v3: F1 start-lights hook, wheel-blade reveal with sparks, spinning-wheel zeros in the price, car-show footage (R34, Lamborghini, crowd, Turismo sign), beat punches; 18.0 s, 540 frames, -13.0 LUFS; 0 credits"
+  }
 }
