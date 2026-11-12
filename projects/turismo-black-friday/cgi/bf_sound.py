@@ -126,6 +126,19 @@ mix[:, 0] += room
 mix[:, 1] += room
 for f in TYPE_FRAMES:                                       # quiet type-on ticks
     add(noise(0.02, 3000, 9000, 0.006), f / 30, 0.25, pan=0.1)
+# F1 start lights: a deep thump per light (rising), lights out = sub drop + air, then the blade's sparks
+for j, fr in enumerate([9, 21, 33, 45, 57]):
+    add(kick(0.5, 80 + j * 14, 40 + j * 6, 0.22) * 0.75, fr / 30, 0.8)
+    add(noise(0.08, 1500, 5000, 0.03), fr / 30, 0.15)
+add(kick(1.0, 70, 28, 0.5), 65 / 30, 0.9)
+air = rng.normal(0, 1, int(0.45 * SR)) * np.linspace(1, 0, int(0.45 * SR)) ** 2
+add(signal.sosfilt(signal.butter(2, [400, 4000], "band", fs=SR, output="sos"), air) * 0.25, 65 / 30, 1.0)
+grind = rng.normal(0, 1, int(0.45 * SR))
+grind = signal.sosfilt(signal.butter(4, [2500, 9000], "band", fs=SR, output="sos"), grind)
+crk = (rng.random(len(grind)) > 0.985).astype(float)
+grind = (grind * 0.4 + crk * rng.normal(0, 1, len(grind))) * np.sin(np.linspace(0, np.pi, len(grind)))
+add(grind * 0.35, 65 / 30, 1.0, pan=-0.2)
+
 mix = mix / (np.abs(mix).max() + 1e-9) * 0.9
 out = sys.argv[1]
 subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", "-",
