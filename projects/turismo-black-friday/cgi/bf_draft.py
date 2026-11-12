@@ -54,7 +54,7 @@ SHOTS = [
     (213, 225, "bmw", dict(c=(0.745, 0.64), zoom=(1.12, 1.2))),                              # M car, ON ALL in
     (225, 231, "myst", dict(wheels=[("TR09F", 1150, 520, 980, 1.2, 1.0)], side=(0.15, 0.9, 0.45), rim=(0.3, 1.0, 0.5), haze=(0.05, 0.25, 0.1), embers=False, push=(1.0, 1.04))),  # N wheel in green side light
     (231, 240, "still", dict(img="g8", zoom=(1.0, 1.05), pan=((0, 0), (0, 0)))),           # O TR09 on a pedestal, sky (generated)
-    (240, 248, "still", dict(img="g22", zoom=(1.0, 1.05), pan=((0, 0), (0, 0)))),          # P Turismo sign (regenerated hi-res)
+    (240, 248, "still", dict(img="g22", zoom=(1.0, 1.04), pan=((0, 440), (0, 440)))),          # P Turismo sign (regenerated hi-res)
     (248, 257, "still", dict(img="g7", zoom=(1.0, 1.06), pan=((0, 0), (0, 0)))),           # Q X03 on a machine, dark workshop (generated)
     (257, 270, "still", dict(img="g3", zoom=(1.0, 1.08), pan=((0, 0), (0, 0)), embers=True)),  # R exploded wheel, embers (generated)
     (270, 299, "still", dict(img="g6", zoom=(1.0, 1.1), pan=((0, 0), (0, -40)))),         # S TR09 in a CNC (generated)
