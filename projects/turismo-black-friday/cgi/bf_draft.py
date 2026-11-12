@@ -30,7 +30,7 @@ COPY = dict(
     date_small="NOV.23-NOV.30",
     sale="WORLDWIDE SALE",
     side="TURISMO WHEELS",
-    save=("SAVE UP TO", "€700", "PER SET"),
+    save=("SAVE UP TO", "€7", "PER SET"),          # + two spinning-wheel zeros
     onall=("ON ALL", "FORGED SERIES WHEELS"),
     nov=("NOV 23", "THRU", "NOV 30"),
     copyright="© 2026 TURISMO WHEELS",
@@ -43,31 +43,44 @@ SHOTS = [
     (23, 65, "clip", dict(src="porsche", t=19.3, focus=(0.5, 0.55), push=(1.0, 1.05))),      # B car in smoke, title
     (65, 89, "clip", dict(src="ferrari", t=16.5, focus=(0.5, 0.45), push=(1.05, 1.12))),     # C wheel macro, red line
     (89, 111, "stack", dict()),                                                              # D drop: wheel, red neon
-    (111, 122, "split", dict(a=("ferrari", 5.0), b=("ferrari", 19.6))),                      # E two shots split
+    (111, 122, "split", dict(a=("show", 8.0), b=("show", 12.6))),                             # E Lamborghini / R34 split
     (122, 123, "white", dict()),                                                             # F 1-frame white flash
     (123, 135, "spin", dict(img="TR09F", zoom=2.3, c=(0.62, 0.38), rot=(0, -9))),            # G silver closeup
-    (135, 155, "clip", dict(src="ferrari", t=21.6, focus=(0.5, 0.45), push=(1.0, 1.04))),    # H car wheel closeup
-    (155, 167, "mirror", dict(src="porsche", t=16.6, focus=(0.55, 0.5))),                    # I car, mirrored split
-    (167, 178, "clip", dict(src="ferrari", t=25.0, focus=(0.5, 0.4), push=(1.0, 1.04))),     # J low angle, sky
+    (135, 155, "clip", dict(src="show", t=11.1, focus=(0.45, 0.5), push=(1.0, 1.05))),       # H R34 wheel closeup
+    (155, 167, "mirror", dict(src="show", t=8.6, focus=(0.5, 0.5))),                        # I Lamborghini, mirrored
+    (167, 178, "clip", dict(src="show", t=10.72, focus=(0.45, 0.5), push=(1.0, 1.06))),     # J R34 headlight
     (178, 203, "collage", dict()),                                                           # K wheels on white
     (203, 213, "bmw", dict(c=(0.258, 0.66), zoom=(1.0, 1.03))),                              # L car side, red line
     (213, 225, "bmw", dict(c=(0.745, 0.64), zoom=(1.12, 1.2))),                              # M car, ON ALL in
-    (225, 231, "clip", dict(src="show", t=36.6, focus=(0.5, 0.5), push=(1.0, 1.03))),        # N wheel display
+    (225, 231, "clip", dict(src="show", t=0.1, focus=(0.6, 0.55), push=(1.0, 1.03))),        # N R34 in the hall
     (231, 240, "sky", dict()),                                                               # O wheel, sky
-    (240, 248, "clip", dict(src="show", t=40.8, focus=(0.5, 0.5), push=(1.1, 1.14))),        # P spoke macro
-    (248, 257, "clip", dict(src="show", t=21.0, focus=(0.45, 0.5), push=(1.0, 1.03))),       # Q dark wheel
+    (240, 248, "clip", dict(src="show", t=28.3, focus=(0.5, 0.45), push=(1.0, 1.04))),       # P Turismo sign
+    (248, 257, "clip", dict(src="show", t=2.6, focus=(0.5, 0.55), push=(1.0, 1.03))),        # Q matte car, dark wheel
     (257, 270, "clip", dict(src="porsche", t=13.6, focus=(0.5, 0.5), push=(1.0, 1.04))),     # R embers, flames
-    (270, 299, "clip", dict(src="porsche", t=8.2, focus=(0.5, 0.3), push=(1.15, 1.2))),     # S engine, machine
+    (270, 299, "clip", dict(src="show", t=24.0, focus=(0.5, 0.5), push=(1.0, 1.06))),        # S 911 and the crowd
     (299, 312, "clip", dict(src="porsche", t=14.1, focus=(0.5, 0.5), push=(1.0, 1.04))),     # T dark motion
-    (312, 329, "clip", dict(src="porsche", t=5.6, focus=(0.55, 0.45), push=(1.0, 1.03))),    # U car on airfield
+    (312, 329, "clip", dict(src="show", t=9.2, focus=(0.5, 0.5), push=(1.0, 1.04))),         # U Lamborghini side
     (329, 346, "row", dict()),                                                               # V three wheels, mirror
     (346, 375, "swap", dict()),                                                              # W product swaps, box
     (375, 389, "clip", dict(src="show", t=26.6, focus=(0.5, 0.5), push=(1.0, 1.05))),        # X dark car, NOV types
     (389, 395, "clip", dict(src="porsche", t=15.0, focus=(0.5, 0.5), push=(1.0, 1.1), whip=True)),  # Y whip
     (395, 425, "clip", dict(src="show", t=37.0, focus=(0.5, 0.5), push=(1.0, 1.05))),        # Z wheel display
-    (425, 447, "clip", dict(src="ferrari", t=13.2, focus=(0.5, 0.45), push=(1.0, 1.04))),    # AA car, sunset
+    (425, 447, "clip", dict(src="show", t=13.0, focus=(0.5, 0.5), push=(1.0, 1.05))),        # AA R34 rear, crowd
     (447, 540, "clip", dict(src="ferrari", t=9.7, focus=(0.5, 0.5), push=(1.0, 1.05), speed=0.75)),  # AB car approaching, final card
 ]
+
+REC_ONSETS = [3.03, 3.21, 4.04, 4.26, 4.53, 4.71, 4.90, 5.46, 5.66, 6.05, 6.21, 6.44, 6.59, 7.14, 7.35, 7.53,
+              7.71, 8.09, 8.28, 8.46, 8.65, 8.80, 9.00, 9.19, 9.63, 10.14, 10.35, 10.55, 10.71, 11.09, 11.28,
+              11.46, 11.66, 12.05, 12.21, 12.59, 12.78, 13.05, 13.31, 13.53, 13.71, 14.09, 14.28, 14.46, 14.74]
+KICK_F = [round((t - 0.13) * FPS) for t in REC_ONSETS]
+ACCENT_F = [k for j, k in enumerate(KICK_F) if j == 0 or k - KICK_F[j - 1] > 9]   # first hit of each group
+LIGHTS_F = [9, 21, 33, 45, 57]                          # F1 start lights on; all out at 65
+
+
+def since_kick(f, kicks):
+    d = [f - k for k in kicks if 0 <= f - k < 8]
+    return min(d) if d else None
+
 
 # usable source areas (x0, y0, x1, y1): the Instagram UI covers the bottom of the Ferrari reel
 AREA = {"ferrari": (0, 0, 232, 318), "porsche": (0, 0, 368, 206), "show": (0, 0, 368, 206)}
@@ -197,8 +210,8 @@ def shot_frame(kind, a, i, n):
             img = cv2.filter2D(img, -1, ker)
         return img
     if kind == "split":
-        top = cover(clip_frames(*a["a"], n)[i], (0.5, 0.45), 1.0, AREA["ferrari"])
-        bot = cover(clip_frames(*a["b"], n)[i], (0.5, 0.45), 1.0, AREA["ferrari"])
+        top = cover(clip_frames(*a["a"], n)[i], (0.5, 0.5), 1.0, AREA[a["a"][0]])
+        bot = cover(clip_frames(*a["b"], n)[i], (0.5, 0.5), 1.0, AREA[a["b"][0]])
         out = np.concatenate([cv2.resize(top[H // 4:H // 4 * 3], (W, H // 2)),
                               cv2.resize(bot[H // 4:H // 4 * 3], (W, H // 2))])
         return out.astype(np.float32) / 255
@@ -404,12 +417,19 @@ def save_block(bg, f):
         return put(bg, s1, 548, 872, "cm")
     lay = np.zeros((H, W, 4), np.float32)
     put(lay, s1, 548, 872, "cm")
-    put(lay, s2, 245 + s2.shape[1] / 2, 1060, "cm")
-    put(lay, s3, 245 + s2.shape[1] + 18, 1128, "lb")
-    if f < 77:                                            # reveal from the line at y=960
-        r = ease((f - 71) / 6) * 320
-        rows = np.abs(np.arange(H) - 960) > r
-        lay[rows, 3] = 0
+    d = int(s2.shape[0] * 0.93)                           # the two zeros: spinning Turismo wheels
+    x = 548 - (s2.shape[1] - 6 + 2 * (d + 4) + 22 + s3.shape[1]) / 2
+    put(lay, s2, x + s2.shape[1] / 2, 1060, "cm")
+    x += s2.shape[1] - 6
+    k = since_kick(f, KICK_F)
+    ang = -f * 14 - (0 if k is None else (8 - k) * 6)
+    for j in range(2):
+        wz = rot_scale(rend("TR09F", d), ang + j * 23, 1.0)
+        paste(lay, wz, x + d / 2 + 4, 1060 + 6)
+        x += d + 4
+    put(lay, s3, x + 22, 1128, "lb")
+    if f < 78:                                            # revealed behind the rolling wheel blade
+        lay[:, max(0, int(blade_x(f)) - 40):, 3] = 0
     if 168 <= f <= 172:                                   # small glitch on shot J
         sl = slice(1000, 1080)
         lay[sl] = np.roll(lay[sl], 24 * (1 if f % 2 else -1), axis=1)
@@ -484,15 +504,85 @@ def logo_card(bg, f):
         paste(lay, g, g.shape[1] / 2, h / 2)
         paste(lay, wm, g.shape[1] + 30 + wm.shape[1] / 2, h / 2)
         _logo = lay
-    return put(bg, _logo, 540, 1760, "cm", alpha=0.9)
+    return put(bg, _logo, 540, 1420, "cm", alpha=0.9)
+
+
+def blade_x(f):
+    u = min(max((f - 65) / 13, 0), 1)
+    return lerp(-260, W + 260, u * u * (3 - 2 * u))
+
+
+def blade(bg, f):
+    """A Turismo wheel rolls across like a saw blade along the red line, throwing sparks (frames 65-78)."""
+    if not 65 <= f <= 78:
+        return bg
+    x, y, d = blade_x(f), 960, 420
+    bg = line(bg, (0, y), (int(x), y), RED, 7)
+    for j, a in enumerate((0, 9, 18)):                    # cheap rotational blur
+        w = rot_scale(rend("X03", d), -f * 47 - a, 1.0)
+        paste(bg, w, x, y, alpha=0.55 if j == 0 else 0.3)
+    img = (bg * 255).astype(np.uint8)
+    rng = np.random.default_rng(f)
+    for b in range(65, f + 1):                            # sparks born at the cutting edge
+        bx = blade_x(b) - d * 0.42
+        rb = np.random.default_rng(b)
+        for _ in range(26):
+            ang = rb.uniform(np.pi * 0.85, np.pi * 1.25)
+            sp = rb.uniform(25, 70)
+            age = f - b
+            if age > 5:
+                continue
+            px = bx + np.cos(ang) * sp * age
+            py = y + np.sin(ang) * sp * age + 9 * age * age
+            tail = (px - np.cos(ang) * sp * 0.6, py - np.sin(ang) * sp * 0.6)
+            c = (255, int(220 - age * 30), int(120 - age * 20))
+            cv2.line(img, (int(tail[0]), int(tail[1])), (int(px), int(py)), c, 3 if age < 2 else 2, cv2.LINE_AA)
+    return img.astype(np.float32) / 255
+
+
+def lights(bg, f):
+    """F1 start lights above the BLACK FRIDAY title: on one by one, all out at 65 (lights out)."""
+    if f >= 65:
+        return bg
+    img = (bg * 255).astype(np.uint8)
+    over = img.copy()
+    cv2.rectangle(over, (262, 600), (818, 708), (12, 12, 14), -1)
+    img = cv2.addWeighted(over, 0.85, img, 0.15, 0)
+    glow = np.zeros_like(img)
+    for j in range(5):
+        cx = 318 + j * 111
+        on = f >= LIGHTS_F[j]
+        cv2.circle(img, (cx, 654), 38, (225, 18, 28) if on else (45, 12, 14), -1, cv2.LINE_AA)
+        if on:
+            cv2.circle(glow, (cx, 654), 52, (255, 40, 40), -1, cv2.LINE_AA)
+            cv2.circle(img, (cx - 10, 642), 10, (255, 150, 150), -1, cv2.LINE_AA)
+    glow = cv2.GaussianBlur(glow, (0, 0), 22)
+    out = np.clip(img.astype(np.float32) + glow.astype(np.float32) * 0.9, 0, 255)
+    return out / 255
+
+
+def punch(bg, f):
+    """Beat energy between the drop and the stop: a quick zoom punch on each kick, RGB split on accents."""
+    k = since_kick(f, KICK_F)
+    if k is None or not 87 <= f < 447:
+        return bg
+    z = 1 + 0.05 * np.exp(-k / 1.6)
+    if z > 1.002:
+        M = cv2.getRotationMatrix2D((W / 2, H / 2), 0, z)
+        bg = cv2.warpAffine(bg, M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+    a = since_kick(f, ACCENT_F)
+    if a is not None and a < 3:
+        s = int(10 * (1 - a / 3))
+        bg = bg.copy()
+        bg[..., 0] = np.roll(bg[..., 0], s, axis=1)
+        bg[..., 2] = np.roll(bg[..., 2], -s, axis=1)
+    if 87 <= f < 93:                                      # shake on the drop
+        dx, dy = np.random.default_rng(f).integers(-14, 15, 2)
+        bg = np.roll(bg, (int(dy), int(dx)), axis=(0, 1))
+    return bg
 
 
 def red_lines(bg, f):
-    if 64 <= f <= 71:                                     # diagonal sweep that settles horizontal (C)
-        u = ease((f - 64) / 7)
-        y_left = lerp(250, 960, u)
-        y_right = lerp(1650, 960, u)
-        bg = line(bg, (0, int(y_left)), (W, int(y_right)), RED, 6)
     if 179 <= f <= 186:                                   # collage: line drawing between wheels
         u = ease((f - 179) / 7)
         bg = line(bg, (250, 330), (int(lerp(250, 860, u)), int(lerp(330, 620, u))), RED, 5)
@@ -512,9 +602,12 @@ def frame(f):
             bg = shot_frame(kind, a, f - s, e - s)
             break
     bg = np.ascontiguousarray(bg, np.float32)
+    bg = punch(bg, f)
     if f < 65:
         bg = hud(bg, f)
+        bg = lights(bg, f)
     bg = red_lines(bg, f)
+    bg = blade(bg, f)
     if 71 <= f < 178:
         bg = save_block(bg, f)
     if 214 <= f < 325:
@@ -522,6 +615,8 @@ def frame(f):
     bg = nov_block(bg, f)
     if f >= 447:
         bg = logo_card(bg, f)
+    if f >= 470:
+        bg = put(bg, T("bio", "LINK IN BIO", F_TITLE, 26, track=6), 540, 1505, "cm", alpha=min(1, (f - 470) / 8))
     bg = footer(bg, f)
     return (np.clip(bg, 0, 1) * 255).astype(np.uint8)
 
