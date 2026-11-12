@@ -46,7 +46,7 @@ SHOTS = [
     (111, 122, "photo_split", dict(img="r34.jpg", box=(100, 380, 1760, 1854))),             # E blue R34 GT-R (client photo), split + mirror
     (122, 123, "white", dict()),                                                             # F 1-frame white flash
     (123, 135, "spin", dict(img="TR09F", zoom=2.3, c=(0.62, 0.38), rot=(0, -9))),            # G silver closeup
-    (135, 155, "clip2", dict(src="H_r34_wheel", focus=(0.22, 0.55), push=(1.0, 1.05))),     # H R34 front wheel (client footage, Poznań)
+    (135, 155, "clip2", dict(src="H_r34_wheel", focus=(0.12, 0.55), push=(1.0, 1.05))),     # H R34 front wheel (client footage, Poznań)
     (155, 167, "img_mirror", dict(img="g11.png", band=(0.0, 0.5))),                       # I Audi R8 side-on at the columns, mirrored
     (167, 178, "still", dict(img="g12", zoom=(1.0, 1.12), pan=((60, 0), (-90, 10)))),      # J Audi R8 rolling shot (generated)
     (178, 203, "collage", dict()),                                                           # K wheels on white
@@ -418,6 +418,7 @@ def clip2(a, i, n):
         return bgc
     z = lerp(*a.get("push", (1, 1)), u)
     img = cover(fr, a.get("focus", (0.5, 0.5)), z).astype(np.float32) / 255
+    img = np.clip(img + 0.45 * (img - cv2.GaussianBlur(img, (0, 0), 2.2)), 0, 1)   # gentle unsharp after the upscale
     if a.get("whip"):
         ker = np.zeros((1, 81), np.float32)
         ker[0] = 1 / 81
