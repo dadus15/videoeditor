@@ -14,15 +14,16 @@ import numpy as np
 from scipy import signal
 
 SR = 48000
-DUR = 18.0
+DUR = 563 / 30                 # v4: client-trimmed reference, 18.77 s
 OFF = 0.13
 # kick onsets measured in the reference recording (s)
 REC_ONSETS = [3.03, 3.21, 4.04, 4.26, 4.53, 4.71, 4.90, 5.46, 5.66, 6.05, 6.21, 6.44, 6.59, 7.14, 7.35, 7.53,
               7.71, 8.09, 8.28, 8.46, 8.65, 8.80, 9.00, 9.19, 9.63, 10.14, 10.35, 10.55, 10.71, 11.09, 11.28,
               11.46, 11.66, 12.05, 12.21, 12.59, 12.78, 13.05, 13.31, 13.53, 13.71, 14.09, 14.28, 14.46, 14.74]
-KICKS = [t - OFF for t in REC_ONSETS]
-DROP, STOP = 2.90, 14.90
-TYPE_FRAMES = [378, 380, 382, 384, 386, 404, 407, 410, 413, 416, 419]
+SHIFT = 0.8                    # v4 film starts 24 frames later than v3
+KICKS = [t - OFF - SHIFT for t in REC_ONSETS]
+DROP, STOP, OUTRO = 2.10, 14.10, 17.2
+TYPE_FRAMES = [f - 24 for f in (378, 380, 382, 384, 386, 404, 407, 410, 413, 416, 419)]
 
 n = int(SR * DUR)
 t = np.arange(n) / SR
@@ -85,18 +86,18 @@ for f in (87.31, 103.83, 130.81, 174.61):
     for det in (-0.4, 0.4):
         pad += signal.sawtooth(2 * np.pi * (f + det) * t) * 0.05
 pad = signal.sosfilt(signal.butter(2, 700, "low", fs=SR, output="sos"), pad)
-pad *= np.clip(t / 0.4, 0, 1) * np.where(t < DROP, 1.0, np.where(t < STOP, 0.45, 0.0))
+pad *= np.where(t < DROP, 1.0, np.where(t < STOP, 0.45, np.clip((t - OUTRO) / 0.5, 0, 1)))   # loops: the outro bed runs into frame 0
 mix[:, 0] += pad
 mix[:, 1] += pad
-r_len = DROP - 1.0
+r_len = DROP - 0.3
 riser = rng.normal(0, 1, int(r_len * SR))
 sweep = signal.sosfilt(signal.butter(2, 2500, "high", fs=SR, output="sos"), riser)
 riser = (riser * 0.15 + sweep * 0.6) * np.linspace(0, 1, len(riser)) ** 2.5 * 0.25
-add(riser, 1.0, 1.0)
+add(riser, 0.3, 1.0)
 # title glitch (frames 56-64)
 for k in range(9):
-    add(noise(0.03, 2000, 9000, 0.02) * (0.5 if k % 2 else 0.25), 1.87 + k / 30, 0.8, pan=(-0.5 if k % 2 else 0.5))
-add(kick(0.6, 110, 40, 0.4) * 0.7, 1.76, 0.7)                 # intro hit (reference onset 1.89)
+    add(noise(0.03, 2000, 9000, 0.02) * (0.5 if k % 2 else 0.25), 1.07 + k / 30, 0.8, pan=(-0.5 if k % 2 else 0.5))
+add(kick(0.6, 110, 40, 0.4) * 0.7, 0.96, 0.7)                 # intro hit (reference onset 1.89)
 
 # drop section
 notes = [43.65, 43.65, 51.91, 38.89]                       # F1, F1, Ab1, Eb1
@@ -121,23 +122,23 @@ imp = kick(1.2, 90, 32, 0.6)
 imp[:int(0.4 * SR)] += noise(0.4, 200, 5000, 0.1) * 0.4
 add(verb(imp, 2.2, 0.7, 0.45), STOP, 1.0)
 room = signal.sosfilt(signal.butter(2, [80, 900], "band", fs=SR, output="sos"), rng.normal(0, 1, n)) * 0.012
-room *= np.clip((t - STOP) / 0.6, 0, 1)
+room *= np.clip((t - STOP) / 0.6, 0, 1) * np.clip((OUTRO + 0.5 - t) / 0.5, 0, 1)
 mix[:, 0] += room
 mix[:, 1] += room
 for f in TYPE_FRAMES:                                       # quiet type-on ticks
     add(noise(0.02, 3000, 9000, 0.006), f / 30, 0.25, pan=0.1)
 # F1 start lights: a deep thump per light (rising), lights out = sub drop + air, then the blade's sparks
-for j, fr in enumerate([9, 21, 33, 45, 57]):
+for j, fr in enumerate([4, 12, 20, 28, 36]):
     add(kick(0.5, 80 + j * 14, 40 + j * 6, 0.22) * 0.75, fr / 30, 0.8)
     add(noise(0.08, 1500, 5000, 0.03), fr / 30, 0.15)
-add(kick(1.0, 70, 28, 0.5), 65 / 30, 0.9)
+add(kick(1.0, 70, 28, 0.5), 41 / 30, 0.9)
 air = rng.normal(0, 1, int(0.45 * SR)) * np.linspace(1, 0, int(0.45 * SR)) ** 2
-add(signal.sosfilt(signal.butter(2, [400, 4000], "band", fs=SR, output="sos"), air) * 0.25, 65 / 30, 1.0)
+add(signal.sosfilt(signal.butter(2, [400, 4000], "band", fs=SR, output="sos"), air) * 0.25, 41 / 30, 1.0)
 grind = rng.normal(0, 1, int(0.45 * SR))
 grind = signal.sosfilt(signal.butter(4, [2500, 9000], "band", fs=SR, output="sos"), grind)
 crk = (rng.random(len(grind)) > 0.985).astype(float)
 grind = (grind * 0.4 + crk * rng.normal(0, 1, len(grind))) * np.sin(np.linspace(0, np.pi, len(grind)))
-add(grind * 0.35, 65 / 30, 1.0, pan=-0.2)
+add(grind * 0.35, 41 / 30, 1.0, pan=-0.2)
 
 mix = mix / (np.abs(mix).max() + 1e-9) * 0.9
 out = sys.argv[1]

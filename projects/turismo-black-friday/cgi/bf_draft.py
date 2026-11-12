@@ -15,7 +15,7 @@ import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
-W, H, FPS, N = 1080, 1920, 30, 540
+W, H, FPS, N = 1080, 1920, 30, 563   # v4: the client-trimmed reference is 18.77 s (563 frames)
 ROOT = "/home/user/bf"
 RED = (199, 34, 42)          # Turismo red, sampled from the logo
 WHITE = (255, 255, 255)
@@ -41,8 +41,9 @@ COPY = dict(
 SHOTS = [
     (0, 23, "clip", dict(src="show", t=40.0, focus=(0.55, 0.5), push=(1.0, 1.06))),          # A dark wheel, title
     (23, 65, "clip", dict(src="porsche", t=19.3, focus=(0.5, 0.55), push=(1.0, 1.05))),      # B car in smoke, title
-    (65, 89, "clip", dict(src="ferrari", t=16.5, focus=(0.5, 0.45), push=(1.05, 1.12))),     # C wheel macro, red line
-    (89, 111, "stack", dict()),                                                              # D drop: wheel, red neon
+    (65, 89, "myst", dict(wheels=[("TR02A", 1500, 600, 1050, 0.4, 1.0)], beams=[(560, (1.0, 0.97, 0.92), 160)], rim=(0.9, 0.9, 1.0), push=(1.0, 1.06))),  # C dark wheel in a spotlight
+    (89, 111, "myst", dict(wheels=[("X03", 1050, 560, 1500, 0, 0.36), ("X03", 1050, 560, 1270, 0, 0.36), ("X03", 1050, 560, 1040, 0, 0.36)],
+                           neons=[(330, 380, 980, (1.0, 0.12, 0.15))], rim=(1.0, 0.2, 0.2), haze=(0.5, 0.06, 0.07), push=(1.0, 1.05))),  # D drop: stack, red neon
     (111, 122, "split", dict(a=("show", 8.0), b=("show", 12.6))),                             # E Lamborghini / R34 split
     (122, 123, "white", dict()),                                                             # F 1-frame white flash
     (123, 135, "spin", dict(img="TR09F", zoom=2.3, c=(0.62, 0.38), rot=(0, -9))),            # G silver closeup
@@ -52,19 +53,20 @@ SHOTS = [
     (178, 203, "collage", dict()),                                                           # K wheels on white
     (203, 213, "bmw", dict(c=(0.258, 0.66), zoom=(1.0, 1.03))),                              # L car side, red line
     (213, 225, "bmw", dict(c=(0.745, 0.64), zoom=(1.12, 1.2))),                              # M car, ON ALL in
-    (225, 231, "clip", dict(src="show", t=0.1, focus=(0.6, 0.55), push=(1.0, 1.03))),        # N R34 in the hall
+    (225, 231, "myst", dict(wheels=[("TR09F", 1150, 520, 980, 1.2, 1.0)], side=(0.15, 0.9, 0.45), rim=(0.3, 1.0, 0.5), haze=(0.05, 0.25, 0.1), embers=False, push=(1.0, 1.04))),  # N wheel in green side light
     (231, 240, "sky", dict()),                                                               # O wheel, sky
     (240, 248, "clip", dict(src="show", t=28.3, focus=(0.5, 0.45), push=(1.0, 1.04))),       # P Turismo sign
-    (248, 257, "clip", dict(src="show", t=2.6, focus=(0.5, 0.55), push=(1.0, 1.03))),        # Q matte car, dark wheel
-    (257, 270, "clip", dict(src="porsche", t=13.6, focus=(0.5, 0.5), push=(1.0, 1.04))),     # R embers, flames
-    (270, 299, "clip", dict(src="show", t=24.0, focus=(0.5, 0.5), push=(1.0, 1.06))),        # S 911 and the crowd
+    (248, 257, "myst", dict(wheels=[("X03", 1250, 560, 960, 2.5, 1.0)], bars=True, beams=[(540, (0.7, 0.85, 1.0), 220)], rim=(0.6, 0.8, 1.0), push=(1.0, 1.05))),  # Q wheel in a machine, cold light
+    (257, 270, "myst", dict(wheels=[("TR02S", 1250, 470, 1010, 0, 1.0), ("TR02F", 1100, 640, 900, 0.8, 1.0)], rim=(1.0, 0.45, 0.1), haze=(0.35, 0.12, 0.02), embers=True, push=(1.0, 1.08))),  # R exploded wheel, embers
+    (270, 299, "clip", dict(src="show", t=22.0, focus=(0.5, 0.5), push=(1.0, 1.06))),        # S Turismo wheels on display, dark
     (299, 312, "clip", dict(src="porsche", t=14.1, focus=(0.5, 0.5), push=(1.0, 1.04))),     # T dark motion
     (312, 329, "clip", dict(src="show", t=9.2, focus=(0.5, 0.5), push=(1.0, 1.04))),         # U Lamborghini side
     (329, 346, "row", dict()),                                                               # V three wheels, mirror
     (346, 375, "swap", dict()),                                                              # W product swaps, box
     (375, 389, "clip", dict(src="show", t=26.6, focus=(0.5, 0.5), push=(1.0, 1.05))),        # X dark car, NOV types
     (389, 395, "clip", dict(src="porsche", t=15.0, focus=(0.5, 0.5), push=(1.0, 1.1), whip=True)),  # Y whip
-    (395, 425, "clip", dict(src="show", t=37.0, focus=(0.5, 0.5), push=(1.0, 1.05))),        # Z wheel display
+    (395, 425, "myst", dict(wheels=[("TR02F", 1000, 540, 1520, 0, 0.36), ("TR02F", 1000, 540, 1290, 0, 0.36), ("TR02F", 1000, 540, 1060, 0, 0.36)],
+                           neons=[(200, 300, 1000, (1.0, 0.15, 0.15)), (880, 300, 1000, (0.15, 1.0, 0.45))], rim=(0.9, 0.6, 0.5), push=(1.0, 1.05))),  # Z stack, red and green light
     (425, 447, "clip", dict(src="show", t=13.0, focus=(0.5, 0.5), push=(1.0, 1.05))),        # AA R34 rear, crowd
     (447, 540, "clip", dict(src="ferrari", t=9.7, focus=(0.5, 0.5), push=(1.0, 1.05), speed=0.75)),  # AB car approaching, final card
 ]
@@ -74,7 +76,7 @@ REC_ONSETS = [3.03, 3.21, 4.04, 4.26, 4.53, 4.71, 4.90, 5.46, 5.66, 6.05, 6.21, 
               11.46, 11.66, 12.05, 12.21, 12.59, 12.78, 13.05, 13.31, 13.53, 13.71, 14.09, 14.28, 14.46, 14.74]
 KICK_F = [round((t - 0.13) * FPS) for t in REC_ONSETS]
 ACCENT_F = [k for j, k in enumerate(KICK_F) if j == 0 or k - KICK_F[j - 1] > 9]   # first hit of each group
-LIGHTS_F = [9, 21, 33, 45, 57]                          # F1 start lights on; all out at 65
+LIGHTS_F = [28, 36, 44, 52, 60]                         # F1 start lights on (film frames 4-36); all out at 65 (film 41)
 
 
 def since_kick(f, kicks):
@@ -279,8 +281,15 @@ def shot_frame(kind, a, i, n):
         bg = _rend["sky"].copy()
         bg[1150:, 515:565] = (0.25, 0.25, 0.27)
         return paste(bg, rend("TR02A", int(lerp(900, 940, u))), 540, 820)
+    if kind == "myst":
+        return mystery(a, i, n)
     if kind == "row":                                     # three wheels on a black mirror floor
         bg = vgrad((0.10, 0.10, 0.11), (0.03, 0.03, 0.03))
+        x = np.arange(W)[None, :]
+        yy = np.arange(H)[:, None]
+        for cx in (230, 520, 860):                        # a spotlight over each wheel
+            cone = np.exp(-((x - cx) / (60 + yy * 0.12)) ** 2) * np.clip(1 - yy / 1500, 0, 1)
+            bg += cone[..., None] * 0.22
         pan = lerp(30, -30, u)
         for k, s, cx, cy in [("TR02A", 420, 230, 900), ("TR02A", 560, 520, 940), ("TR02A", 760, 860, 1000)]:
             r = rend(k, s).copy()
@@ -296,6 +305,88 @@ def shot_frame(kind, a, i, n):
         k = seq[min(i // 3, len(seq) - 1)]
         return paste(bg, rend(k, int(lerp(1000, 1040, u))), 540, 900)
     raise ValueError(kind)
+
+
+_haze = None
+
+
+def mystery(a, i, n):
+    """Dark 'mysterious' studio: spotlight beams through haze, neon bars, rim-lit wheel renders, embers."""
+    global _haze
+    u = i / max(n - 1, 1)
+    yy = np.arange(H, dtype=np.float32)[:, None]
+    xx = np.arange(W, dtype=np.float32)[None, :]
+    bg = np.zeros((H, W, 3), np.float32) + 0.012
+    if _haze is None:
+        rng = np.random.default_rng(11)
+        hz = cv2.resize(rng.random((30, 18)).astype(np.float32), (W + 400, H + 400), interpolation=cv2.INTER_CUBIC)
+        _haze = cv2.GaussianBlur(hz, (0, 0), 60)
+        _haze = (_haze - _haze.min()) / (_haze.max() - _haze.min())
+    hz = _haze[200 - int(i * 3):200 - int(i * 3) + H, 200 + int(i * 2):200 + int(i * 2) + W][..., None]
+    hcol = np.array(a.get("haze", (0.06, 0.06, 0.07)), np.float32)
+    bg += hz * hcol * 0.6
+    for bx, col, wd in a.get("beams", []):                # volumetric cone from the top
+        cone = np.exp(-((xx - bx) / (wd * 0.35 + yy * 0.22)) ** 2) * np.clip(1.1 - yy / 1900, 0, 1)
+        bg += cone[..., None] * (0.25 + 0.5 * hz) * np.array(col, np.float32) * 0.55
+        bg += np.exp(-((xx - bx) ** 2 + (yy - 40) ** 2) / 900.0)[..., None] * np.array(col) * 0.9
+    if "side" in a:                                       # coloured light from the right
+        g = np.exp(-((xx - W) / 380.0) ** 2) * np.exp(-((yy - 900) / 700.0) ** 2)
+        bg += g[..., None] * np.array(a["side"], np.float32) * (0.35 + 0.4 * hz)
+    for nx, y0, y1, col in a.get("neons", []):            # neon tubes with glow
+        g = np.exp(-((xx - nx) / 55.0) ** 2) * np.exp(-(np.maximum(0, np.maximum(y0 - yy, yy - y1)) / 120.0) ** 2)
+        bg += g[..., None] * np.array(col, np.float32) * 0.8
+        bg[max(y0, 0):y1, nx - 8:nx + 8] = np.array(col) * 0.4 + 0.6
+    if a.get("bars"):                                     # machine frame in silhouette
+        for bxx in (150, 420, 700, 950):
+            bg[:, bxx - 22:bxx + 22] *= 0.15
+        bg[300:330] *= 0.15
+        bg[1500:1540] *= 0.15
+    rim = np.array(a.get("rim", (1, 1, 1)), np.float32)
+    for k, size, cx, cy, spin, squash in a["wheels"]:
+        r = rot_scale(rend(k, size), -i * spin, 1.0)
+        if squash != 1.0:
+            r = cv2.resize(r, (r.shape[1], max(2, int(r.shape[0] * squash))), interpolation=cv2.INTER_AREA)
+        r = r.copy()
+        hh = r.shape[0]
+        light = np.clip(1.25 - np.linspace(0, 1, hh)[:, None] * 0.9, 0.25, 1.25)   # lit from the top
+        r[..., :3] = r[..., :3] * 0.55 * light[..., None]
+        al = (r[..., 3] * 255).astype(np.uint8)
+        edge = cv2.GaussianBlur(cv2.subtract(al, cv2.erode(al, np.ones((7, 7), np.uint8))), (0, 0), 3)
+        e = (edge.astype(np.float32) / 255)[..., None] * light[..., None]
+        r[..., :3] = np.clip(r[..., :3] + e * rim * 0.9, 0, 1)
+        glow = np.zeros_like(r)
+        glow[..., :3] = rim
+        glow[..., 3] = cv2.GaussianBlur(edge.astype(np.float32) / 255, (0, 0), 18) * 0.8
+        paste(bg, glow, cx, cy)
+        paste(bg, r, cx, cy)
+    if a.get("embers"):                                   # embers drifting up
+        img = (np.clip(bg, 0, 1) * 255).astype(np.uint8)
+        rng = np.random.default_rng(5)
+        for _ in range(70):
+            x0, y0, sp, ph = rng.uniform(0, W), rng.uniform(300, H), rng.uniform(6, 18), rng.uniform(0, 6.28)
+            x = x0 + np.sin(ph + i * 0.2) * 20
+            y = (y0 - sp * i) % H
+            rad = int(rng.integers(2, 5))
+            fl = 0.6 + 0.4 * np.sin(ph + i * 0.9)
+            cv2.circle(img, (int(x), int(y)), rad, (255, int(150 * fl), int(40 * fl)), -1, cv2.LINE_AA)
+        bg = img.astype(np.float32) / 255
+        bg += cv2.GaussianBlur(np.clip(bg - 0.6, 0, 1), (0, 0), 6) * 0.8
+    else:                                                 # dust motes in the light
+        img = (np.clip(bg, 0, 1) * 255).astype(np.uint8)
+        rng = np.random.default_rng(9)
+        for _ in range(60):
+            x0, y0 = rng.uniform(0, W), rng.uniform(0, H)
+            x, y = x0 + np.sin(i * 0.05 + x0) * 15, (y0 + i * 1.5) % H
+            v = int(90 + 120 * hz[int(y) % H, int(x) % W, 0])
+            cv2.circle(img, (int(x), int(y)), 2, (v, v, v), -1, cv2.LINE_AA)
+        bg = img.astype(np.float32) / 255
+    vig = np.exp(-(((xx - W / 2) / (W * 0.75)) ** 2 + ((yy - H / 2) / (H * 0.7)) ** 2))[..., None]
+    bg *= 0.35 + 0.65 * vig
+    z = lerp(*a.get("push", (1, 1)), u)
+    if z != 1:
+        M = cv2.getRotationMatrix2D((W / 2, H / 2), 0, z)
+        bg = cv2.warpAffine(bg, M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+    return np.clip(bg, 0, 1)
 
 
 # ---- typography -----------------------------------------------------------------------------------------
@@ -604,7 +695,26 @@ def red_lines(bg, f):
     return bg
 
 
+OUTRO_A = dict(wheels=[("TR02A", 1500, 600, 1050, 0.4, 1.0)], beams=[(560, (1.0, 0.97, 0.92), 160)], rim=(0.9, 0.9, 1.0), push=(1.0, 1.04))
+
+
 def frame(f):
+    """Film frame f (0-562). Frames 0-515 follow the v3 timeline offset by 24 (g = f + 24);
+    516-537 is the outro card over a dark wheel; 538-562 the card over the car again (loop)."""
+    if f <= 515:
+        return frame_g(f + 24)
+    if f <= 537:
+        bg = mystery(OUTRO_A, f - 516, 22)
+    else:
+        fr = clip_frames("porsche", 18.75, 25)[f - 538]
+        bg = cover(fr, (0.5, 0.55), 1.0, AREA["porsche"]).astype(np.float32) / 255
+    bg = np.ascontiguousarray(bg, np.float32)
+    bg = hud(bg, 0)
+    bg = footer(bg, 0)
+    return (np.clip(bg, 0, 1) * 255).astype(np.uint8)
+
+
+def frame_g(f):
     for s, e, kind, a in SHOTS:
         if s <= f < e:
             bg = shot_frame(kind, a, f - s, e - s)
