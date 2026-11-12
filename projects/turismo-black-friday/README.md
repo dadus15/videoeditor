@@ -182,3 +182,16 @@ The client sent the reference trimmed to its real start and end: 18.79 s, 563 fr
 - **Credits:** 566.5 before, 527 after (≈40 spent).
 - **Production:** finalise the Seedance draft at 720p/1080p (`draft_job_id`) and animate the keyframes
   (i2v, 4 s each) if the client wants real camera moves instead of 2D pushes.
+
+## v6: client notes on v5 (12 Nov 2026)
+- **About 3 s (film 87–97):** the reference's Audi RS6 two-shot. It becomes the client's **blue R34 GT-R photo**:
+  the photo in the top half, its horizontal mirror in the bottom half (`photo_split`). It waits for the photo to
+  reach the sandbox; until then the show footage stands in.
+- **About 4 s (131–142):** the reference's BMW at the columns, mirrored. It becomes an **Audi R8 at the same
+  columns** (keyframe g11, no person): the top half is the car, the bottom half is flipped upside down
+  (`img_mirror`).
+- **143–153:** the reference's BMW rolling shot. It becomes an **Audi R8 rolling shot** (keyframe g12, motion-blurred
+  road), with a fast 2D pan.
+- **About 10 s (288–304):** the reference's pickup driving side-on. It becomes the **Ferrari SF90 driving side-on
+  past the stadium** (ferrari reel 18.0 s).
+- **Credits:** 2 keyframes at 2.75 each.

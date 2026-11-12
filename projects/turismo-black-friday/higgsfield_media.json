@@ -72,5 +72,20 @@
     "media_id": "277d2cd1-f300-48a1-952d-55a571359d71",
     "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/277d2cd1-f300-48a1-952d-55a571359d71.mp4"
   },
-  "balance_after_v5": 527
+  "balance_after_v5": 527,
+  "keyframes_v6": {
+    "g11_audi_columns_no_person": "ef10cbb3-8528-4d95-ac99-13f122c44721",
+    "g12_audi_rolling": "b768e576-d8bd-4397-8063-6604e898aadc",
+    "ref_138": "121c16f9-b306-40f6-842d-d474b4d96983",
+    "ref_145": "31e0c461-34be-4657-a490-ea79fee73ff3"
+  },
+  "draft_v6": {
+    "media_id": "dd68541a-e108-4934-8a59-cc7e62483ced",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/dd68541a-e108-4934-8a59-cc7e62483ced.mp4",
+    "note": "Audi R8 mirrored (f131-142) and rolling (f143-153), Ferrari SF90 side pass (f288-304); R34 split still from show footage until the client photo is uploaded"
+  },
+  "draft_v6_vs_ref": {
+    "media_id": "8a8715e2-601a-4a72-8715-51c27ca0db78",
+    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/8a8715e2-601a-4a72-8715-51c27ca0db78.mp4"
+  }
 }
