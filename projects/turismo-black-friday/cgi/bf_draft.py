@@ -327,7 +327,7 @@ def mystery(a, i, n):
     bg += hz * hcol * 0.6
     for bx, col, wd in a.get("beams", []):                # volumetric cone from the top
         cone = np.exp(-((xx - bx) / (wd * 0.35 + yy * 0.22)) ** 2) * np.clip(1.1 - yy / 1900, 0, 1)
-        bg += cone[..., None] * (0.25 + 0.5 * hz) * np.array(col, np.float32) * 0.55
+        bg += cone[..., None] * (0.3 + 0.6 * hz) * np.array(col, np.float32) * 1.0
         bg += np.exp(-((xx - bx) ** 2 + (yy - 40) ** 2) / 900.0)[..., None] * np.array(col) * 0.9
     if "side" in a:                                       # coloured light from the right
         g = np.exp(-((xx - W) / 380.0) ** 2) * np.exp(-((yy - 900) / 700.0) ** 2)
@@ -706,7 +706,7 @@ def frame(f):
     if f <= 537:
         bg = mystery(OUTRO_A, f - 516, 22)
     else:
-        fr = clip_frames("porsche", 18.75, 25)[f - 538]
+        fr = clip_frames("porsche", 19.5, 25)[f - 538]
         bg = cover(fr, (0.5, 0.55), 1.0, AREA["porsche"]).astype(np.float32) / 255
     bg = np.ascontiguousarray(bg, np.float32)
     bg = hud(bg, 0)
