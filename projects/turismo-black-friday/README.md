@@ -288,3 +288,21 @@ The client sent the reference trimmed to its real start and end: 18.79 s, 563 fr
 - **Final:** `Turismo_BlackFriday_2026_TikTok_FINAL_v6b.mp4`, media `0df52b34…`. The side by side with Vossen
   is `bda840b9…`. The `d6cd09f6…` and `47ad2ed2…` slots were not confirmed: they held a v6 with a 16-frame wheel
   hold.
+
+## Final v6c: the 10 s wheel row (12 Nov 2026)
+- **Client note on v6b:** at 10 s (film frames 305–322) the wheels look unnatural, like flat patterns with no
+  barrel. All three are the same model, and the floor is far from the original.
+- **The original:** three bare wheels standing on their lips in a row that recedes to the left, turned so the
+  barrel shows, on wet grey concrete with a puddle, with a red glow behind.
+- **New keyframe g27** (gpt_image_2_6, 2k, 2 × 2.75 credits). It uses the reference frame and the client's three
+  models, all in `inputs/wheels_10s/`:
+
+  | Position | Wheel |
+  |---|---|
+  | Front | VIOLET / 001 monoblock deep lip |
+  | Middle | brushed GT multi-spoke |
+  | Back | satin black five-spoke |
+
+  - Variant 0 (`b8858b6c…`) swaps the front and middle wheels. Changing to it is only a re-render.
+- **Final:** `Turismo_BlackFriday_2026_TikTok_FINAL_v6c.mp4`, media `276982d2…`. The side by side with Vossen
+  is `cd9292b7…`.

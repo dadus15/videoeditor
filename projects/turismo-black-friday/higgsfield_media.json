@@ -128,9 +128,9 @@
       "note": "finalized 1080p, 64 credits; film uses clip 0.40-2.60 s, end card 0.40-1.23 runs into frame 0"
     },
     "FINAL": {
-      "media_id": "0df52b34-22d1-4b7b-a79d-95bffdcc6cf9",
-      "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/0df52b34-22d1-4b7b-a79d-95bffdcc6cf9.mp4",
-      "spec": "1080x1920, 30 fps, 563 frames, 18.77 s, H.264 High CRF 16, AAC 256k, faststart, 0 black frames; inserts from the YouTube masters (Poznań 4K, Porsche 1080p50)"
+      "media_id": "276982d2-633f-4d86-9891-bc9abe4c3d7c",
+      "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/276982d2-633f-4d86-9891-bc9abe4c3d7c.mp4",
+      "spec": "1080x1920, 30 fps, 563 frames, 18.77 s, H.264 High CRF 16, AAC 256k, faststart; inserts from the YouTube masters; 10 s row = g27"
     },
     "superseded": "47c2d0cf-5bb3-40b4-80c9-c29b2b8387e7 (FINAL v1 had the old title background: wrong file path, do not use)",
     "tiktok_connector": "3237250c-b48d-4fc2-b5ff-475557b9449c (connect link issued 12 Nov 14:50, expires 15:00 UTC)",
@@ -139,10 +139,11 @@
     "superseded_v4": "24d7be6c… (AI-regenerated inserts looked unnatural)",
     "superseded_v5": "abe48f48-9b0b-4c9c-92bc-213c431c83af (client 848-px footage, not sharp enough)",
     "FINAL_vs_ref": {
-      "media_id": "bda840b9-8b77-4522-ae8d-c287869fd8e3",
-      "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/bda840b9-8b77-4522-ae8d-c287869fd8e3.mp4"
+      "media_id": "cd9292b7-ad97-49d8-87d6-34ef421a6475",
+      "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_31jlnmxSSeXZJMYC3wXXw8EOdiJ/cd9292b7-ad97-49d8-87d6-34ef421a6475.mp4"
     },
-    "unconfirmed_slots": "d6cd09f6…, 47ad2ed2… (v6 with a 16-frame wheel hold, never confirmed)"
+    "unconfirmed_slots": "d6cd09f6…, 47ad2ed2… (v6 with a 16-frame wheel hold, never confirmed)",
+    "superseded_v6b": "0df52b34-22d1-4b7b-a79d-95bffdcc6cf9 (10 s row: one model, flat wheels, wrong floor)"
   },
   "hires_inserts": {
     "g21_R34_wheel": "24b70630-dd7d-45ad-83e0-4b0bd0bf39cc",
@@ -170,5 +171,16 @@
       "T_wing": "porsche 13.28 +0.50 s",
       "U_porsche_front": "porsche 17.44 +0.66 s"
     }
+  },
+  "wheel_row_v6c": {
+    "inputs": {
+      "brushed_gt": "b8239b7f-95ff-4650-afff-6afc4ae103fc",
+      "violet_001": "7d2817b3-712e-4373-ab66-988d4c85d359",
+      "black_5spoke": "7c9ec834-2ca7-48e5-9224-16f64a61cbf6"
+    },
+    "ref_frame": "33ef50f2-590c-4533-bf36-3a98967b6f48",
+    "g27_used_violet_front": "51e7adf8-0e6f-432b-8ad6-58174d719a2f",
+    "alt_brushed_front": "b8858b6c-6463-4f09-9867-316aae349bf6",
+    "credits": 5.5
   }
 }
