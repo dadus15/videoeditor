@@ -434,6 +434,7 @@ def clip2(a, i, n):
 
 
 _gen = {}
+WALK_BAND = (200, 1720)        # rows covered by the walker segmentation (cap to sneakers, with margin)
 
 
 def gen_clip(a, i, n):
@@ -461,14 +462,15 @@ def gen_clip(a, i, n):
                 m = cv2.resize(m.astype(np.float32), (W, H), interpolation=cv2.INTER_LINEAR)
                 ms.append(cv2.GaussianBlur(m, (0, 0), 2.5))
             # The plate difference misses the black T-shirt over the dark car and steps, so the card showed through
-            # the body. A person segmentation (rembg u2net_human_seg, walk/seg_all.py, band y 300-1500) gives a
+            # the body. A person segmentation (rembg u2net_human_seg, walk/seg_all.py, band WALK_BAND) gives a
             # solid silhouette; the plate difference is kept only right next to it (the towel).
+            y0, y1 = WALK_BAND
             hp = f"{ROOT}/gen/final_audi_walker_alpha.npy"
             if os.path.exists(hp):
                 band = np.load(hp)
                 for k in range(len(ms)):
                     hm = np.zeros((H, W), np.float32)
-                    hm[300:1500] = band[min(k, len(band) - 1)].astype(np.float32) / 255
+                    hm[y0:y1] = band[min(k, len(band) - 1)].astype(np.float32) / 255
                     near = cv2.dilate((hm > 0.5).astype(np.uint8), np.ones((41, 41), np.uint8)).astype(np.float32)
                     ms[k] = cv2.GaussianBlur(np.maximum(hm, ms[k] * near), (0, 0), 1.0)
             _gen[key + ":matte"] = ms
@@ -899,16 +901,16 @@ def frame_g(f):
     if 214 <= f < 325:
         bg = onall_block(bg, f)
     bg = nov_block(bg, f)
-    if f >= 447 and "final_audi_1080.mp4:matte" in _gen:  # the walker passes in front of the date card
-        k = min(f - 447, len(_gen["final_audi_1080.mp4"]) - 1)
-        m = _gen["final_audi_1080.mp4:matte"][k][..., None]
-        orig = _gen["final_audi_1080.mp4"][k].astype(np.float32) / 255
-        ys, xs = slice(690, 1240), slice(270, 820)
-        bg[ys, xs] = bg[ys, xs] * (1 - m[ys, xs]) + orig[ys, xs] * m[ys, xs]
     if f >= 447:
         bg = logo_card(bg, f)
     if f >= 470:
         bg = put(bg, T("bio", "LINK IN BIO", F_TITLE, 26, track=6), 540, 1505, "cm", alpha=min(1, (f - 470) / 8))
+    if f >= 447 and "final_audi_1080.mp4:matte" in _gen:  # the walker passes in front of the date card and the logo
+        k = min(f - 447, len(_gen["final_audi_1080.mp4"]) - 1)
+        m = _gen["final_audi_1080.mp4:matte"][k][..., None]
+        orig = _gen["final_audi_1080.mp4"][k].astype(np.float32) / 255
+        ys = slice(*WALK_BAND)
+        bg[ys] = bg[ys] * (1 - m[ys]) + orig[ys] * m[ys]
     bg = footer(bg, f)
     return (np.clip(bg, 0, 1) * 255).astype(np.uint8)
 
