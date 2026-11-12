@@ -263,3 +263,28 @@ The client sent the reference trimmed to its real start and end: 18.79 s, 563 fr
 
 - Client footage gets a gentle unsharp mask (0.45, σ 2.2) after the upscale.
 - **Final:** `Turismo_BlackFriday_2026_TikTok_FINAL_v5.mp4`, media `abe48f48…`.
+
+## Final v6: inserts from the original YouTube masters (12 Nov 2026)
+- **Client note on v5:** the quality is still poor next to the razor-sharp original. If the WhatsApp files cannot
+  match it, find the material online.
+- **Sources:** the TURISMO WHEELS YouTube channel.
+  - Poznań Motor Show `ByM7R3uaOIk`: 4K webm (format 313), first 50 s.
+  - Porsche 9FF `PxbcBPA7V0s`: 1080p50 (format 299). It plays only in an embed, so it needs yt-dlp with
+    `player_client=web_embedded`, the node JS runtime and a referer.
+- **Matching:** each insert was found by frame correlation (96x54 greyscale, scores 0.89–0.99), so the shots are
+  the same as in v5, now at master quality.
+
+  | Film frames | Clip | Source time |
+  |---|---|---|
+  | 111–130 | R34 wheel | Poznań 12.83 s, 0.45 s slowed to 0.62x (mci), so it is 20 frames with no pole and no cut ghost |
+  | 216–223 | Turismo sign | Poznań 30.48 s |
+  | 275–287 | Porsche rear wing | Porsche 13.28 s |
+  | 288–304 | Porsche front | Porsche 17.44 s |
+  | 351–370 | Dark car | Poznań 28.72 s |
+  | 401–422 | R34 rear | Poznań 14.68 s, with the TENZI plate frame still covered |
+
+- Sharpening is applied only to sources under 1500 px (unsharp 0.35, σ 1.6). The 4K clips are only downscaled
+  with Lanczos.
+- **Final:** `Turismo_BlackFriday_2026_TikTok_FINAL_v6b.mp4`, media `0df52b34…`. The side by side with Vossen
+  is `bda840b9…`. The `d6cd09f6…` and `47ad2ed2…` slots were not confirmed: they held a v6 with a 16-frame wheel
+  hold.
