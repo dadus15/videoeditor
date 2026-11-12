@@ -65,7 +65,7 @@ SHOTS = [
     (375, 389, "clip2", dict(src="X_dark_car", focus=(0.5, 0.5), push=(1.0, 1.05))),       # X dark car (client footage)
     (389, 395, "clip2", dict(src="X_dark_car", start=14, focus=(0.5, 0.5), push=(1.05, 1.1), whip=True)),  # Y whip
     (395, 425, "still", dict(img="g4", zoom=(1.0, 1.08), pan=((0, 0), (0, 30)))),         # Z TR02 stack, red and green light (generated)
-    (425, 447, "clip2", dict(src="AA_r34_rear", focus=(0.38, 0.55), push=(1.0, 1.04), cover=dict(tpl=(352, 328, 444, 388), box=(359, 333, 435, 379)))),  # AA R34 rear, TENZI plate covered
+    (425, 447, "clip2", dict(src="AA_r34_rear", focus=(0.38, 0.55), push=(1.0, 1.04), cover=dict(tpl=(1418, 1339, 1786, 1579), box=(1446, 1359, 1750, 1543)))),  # AA R34 rear, TENZI plate covered
     (447, 540, "gen", dict(src="final_audi_1080.mp4", t=0.55, matte=True)),                                  # AB Audi R8 + walker, final card (generated)
 ]
 
@@ -383,7 +383,7 @@ def clip2(a, i, n):
     optional plate cover (template-tracked) and whip blur."""
     k = a["src"]
     if k not in _clip2:
-        p = f"{ROOT}/src2/{k}.mp4"
+        p = f"{ROOT}/{a.get('dir', 'src3')}/{k}.mp4"          # src3: cut from the 4K / 1080p50 YouTube masters
         w, h = [int(v) for v in subprocess.run(["ffprobe", "-v", "error", "-show_entries", "stream=width,height", "-of",
                                                 "csv=p=0", p], capture_output=True, text=True).stdout.split(",")[:2]]
         raw = subprocess.run(["ffmpeg", "-v", "error", "-i", p, "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
@@ -394,14 +394,20 @@ def clip2(a, i, n):
     if "cover" in a:                                       # hide third-party branding on the number plate
         x0, y0, x1, y1 = a["cover"]["tpl"]
         tpl = v[0][y0:y1, x0:x1]
-        r = cv2.matchTemplate(fr, tpl, cv2.TM_CCOEFF_NORMED)
+        sx0, sy0 = max(x0 - 300, 0), max(y0 - 300, 0)          # search near the first-frame position
+        win = fr[sy0:y1 + 300, sx0:x1 + 300]
+        r = cv2.matchTemplate(win, tpl, cv2.TM_CCOEFF_NORMED)
         _, _, _, (mx, my) = cv2.minMaxLoc(r)
-        dx, dy = mx - x0, my - y0
+        dx, dy = mx + sx0 - x0, my + sy0 - y0
         bx0, by0, bx1, by1 = a["cover"]["box"]
+        bx0, by0, bx1, by1 = bx0 + dx, by0 + dy, bx1 + dx, by1 + dy
+        ring = np.concatenate([fr[by0 - 14:by0 - 4, bx0:bx1].reshape(-1, 3), fr[by1 + 4:by1 + 14, bx0:bx1].reshape(-1, 3)])
+        col = np.median(ring, axis=0)                          # the plate recess colour around the frame
         m = np.zeros(fr.shape[:2], np.float32)
-        cv2.rectangle(m, (bx0 + dx, by0 + dy), (bx1 + dx, by1 + dy), 1.0, -1)
-        m = cv2.GaussianBlur(m, (0, 0), 1.5)[..., None]
-        fr = (fr * (1 - m) + np.array((24, 24, 28)) * m).astype(np.uint8)
+        cv2.rectangle(m, (bx0, by0), (bx1, by1), 1.0, -1)
+        m = cv2.GaussianBlur(m, (0, 0), 3)[..., None]
+        grain = np.random.default_rng(i).normal(0, 2.0, fr.shape).astype(np.float32)
+        fr = np.clip(fr * (1 - m) + (col + grain) * m, 0, 255).astype(np.uint8)
     u = i / max(n - 1, 1)
     if a.get("fit"):                                       # full-width band over a blurred, darkened copy
         bgc = cover(fr, (0.5, 0.5), 1.0).astype(np.float32) / 255
@@ -418,7 +424,8 @@ def clip2(a, i, n):
         return bgc
     z = lerp(*a.get("push", (1, 1)), u)
     img = cover(fr, a.get("focus", (0.5, 0.5)), z).astype(np.float32) / 255
-    img = np.clip(img + 0.45 * (img - cv2.GaussianBlur(img, (0, 0), 2.2)), 0, 1)   # gentle unsharp after the upscale
+    if fr.shape[0] < 1500:                                 # only sources that need an upscale (1080p Porsche)
+        img = np.clip(img + 0.35 * (img - cv2.GaussianBlur(img, (0, 0), 1.6)), 0, 1)
     if a.get("whip"):
         ker = np.zeros((1, 81), np.float32)
         ker[0] = 1 / 81
