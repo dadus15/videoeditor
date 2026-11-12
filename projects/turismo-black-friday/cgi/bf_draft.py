@@ -46,7 +46,7 @@ SHOTS = [
     (111, 122, "photo_split", dict(img="r34.jpg", box=(100, 380, 1760, 1854))),             # E blue R34 GT-R (client photo), split + mirror
     (122, 123, "white", dict()),                                                             # F 1-frame white flash
     (123, 135, "spin", dict(img="TR09F", zoom=2.3, c=(0.62, 0.38), rot=(0, -9))),            # G silver closeup
-    (135, 155, "clip", dict(src="show", t=11.1, focus=(0.45, 0.5), push=(1.0, 1.05))),       # H R34 wheel closeup
+    (135, 155, "still", dict(img="g21", zoom=(1.0, 1.06), pan=((0, 0), (0, -20)))),        # H R34 front wheel (regenerated hi-res)
     (155, 167, "img_mirror", dict(img="g11.png", band=(0.0, 0.5))),                       # I Audi R8 side-on at the columns, mirrored
     (167, 178, "still", dict(img="g12", zoom=(1.0, 1.12), pan=((60, 0), (-90, 10)))),      # J Audi R8 rolling shot (generated)
     (178, 203, "collage", dict()),                                                           # K wheels on white
@@ -54,18 +54,18 @@ SHOTS = [
     (213, 225, "bmw", dict(c=(0.745, 0.64), zoom=(1.12, 1.2))),                              # M car, ON ALL in
     (225, 231, "myst", dict(wheels=[("TR09F", 1150, 520, 980, 1.2, 1.0)], side=(0.15, 0.9, 0.45), rim=(0.3, 1.0, 0.5), haze=(0.05, 0.25, 0.1), embers=False, push=(1.0, 1.04))),  # N wheel in green side light
     (231, 240, "still", dict(img="g8", zoom=(1.0, 1.05), pan=((0, 0), (0, 0)))),           # O TR09 on a pedestal, sky (generated)
-    (240, 248, "clip", dict(src="show", t=28.3, focus=(0.5, 0.45), push=(1.0, 1.04))),       # P Turismo sign
+    (240, 248, "still", dict(img="g22", zoom=(1.0, 1.05), pan=((0, 0), (0, 0)))),          # P Turismo sign (regenerated hi-res)
     (248, 257, "still", dict(img="g7", zoom=(1.0, 1.06), pan=((0, 0), (0, 0)))),           # Q X03 on a machine, dark workshop (generated)
     (257, 270, "still", dict(img="g3", zoom=(1.0, 1.08), pan=((0, 0), (0, 0)), embers=True)),  # R exploded wheel, embers (generated)
     (270, 299, "still", dict(img="g6", zoom=(1.0, 1.1), pan=((0, 0), (0, -40)))),         # S TR09 in a CNC (generated)
-    (299, 312, "clip", dict(src="porsche", t=14.1, focus=(0.5, 0.5), push=(1.0, 1.04))),     # T dark motion
-    (312, 329, "clip", dict(src="ferrari", t=18.0, focus=(0.45, 0.6), push=(1.0, 1.03))),    # U Ferrari SF90 driving side-on (pickup in the reference)
+    (299, 312, "still", dict(img="g23", zoom=(1.05, 1.14), pan=((0, 0), (0, 0)))),         # T flames (regenerated hi-res)
+    (312, 329, "still", dict(img="g24", zoom=(1.08, 1.08), pan=((-70, 0), (70, 0)))),      # U Ferrari SF90 side pass (regenerated hi-res)
     (329, 346, "still", dict(img="g5", zoom=(1.0, 1.05), pan=((30, 0), (-30, 0)))),        # V three TR02 on a wet floor (generated)
     (346, 375, "swap", dict()),                                                              # W product swaps, box
-    (375, 389, "clip", dict(src="show", t=26.6, focus=(0.5, 0.5), push=(1.0, 1.05))),        # X dark car, NOV types
-    (389, 395, "clip", dict(src="porsche", t=15.0, focus=(0.5, 0.5), push=(1.0, 1.1), whip=True)),  # Y whip
+    (375, 389, "still", dict(img="g25", zoom=(1.0, 1.06), pan=((0, 0), (0, 0)))),          # X dark car (regenerated hi-res)
+    (389, 395, "still", dict(img="g25", zoom=(1.06, 1.12), pan=((0, 0), (-160, 0)), whip=True)),  # Y whip
     (395, 425, "still", dict(img="g4", zoom=(1.0, 1.08), pan=((0, 0), (0, 30)))),         # Z TR02 stack, red and green light (generated)
-    (425, 447, "clip", dict(src="show", t=13.0, focus=(0.5, 0.5), push=(1.0, 1.05))),        # AA R34 rear, crowd
+    (425, 447, "still", dict(img="g26", zoom=(1.0, 1.05), pan=((0, 0), (0, 0)))),          # AA R34 rear, crowd (regenerated hi-res)
     (447, 540, "gen", dict(src="final_audi_1080.mp4", t=0.55, matte=True)),                                  # AB Audi R8 + walker, final card (generated)
 ]
 
@@ -331,6 +331,10 @@ def still(a, i, n):
     M[0, 2] += lerp(x0, x1, e)
     M[1, 2] += lerp(y0, y1, e)
     bg = cv2.warpAffine(_stills[k], M, (W, H), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REFLECT)
+    if a.get("whip"):
+        ker = np.zeros((1, 81), np.float32)
+        ker[0] = 1 / 81
+        bg = cv2.filter2D(bg, -1, ker)
     if a.get("embers"):
         img = (np.clip(bg, 0, 1) * 255).astype(np.uint8)
         rng = np.random.default_rng(5)
