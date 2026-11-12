@@ -47,7 +47,7 @@ SHOTS = [
     (122, 123, "white", dict()),                                                             # F 1-frame white flash
     (123, 135, "spin", dict(img="TR09F", zoom=2.3, c=(0.62, 0.38), rot=(0, -9))),            # G silver closeup
     (135, 155, "clip", dict(src="show", t=11.1, focus=(0.45, 0.5), push=(1.0, 1.05))),       # H R34 wheel closeup
-    (155, 167, "img_mirror", dict(img="g11.png", band=(0.20, 0.52))),                       # I Audi R8 side-on at the columns, mirrored
+    (155, 167, "img_mirror", dict(img="g11.png", band=(0.0, 0.5))),                       # I Audi R8 side-on at the columns, mirrored
     (167, 178, "still", dict(img="g12", zoom=(1.0, 1.12), pan=((60, 0), (-90, 10)))),      # J Audi R8 rolling shot (generated)
     (178, 203, "collage", dict()),                                                           # K wheels on white
     (203, 213, "bmw", dict(c=(0.258, 0.66), zoom=(1.0, 1.03))),                              # L car side, red line
@@ -284,6 +284,8 @@ def shot_frame(kind, a, i, n):
     if kind == "still":
         return still(a, i, n)
     if kind in ("photo_split", "img_mirror"):
+        if not os.path.exists(f"{ROOT}/gen/{a['img']}"):          # client photo not uploaded yet: show footage
+            return shot_frame("split", dict(a=("show", 0.1), b=("show", 12.6)), i, n)
         return photo_shot(kind, a, i, n)
     if kind == "gen":
         return gen_clip(a, i, n)
